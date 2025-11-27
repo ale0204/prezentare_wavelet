@@ -1,0 +1,137 @@
+/* ========================================
+   Math & LaTeX Display Styles
+======================================== */
+
+/* Math Block Display */
+.math-block {
+  background: var(--bg-darker);
+  padding: var(--space-lg);
+  margin: var(--space-md) 0;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-family: 'KaTeX_Main', serif;
+  font-size: 1.2rem;
+  overflow-x: auto;
+}
+
+.math-block.primary {
+  border-left: 4px solid var(--primary);
+}
+
+.math-block.secondary {
+  border-left: 4px solid var(--success);
+}
+
+.math-block.tertiary {
+  border-left: 4px solid var(--purple);
+}
+
+.math-block.highlight {
+  border-left: 4px solid var(--warning);
+  font-size: 1.2rem;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  color: var(--warning);
+}
+
+.math-block code {
+  font-family: 'Courier New', monospace;
+  font-size: 1.05rem;
+  color: var(--primary);
+  background: none;
+  padding: 0;
+}
+
+.math-inline {
+  font-family: 'KaTeX_Main', serif;
+  color: var(--primary);
+}
+
+/* Math Label */
+.math-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.math-note {
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: var(--space-sm);
+}
+
+/* LaTeX Component Styles */
+.latex-block {
+  display: block;
+  margin: var(--space-sm) 0;
+}
+
+.latex-inline {
+  display: inline;
+}
+
+/* KaTeX legibility floor.
+   The deck is authored in design pixels on a 1440x810 surface, so a CSS pixel
+   here is a design pixel. Below these sizes projected math stops being readable
+   from the back of a room; max() leaves any context that already asks for more
+   untouched.
+   Mechanical check: the smallMath finding of scripts/overflow-gate.mjs */
+.katex {
+  font-size: max(17px, 1.12em);
+}
+
+.katex-display > .katex {
+  font-size: max(22px, 1.15em);
+}
+
+.katex-display {
+  margin: var(--space-sm) 0;
+}
+
+/* Math Panel */
+.math-panel {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-elevated));
+}
+
+.math-definitions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* Transform Formula */
+.transform-formula {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border);
+}
+
+.transform-formula h4 {
+  margin-bottom: var(--space-md);
+  color: var(--text-muted);
+}
+
+.formula-explanation {
+  margin-top: var(--space-md);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Filter Equation Display */
+.filter-equation-display {
+  background: var(--bg-card);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin: var(--space-md) 0;
+  text-align: center;
+}
+
+.filter-equation-display h4 {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+}

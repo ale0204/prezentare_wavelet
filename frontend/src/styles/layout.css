@@ -1,0 +1,171 @@
+/* ========================================
+   App Layout Structure
+======================================== */
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-dark);
+}
+
+/* Sidebar collapsed state */
+.app.sidebar-collapsed .sidebar {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+.app.sidebar-collapsed .sidebar > * {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.app.sidebar-collapsed .main-content {
+  max-width: 100%;
+}
+
+/* ========================================
+   Main Content Area
+======================================== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0; /* Fix for flex children overflow */
+}
+
+.nav-arrows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  padding: 0.6rem var(--space-lg);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: absolute;
+  left: var(--space-md);
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar-toggle:hover {
+  background: var(--primary);
+  color: var(--bg-dark);
+  border-color: var(--primary);
+}
+
+.nav-arrows-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+}
+
+.nav-arrow {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  color: var(--primary);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.nav-arrow:hover:not(:disabled) {
+  background: var(--primary);
+  color: var(--bg-dark);
+  transform: scale(1.05);
+}
+
+.nav-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.section-indicator {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  min-width: 60px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Fix for flex overflow */
+}
+
+/* View containers should fill content area */
+.content-area > div {
+  flex: 1 0 auto;
+  min-height: fit-content;
+}
+
+/* Scrollable views that may have lots of content */
+.wavelet-playground,
+.wavelet-playground-v2,
+.fourier-view,
+.convolution-view,
+.filters-view,
+.decompose-view,
+.denoise-view,
+.compare-view,
+.wavelet-basis-view,
+.wavelet-education-view {
+  padding-bottom: var(--space-lg);
+}
+
+/* Full-height views that need explicit sizing */
+.content-area .wavelet-playground-v2 {
+  min-height: 600px;
+  height: calc(100vh - 160px);
+}
+
+/* ========================================
+   Responsive Layout
+======================================== */
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+  
+  .content-area {
+    padding: var(--space-md);
+  }
+  
+  .sidebar-toggle {
+    display: none;
+  }
+  
+  .nav-arrows {
+    position: relative;
+  }
+}

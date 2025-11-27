@@ -1,0 +1,170 @@
+/* ========================================
+   CSS Variables - Design System Tokens
+======================================== */
+:root {
+  /* Typography */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+  line-height: 1.6;
+  font-weight: 400;
+  
+  /* Color Scheme */
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: #0a0a1a;
+  
+  /* Primary Colors */
+  --primary: #00d9ff;
+  --primary-dark: #0099cc;
+  --primary-light: #66e5ff;
+  --primary-alpha: rgba(0, 217, 255, 0.1);
+  
+  /* Accent Colors */
+  --secondary: #ff6b9d;
+  --success: #00ff88;
+  --warning: #ffaa00;
+  --error: #ff4d6d;
+  --purple: #c9b1ff;
+  
+  /* Background Colors */
+  --bg-darker: #050510;
+  --bg-dark: #0a0a1a;
+  --bg-card: #12122a;
+  --bg-elevated: #1a1a3a;
+  
+  /* Border & Text
+     text-muted raised from #8888aa (~3.5:1 on bg-dark, below WCAG AA)
+     to #a8a8c8 (~7:1); borders brightened so panel edges survive
+     projection / screen-share compression. */
+  --border: #3f3f6a;
+  --border-light: #50507a;
+  --text-muted: #a8a8c8;
+  --text-light: rgba(255, 255, 255, 0.85);
+  --text-body: rgba(255, 255, 255, 0.9);
+
+  /* Canvas tokens (resolved at draw time via canvasTheme(), see shared/canvasTheme.js).
+     Every bespoke canvas draws through these, so both themes stay in one place. */
+  --graph-background: #050510;
+  --graph-grid: #34345e;
+  --graph-text: #c0c0e0;
+  --graph-text-strong: #d8d8f0;
+  --canvas-panel: #0a0a1a;
+  --canvas-raised: #1a1a3a;
+  --canvas-text-faint: #8888aa;
+  --canvas-border: #3a3a5a;
+
+  /* Series colours: same meaning in both themes, darkened for the white one so
+     a plotted line keeps its contrast on a projector. */
+  --series-cyan: #00d9ff;
+  --series-blue: #8db4ff;
+  --series-gold: #ffd700;
+  --series-amber: #ffaa00;
+  --series-green: #00ff88;
+  --series-pink: #ff6b9d;
+  --series-orange: #ff9f43;
+  --series-purple: #c9b1ff;
+  --series-red: #ff6666;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 4px 15px rgba(0, 217, 255, 0.3);
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-xxl: 3rem;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 50%;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+  
+  /* Z-Index Scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 500;
+  --z-modal: 1000;
+  --z-tooltip: 1500;
+  
+  /* View Layout Widths */
+  --view-width-sm: 800px;
+  --view-width-md: 1000px;
+  --view-width-lg: 1200px;
+}
+
+/* ========================================
+   Projector mode (high-contrast light theme)
+   Toggled by setting data-projector="true" on <html>.
+   Meant for screen-share / video projection where dark low-contrast
+   themes wash out. Accents are darkened to stay readable on white.
+======================================== */
+[data-projector] {
+  color-scheme: light;
+  color: #15151f;
+  background-color: #ffffff;
+  font-weight: 500;
+
+  --primary: #0077b3;
+  --primary-dark: #005580;
+  --primary-light: #3399cc;
+  --primary-alpha: rgba(0, 119, 179, 0.12);
+
+  --secondary: #c2185b;
+  --success: #1b873f;
+  --warning: #a36100;
+  --error: #c62828;
+  --purple: #6a4fb3;
+
+  --bg-darker: #ededf2;
+  --bg-dark: #ffffff;
+  --bg-card: #f6f6fa;
+  --bg-elevated: #e8e8f0;
+
+  --border: #b0b0c4;
+  --border-light: #9494ad;
+  --text-muted: #44445a;
+  --text-light: rgba(15, 15, 30, 0.9);
+  --text-body: #15151f;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 4px 15px rgba(0, 119, 179, 0.25);
+
+  --graph-background: #ffffff;
+  --graph-grid: #c4c4d6;
+  --graph-text: #333348;
+  --graph-text-strong: #1a1a2e;
+  --canvas-panel: #f6f6fa;
+  --canvas-raised: #e8e8f0;
+  --canvas-text-faint: #55556e;
+  --canvas-border: #a6a6bd;
+
+  /* Every dark-bg glow / drop-shadow reads as a blur on white */
+  --series-cyan: #0077b3;
+  --series-blue: #1d4ed8;
+  /* Gold is a section accent as well as a data series, so on white it also
+     paints slide titles. At #8a6d00 those titles read as yellow writing and
+     sit below the other titles' contrast; #6b5200 is the same hue role at
+     ~7:1 on white and still separates from amber and orange in a plot. */
+  --series-gold: #6b5200;
+  --series-amber: #a35c00;
+  --series-green: #158f47;
+  --series-pink: #c2185b;
+  --series-orange: #b45309;
+  --series-purple: #6a4fb3;
+  --series-red: #c62828;
+}

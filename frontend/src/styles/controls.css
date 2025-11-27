@@ -1,0 +1,233 @@
+/* ========================================
+   Form Controls & Buttons
+======================================== */
+
+/* Control Groups */
+.controls {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.control-group label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.control-group.inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.controls-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+/* Input Styles */
+.control-group input[type="range"] {
+  width: 150px;
+  accent-color: var(--primary);
+}
+
+.control-group select {
+  padding: var(--space-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  min-width: 150px;
+}
+
+.control-group input[type="text"] {
+  padding: var(--space-sm) 0.8rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  font-family: 'Fira Code', monospace;
+  min-width: 300px;
+}
+
+.control-group input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Range Labels */
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* Buttons */
+button {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+button:hover:not(:disabled) {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background: var(--primary);
+  color: var(--bg-dark);
+  border-color: var(--primary);
+}
+
+button.primary:hover {
+  background: var(--primary-dark);
+}
+
+button.active {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* Animate Button */
+.animate-btn {
+  padding: 0.8rem var(--space-lg);
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 0.95rem;
+}
+
+.animate-btn:hover {
+  background: var(--primary-dark);
+}
+
+.animate-btn.active {
+  background: var(--secondary);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.button-group button {
+  flex: 1;
+  min-width: 80px;
+  padding: 0.6rem var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 0.85rem;
+}
+
+.button-group button:hover {
+  background: var(--bg-elevated);
+  color: var(--text-light);
+  border-color: var(--primary);
+}
+
+.button-group button.active {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: var(--bg-dark);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+/* Wide Slider */
+.slider-wide {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  outline: none;
+  margin: var(--space-sm) 0;
+}
+
+.slider-wide::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: transform var(--transition-normal);
+}
+
+.slider-wide::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.slider-wide::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-glow);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* Standalone app only - the tour scales its fixed surface instead of reflowing */
+@media (max-width: 900px) {
+  .content-area .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
