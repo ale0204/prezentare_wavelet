@@ -1,0 +1,676 @@
+/* ========================================
+   Kernels View Styles
+   Uses: .view-container--lg, .toggle-btn-group, .toggle-btn, 
+         .explanation-cards, .explanation-card, .image-comparison-grid
+======================================== */
+
+/* Mode Toggle */
+.mode-toggle {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  background: var(--bg-darker);
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+
+.mode-toggle button {
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mode-toggle button.active {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+.mode-toggle button:hover:not(.active) {
+  background: var(--bg-elevated);
+  color: var(--text-light);
+}
+
+/* Kernel Categories */
+.kernel-categories {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.kernel-category h4 {
+  color: var(--text-light);
+  margin-bottom: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+.kernel-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.kernel-btn {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.85rem;
+}
+
+.kernel-btn:hover {
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.kernel-btn.active {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  border-color: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* Kernel Details */
+.kernel-details {
+  background: var(--bg-darker);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+}
+
+.kernel-description {
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+  font-style: italic;
+}
+
+.kernel-matrix-display h4 {
+  color: var(--text-light);
+  margin-bottom: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+/* Kernel Matrix Grid */
+.kernel-matrix {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+  padding: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.kernel-row {
+  display: flex;
+  gap: 2px;
+}
+
+.kernel-cell {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--bg-card);
+  border-radius: 2px;
+}
+
+.kernel-cell.positive {
+  background: rgba(46, 213, 115, 0.2);
+  color: var(--success);
+}
+
+.kernel-cell.negative {
+  background: rgba(255, 107, 107, 0.2);
+  color: var(--secondary);
+}
+
+.kernel-cell.zero {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+}
+
+/* Kernel with scale factor display */
+.kernel-with-scale {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.kernel-scale {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+}
+
+.scale-fraction {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(0, 217, 255, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.scale-times {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* Custom Kernel Editor */
+.custom-kernel-editor {
+  background: var(--bg-darker);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+}
+
+.custom-kernel-editor > p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.kernel-matrix.editable {
+  background: var(--bg-card);
+}
+
+.kernel-cell-input {
+  width: 60px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: center;
+  transition: border-color var(--transition-fast);
+}
+
+.kernel-cell-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-dark);
+}
+
+.kernel-cell-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.quick-presets {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.quick-presets span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-right: var(--space-sm);
+}
+
+.quick-presets button {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all var(--transition-fast);
+}
+
+.quick-presets button:hover {
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+/* Range Labels - now in controls.css */
+
+/* Kernel Size Selector - could use .toggle-btn-group from components.css */
+.kernel-size-selector {
+  display: flex;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+.size-btn {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-width: 60px;
+}
+
+.size-btn:hover {
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.size-btn.active {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  border-color: var(--primary);
+  color: var(--bg-dark);
+  box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+}
+
+.control-group .hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
+
+/* Current Image Info */
+.current-image {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: var(--space-md);
+}
+
+/* Comparison Toggle */
+.comparison-toggle {
+  margin-bottom: var(--space-md);
+}
+
+.comparison-toggle label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.comparison-toggle input[type="checkbox"] {
+  accent-color: var(--primary);
+}
+
+/* Image Comparison */
+.image-comparison {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.image-comparison.side-by-side {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.image-comparison.single {
+  grid-template-columns: 1fr;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.image-comparison .image-card {
+  background: var(--bg-darker);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.image-comparison .image-card h4 {
+  color: var(--text-light);
+  margin-bottom: var(--space-sm);
+}
+
+.image-comparison .image-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.image-comparison .image-card p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: var(--space-sm);
+}
+
+/* Explanation Cards */
+.explanation-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-md);
+}
+
+/* Explanation cards base styles now in components.css */
+/* Keep kernel-specific color variants */
+.explanation-card.blur {
+  border-left-color: var(--primary);
+}
+
+.explanation-card.edge {
+  border-left-color: var(--secondary);
+}
+
+.explanation-card.sharpen {
+  border-left-color: var(--success);
+}
+
+.explanation-card.emboss {
+  border-left-color: var(--purple);
+}
+
+/* Mini Kernel Display */
+.mini-kernel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  max-width: 120px;
+  margin-top: var(--space-sm);
+  background: var(--border);
+  padding: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.mini-kernel span {
+  padding: var(--space-xs);
+  background: var(--bg-card);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+/* Math block styling */
+.kernels-view .math-block {
+  text-align: center;
+  margin: var(--space-md) 0;
+}
+
+.kernels-view .math-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: var(--space-sm);
+}
+
+/* Responsive (standalone app only) */
+@media (max-width: 768px) {
+  .content-area .image-comparison.side-by-side {
+    grid-template-columns: 1fr;
+  }
+
+  .content-area .explanation-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .content-area .kernel-cell,
+  .content-area .kernel-cell-input {
+    width: 50px;
+    height: 35px;
+    font-size: 0.75rem;
+  }
+}
+
+/* ========================================
+   COMPACT MODE STYLES
+   For embedded slides with images in foreground
+======================================== */
+
+.kernels-view.compact-mode {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-sm);
+  box-sizing: border-box;
+  gap: var(--space-sm);
+}
+
+/* Images row - side by side, takes most space */
+.kernels-images-row {
+  flex: 1;
+  display: flex;
+  gap: var(--space-md);
+  min-height: 0;
+}
+
+.kernel-image-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-darker);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  border: 1px solid var(--border);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.kernel-image-card .image-label {
+  color: var(--text-light);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.kernel-image-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  flex: 1;
+  min-height: 0;
+}
+
+/* Bottom toolbar - wide and compact */
+.kernels-bottom-toolbar {
+  flex-shrink: 0;
+  background: var(--bg-darker);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.toolbar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.toolbar-item label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.toolbar-item select {
+  padding: 6px 10px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-light);
+  font-size: 0.85rem;
+  min-width: 150px;
+}
+
+.toolbar-item select option,
+.toolbar-item select optgroup {
+  background: var(--bg-card);
+  color: var(--text-light);
+}
+
+.toolbar-item.size-control {
+  gap: var(--space-sm);
+}
+
+.toolbar-item.size-control input[type="range"] {
+  width: 80px;
+  accent-color: var(--primary);
+}
+
+/* Mini matrix in toolbar - fixed size for 5x5 */
+.toolbar-matrix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  /* Fixed dimensions: 5 cells * 28px + border ~= 141px wide, 5 * 26px ~= 131px tall,
+     plus room for the "1/N x" scale label beside it */
+  min-width: 220px;
+  height: 142px;
+}
+
+.toolbar-matrix .scale-text {
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.kernel-table-mini {
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+}
+
+.kernel-table-mini td {
+  width: 28px;
+  height: 26px;
+  text-align: center;
+  vertical-align: middle;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.kernel-table-mini td.positive { color: var(--success); }
+.kernel-table-mini td.negative { color: var(--danger); }
+.kernel-table-mini td.zero { color: var(--text-muted); }
+
+/* Responsive: small screens - images stacked, toolbar as popup (standalone app only) */
+@media (max-width: 800px) {
+  .content-area .kernels-images-row {
+    flex-direction: column;
+  }
+
+  .content-area .toolbar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+
+  .content-area .toolbar-item {
+    justify-content: space-between;
+  }
+
+  .content-area .toolbar-item select {
+    flex: 1;
+    min-width: unset;
+  }
+
+  .content-area .toolbar-matrix {
+    margin-left: 0;
+    justify-content: center;
+  }
+}
+
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 24, 39, 0.6);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  gap: var(--space-sm);
+  opacity: 1;
+  transition: opacity 0.15s ease-out;
+  pointer-events: none;
+}
+
+/* Smooth image transitions */
+.kernel-image-card img {
+  transition: opacity 0.2s ease-out;
+}
+
+.error.compact {
+  position: absolute;
+  bottom: var(--space-sm);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--danger-bg);
+  color: var(--danger);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+/* ========================================
+   Real-world kernel caption strip
+======================================== */
+
+.kernel-caption-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.28);
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+}
+
+.kernel-caption-text {
+  font-size: 0.82rem;
+  color: var(--primary);
+  line-height: 1.3;
+  font-style: italic;
+}
+
+/* ========================================
+   Wavelet-connection bridge (compact mode)
+======================================== */
+
+.kernel-wavelet-note {
+  flex-shrink: 0;
+  margin: 0 0 0.6rem 0;
+  padding: 0.4rem 0.85rem;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--text-light);
+}
+
+.kernel-wavelet-note strong {
+  color: var(--primary);
+}

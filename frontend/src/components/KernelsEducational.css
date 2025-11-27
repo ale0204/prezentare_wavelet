@@ -1,0 +1,472 @@
+/* KernelsEducationalView.css - New layout: images top, controls bottom, matrices right */
+
+.kernels-educational {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: var(--text-light);
+  padding: 0;
+}
+
+/* Main area: images + matrices side by side */
+.edu-main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Left section - images + pixel info + controls */
+.edu-left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Left area - images */
+.edu-images-area {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+  min-height: 0;
+}
+
+/* Right side panel - matrices only */
+.edu-matrices-panel {
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--bg-card);
+  padding: 0.5rem;
+  overflow: hidden;
+  justify-content: flex-start;
+}
+
+.edu-matrices-panel .kernel-display,
+.edu-matrices-panel .calc-info {
+  padding: 0.5rem;
+}
+
+/* Image containers */
+.grid-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  max-width: 45%;
+}
+
+.grid-container h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+/* Pixel grid wrapper */
+.pixel-grid-wrapper {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border-radius: 6px;
+  border: 2px solid var(--border);
+}
+
+/* Pixel grid */
+.pixel-grid {
+  position: relative; /* positioning context for .kernel-window-overlay */
+  display: grid;
+  gap: 1px;
+  background: var(--border);
+  padding: 1px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+.pixel-cell {
+  transition: outline 0.1s, border 0.1s;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+/* Not computed yet: reads as an empty cell, not as a black pixel */
+.pixel-cell.empty {
+  background: var(--bg-card) !important;
+}
+
+/* Center cell - red border, most prominent */
+.pixel-cell.center {
+  outline: 3px solid #ff4444;
+  z-index: 2;
+}
+
+.pixel-cell:hover {
+  outline: 2px solid var(--primary);
+  z-index: 3;
+}
+
+/* Active kernel window: one overlay rectangle sized from the animation
+   position, instead of a border on every cell inside it - adjacent cells'
+   1px borders used to overlap and cancel each other out visually, hiding
+   the window entirely. Double ring (gold + dark casing) so the edge stays
+   visible no matter what colour the underlying pixels are; the dark ring
+   is a fixed colour on purpose, it exists to contrast with the gold ring
+   itself on gold/bright pixels, not to track the page theme. */
+.kernel-window-overlay {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.kernel-window-overlay.solid {
+  border: 3px solid var(--series-gold);
+  outline: 2px solid rgba(0, 0, 0, 0.8);
+}
+
+/* Portion of the window past the real image (reading padding) - dashed so
+   it reads as "still the kernel, but no real pixel here" instead of implying
+   the solid neighbourhood extends further than it does. */
+.kernel-window-overlay.dashed {
+  border: 3px dashed var(--series-gold);
+  outline: 2px dashed rgba(0, 0, 0, 0.8);
+}
+
+/* Kernel display - bigger fonts */
+.kernel-display {
+  background: var(--bg-elevated);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.kernel-display .boundary-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.kernel-display h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.2rem;
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+.kernel-display .kernel-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin: 0 0 0.3rem 0;
+  line-height: 1.25;
+}
+
+.kernel-with-fraction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.kernel-fraction {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+/* Kernel matrix - responsive cells */
+.kernel-matrix-edu {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.kernel-matrix-edu .kernel-row {
+  display: flex;
+  gap: 2px;
+}
+
+.kernel-matrix-edu .kernel-cell {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+/* Smaller cells for 5x5 and 6x6 kernels */
+.kernel-matrix-edu.size-5 .kernel-cell {
+  width: 34px;
+  height: 34px;
+  font-size: 0.85rem;
+}
+
+.kernel-matrix-edu.size-6 .kernel-cell {
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+}
+
+.kernel-matrix-edu .kernel-cell.positive {
+  background: #2e7d32;
+  color: #c8e6c9;
+}
+
+.kernel-matrix-edu .kernel-cell.negative {
+  background: #c62828;
+  color: #ffcdd2;
+}
+
+.kernel-matrix-edu .kernel-cell.zero {
+  background: #424242;
+  color: #999;
+}
+
+.kernel-display .scale-note {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin: 0.5rem 0 0 0;
+}
+
+/* Calculation info - vertical layout */
+.calc-info {
+  background: var(--bg-elevated);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.calc-info h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.calc-info .calc-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.calc-info .mini-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+  padding: 3px;
+  border-radius: 4px;
+}
+
+.calc-info .mini-row {
+  display: flex;
+  gap: 2px;
+}
+
+.calc-info .mini-cell {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 3px;
+}
+
+/* Smaller cells for 5x5 and 6x6 */
+.calc-info.size-5 .mini-cell {
+  width: 30px;
+  height: 30px;
+  font-size: 0.75rem;
+}
+
+.calc-info.size-6 .mini-cell {
+  width: 26px;
+  height: 26px;
+  font-size: 0.65rem;
+}
+
+.calc-info .calc-equals {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+.calc-info .result-pixel {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* color set inline per-pixel (JSX), same contrast rule as .mini-cell -
+     a bright result (edge kernels saturate near 255) needs dark text */
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Pixel info row - between images and controls */
+.pixel-info-row {
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--primary);
+  min-height: 1.5rem;
+}
+
+.pixel-info-row .hint {
+  color: var(--text-muted);
+  font-style: italic;
+  font-family: inherit;
+}
+
+/* Bottom controls bar - within left section */
+.edu-controls-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.edu-controls-bar .control-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.edu-controls-bar .control-group label {
+  font-weight: 500;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.edu-controls-bar select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  min-width: 92px;
+}
+
+.edu-controls-bar select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.edu-controls-bar input[type="range"] {
+  width: 62px;
+  accent-color: #00d4ff;
+}
+
+/* Animation buttons */
+.edu-animation-controls {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.edu-animation-controls button {
+  padding: 0.3rem 0.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  min-width: 36px;
+}
+
+.edu-animation-controls button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.edu-animation-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edu-animation-controls button.play {
+  background: #4CAF50;
+  color: white;
+}
+
+.edu-animation-controls button.stop {
+  background: #f44336;
+  color: white;
+}
+
+.edu-animation-controls button:not(.play):not(.stop) {
+  background: #2196F3;
+  color: white;
+}
+
+/* Responsive (standalone app only - the tour scales its fixed surface instead) */
+@media (max-width: 1000px) {
+  .content-area .edu-main-area {
+    flex-direction: column;
+  }
+
+  .content-area .edu-matrices-panel {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    max-height: 150px;
+  }
+
+  .content-area .kernel-display,
+  .content-area .calc-info {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .content-area .grid-container {
+    max-width: none;
+  }
+
+  .content-area .pixel-grid-wrapper {
+    max-height: calc(100vh - 300px);
+  }
+}
