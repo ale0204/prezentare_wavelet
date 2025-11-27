@@ -1,0 +1,426 @@
+/* ========================================
+   Filters View Styles
+   Uses: .view-container, .controls-grid, .control-section
+======================================== */
+
+/* Radio tuner analogy (band-pass) */
+.radio-tuner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: rgba(157, 78, 221, 0.07);
+  border: 1px solid rgba(157, 78, 221, 0.35);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.9rem;
+}
+
+.radio-tuner-header {
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: var(--text-light);
+}
+
+.radio-tuner-header .rt-window-label {
+  color: var(--series-purple);
+  font-weight: 600;
+}
+
+.radio-tuner-svg {
+  width: 100%;
+  max-height: 110px;
+  display: block;
+}
+
+/* Low/high-pass real-world anchor (compact mode): a single-sentence sibling
+   to the radio-tuner strip above, so LP/HP get the same everyday anchor
+   band-pass already has via the radio analogy. */
+.filter-anchor-strip {
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text-light);
+}
+
+.filter-anchor-strip.lowpass {
+  background: rgba(0, 255, 136, 0.07);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.filter-anchor-strip.lowpass strong {
+  color: var(--series-green);
+}
+
+.filter-anchor-strip.highpass {
+  background: rgba(255, 107, 157, 0.07);
+  border: 1px solid rgba(255, 107, 157, 0.3);
+}
+
+.filter-anchor-strip.highpass strong {
+  color: var(--series-pink);
+}
+
+/* Signal Comparison Grid - Side by Side */
+.signal-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* Standalone app only - the tour scales its fixed surface instead of reflowing */
+@media (max-width: 768px) {
+  .content-area .signal-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.signal-comparison-grid .plot-container {
+  background: var(--bg-darker);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+}
+
+.signal-comparison-grid canvas {
+  width: 100%;
+  height: auto;
+}
+
+/* Control Grid Layout - uses .controls-grid from components.css */
+.filter-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+/* Control section styles now in components.css as .control-section */
+.filter-controls-grid .control-section {
+  /* Uses .control-section from components.css */
+}
+
+/* ========================================
+   Plot Container with Overlays (responsive)
+======================================== */
+
+.filters-view .plot-container-with-overlay {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: var(--graph-background);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* In compact layout, plots flex to fill space */
+.filters-compact-layout .plot-container-with-overlay {
+  height: auto;
+  flex: 1;
+  min-height: 100px;
+}
+
+.filters-view .plot-container-with-overlay canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.filters-view .plot-title-overlay {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.filters-view .plot-title-overlay.white {
+  color: #ffffff;
+}
+
+.filters-view .plot-title-overlay.yellow {
+  color: var(--series-gold);
+}
+
+.filters-view .plot-legend-overlay {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: rgba(5, 5, 16, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: flex;
+  gap: 10px;
+  font-size: 0.9rem;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Projector: overlay sits on canvas, give it light bg */
+[data-projector] .filters-view .plot-legend-overlay {
+  background: rgba(240, 240, 248, 0.92);
+  border: 1px solid var(--border);
+}
+
+.filters-view .plot-legend-overlay span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+/* Colour swatch for the legend: a CSS square, not a Unicode dingbat glyph
+   (those render inconsistently across platforms/projectors and are banned
+   project-wide). Takes its colour from the parent span's `color`. */
+.filters-view .legend-swatch {
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 2px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.filters-view .plot-axis-label {
+  position: absolute;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Top-left, stacked under the plot title, horizontal: a rotated label at the
+   left edge lands right on top of the y-axis tick numbers it sits beside. */
+.filters-view .plot-axis-label.y-label {
+  top: 24px;
+  left: 10px;
+  font-size: 13px;
+}
+
+.filters-view .plot-axis-label.x-label {
+  bottom: 6px;
+  right: 10px;
+}
+
+/* ========================================
+   Compact Layout for Tour Mode
+   Top: Filter + Spectrum side by side
+   Bottom: Comparison + Controls side by side
+======================================== */
+
+.filters-compact-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  width: 100%;
+}
+
+.filters-top-row {
+  display: flex;
+  gap: 0.5rem;
+  flex: 0.85;
+  min-height: 0;
+}
+
+.filters-top-row .plot-container-with-overlay {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+}
+
+.filters-bottom-row {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1.15;
+  min-height: 0;
+}
+
+.filters-bottom-row .plot-container-with-overlay {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+}
+
+/* Inline controls panel for compact mode */
+.filters-inline-controls {
+  width: 208px;
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  overflow: hidden;
+}
+
+.filters-inline-controls .controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.filters-inline-controls .controls-header h4 {
+  margin: 0;
+  color: var(--series-red);
+  font-size: 0.9rem;
+}
+
+.filters-inline-controls .reset-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filters-inline-controls .reset-btn:hover {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: var(--series-red);
+  color: var(--series-red);
+}
+
+.filters-inline-controls h4 {
+  margin: 0;
+  color: var(--series-red);
+  font-size: 0.95rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.filters-inline-controls .control-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.filters-inline-controls .control-row label {
+  color: var(--text-light);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.filters-inline-controls .control-row label strong {
+  color: var(--series-amber);
+}
+
+.filters-inline-controls .button-group.mini {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.filters-inline-controls .button-group.mini button {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filters-inline-controls .button-group.mini button:hover {
+  background: var(--bg-card);
+}
+
+.filters-inline-controls .button-group.mini button.active {
+  border-color: var(--primary);
+  background: rgba(0, 212, 255, 0.2);
+  color: var(--text-body);
+}
+
+.filters-inline-controls .button-group.mini button.active.success {
+  border-color: var(--series-green);
+  background: rgba(0, 255, 136, 0.2);
+}
+
+.filters-inline-controls .button-group.mini button.active.danger {
+  border-color: var(--series-pink);
+  background: rgba(255, 107, 157, 0.2);
+}
+
+.filters-inline-controls .button-group.mini button.active.bandpass {
+  border-color: var(--series-purple);
+  background: rgba(157, 78, 221, 0.2);
+  color: var(--series-purple);
+}
+
+/* Order buttons for Butterworth */
+.filters-inline-controls .order-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.filters-inline-controls .order-buttons button {
+  flex: 1;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filters-inline-controls .order-buttons button:hover {
+  background: rgba(255, 170, 0, 0.15);
+  border-color: rgba(255, 170, 0, 0.4);
+}
+
+.filters-inline-controls .order-buttons button.active {
+  border-color: var(--series-amber);
+  background: rgba(255, 170, 0, 0.25);
+  color: var(--series-amber);
+}
+
+.filters-inline-controls select {
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  cursor: pointer;
+}
+
+.filters-inline-controls select option {
+  background: var(--bg-card);
+  color: var(--text-body);
+  padding: 0.5rem;
+}
+
+.filters-inline-controls input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-elevated);
+  appearance: none;
+  cursor: pointer;
+}
+
+.filters-inline-controls input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffaa00;
+  cursor: pointer;
+}
