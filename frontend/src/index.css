@@ -1,0 +1,30 @@
+﻿/* ========================================
+   Wavelet presentation - CSS entry point.
+   Every stylesheet is imported here; add a new module to this list.
+======================================== */
+
+/* Core Styles (load first) */
+@import './styles/variables.css';
+@import './styles/base.css';
+
+/* Layout */
+@import './styles/layout.css';
+@import './styles/sidebar.css';
+
+/* Shared Components */
+@import './styles/components.css';
+@import './styles/controls.css';
+@import './styles/math.css';
+@import './styles/tour.css';
+@import './styles/wavelets.css';
+
+/* View-Specific Styles */
+@import './styles/views/intro.css';
+@import './styles/views/fourier.css';
+@import './styles/views/filters.css';
+@import './styles/views/convolution.css';
+@import './styles/views/kernels.css';
+@import './styles/views/playground.css';
+@import './styles/views/decompose.css';
+@import './styles/views/denoise.css';
+@import './styles/views/compare.css';
