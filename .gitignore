@@ -1,0 +1,38 @@
+# Node
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Generated images: commit .png, never .jpg
+*.jpg
+*.jpeg
+
+# Output of the mechanical checks (reports, screenshots, videos)
+scripts/out/
+
+# LaTeX build products; the PDF itself is committed
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# OS / editor
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Anything host-specific: accounts, keys, deploy parameters
+.env
+*.pem
+*.key
