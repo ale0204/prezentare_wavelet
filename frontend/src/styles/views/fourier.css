@@ -1,0 +1,471 @@
+/* ========================================
+   Fourier View Styles
+======================================== */
+
+.fourier-view {
+  padding-bottom: var(--space-xl);
+}
+
+.fourier-view button.active {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* ========================================
+   Fourier Theory Enhanced Slide
+======================================== */
+
+.slide-fourier-theory-enhanced {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+}
+
+.slide-fourier-theory-enhanced .slide-header {
+  margin-bottom: 0.75rem;
+}
+
+.slide-fourier-theory-enhanced .slide-content {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.fourier-formulas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.fourier-formulas-grid .formula-card {
+  background: linear-gradient(145deg, rgba(255, 217, 61, 0.08), rgba(255, 217, 61, 0.03));
+  border: 1px solid rgba(255, 217, 61, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.fourier-formulas-grid .formula-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--series-gold);
+  font-weight: 600;
+}
+
+.fourier-formulas-grid .formula-card .math-formula {
+  background: var(--bg-darker);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.fourier-formulas-grid .formula-card .formula-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.fourier-formulas-grid .formula-card.euler {
+  background: linear-gradient(145deg, rgba(0, 217, 255, 0.08), rgba(0, 217, 255, 0.03));
+  border-color: rgba(0, 217, 255, 0.3);
+}
+
+.fourier-formulas-grid .formula-card.euler h4 {
+  color: var(--primary);
+}
+
+.fourier-formulas-grid .formula-card.parseval {
+  background: linear-gradient(145deg, rgba(255, 107, 157, 0.08), rgba(255, 107, 157, 0.03));
+  border-color: rgba(255, 107, 157, 0.3);
+}
+
+.fourier-formulas-grid .formula-card.parseval h4 {
+  color: var(--series-pink);
+}
+
+.slide-fourier-theory-enhanced .slide-points.compact {
+  margin-top: 0.75rem;
+  padding-left: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.slide-fourier-theory-enhanced .slide-points.compact li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.slide-fourier-theory-enhanced .slide-points.compact li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--series-gold);
+}
+
+/* ========================================
+   Plot Layout with Overlay Labels
+========================================*/
+
+.fourier-plots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  min-height: 0;
+  padding: 0.25rem 0;
+}
+
+.fourier-view .plot-container-with-overlay {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fourier-view .plot-container-with-overlay canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 140px;
+  background: var(--graph-background);
+  border-radius: 8px;
+  display: block;
+}
+
+.fourier-view .plot-title-overlay {
+  position: absolute;
+  top: 8px;
+  left: 58px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.fourier-view .plot-title-overlay.cyan {
+  color: var(--primary);
+}
+
+.fourier-view .plot-title-overlay.pink {
+  color: var(--series-pink);
+}
+
+.fourier-view .plot-axis-label {
+  position: absolute;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* Top-left, level with the plot title, horizontal: a rotated label at the
+   left edge lands right on top of the y-axis tick numbers it sits beside. */
+.fourier-view .plot-axis-label.y-label {
+  top: 8px;
+  left: 6px;
+}
+
+.fourier-view .plot-axis-label.x-label {
+  bottom: 4px;
+  right: 15px;
+}
+
+/* ========================================
+   Compact Mode for Tour
+======================================== */
+
+.fourier-view.fourier-compact {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Compact layout: side controls + main content */
+.fourier-compact-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 0.75rem;
+}
+
+/* Side controls panel - RIGHT side */
+.fourier-side-controls {
+  width: 155px;
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  border: 1px solid var(--border);
+}
+
+.fourier-side-controls h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.75rem;
+  color: var(--series-gold);
+  text-align: center;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Spectrum toggle (magnitude vs phase) */
+.spectrum-toggle {
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.spectrum-toggle button {
+  flex: 1;
+  padding: 0.4rem 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.spectrum-toggle button:hover {
+  background: rgba(157, 78, 221, 0.2);
+  border-color: rgba(157, 78, 221, 0.4);
+}
+
+.spectrum-toggle button.active {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(200, 100, 255, 0.2));
+  border-color: var(--series-purple);
+  color: var(--series-purple);
+}
+
+/* Phase spectrum title overlay */
+.fourier-view .plot-title-overlay.purple {
+  color: var(--series-purple);
+}
+
+.preset-buttons-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.preset-buttons-vertical button {
+  padding: 0.4rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: left;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-buttons-vertical button:hover {
+  background: rgba(0, 217, 255, 0.15);
+  border-color: rgba(0, 217, 255, 0.4);
+  transform: translateX(2px);
+}
+
+.preset-buttons-vertical button.active {
+  background: linear-gradient(135deg, rgba(0, 180, 220, 0.3), rgba(0, 217, 255, 0.15));
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
+}
+
+/* Main content area */
+.fourier-main-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fourier-main-content .fourier-plots {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Bottom equation bar */
+.fourier-equation-bar {
+  flex-shrink: 0;
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.fourier-equation-bar code {
+  font-size: 0.95rem;
+  color: var(--primary);
+  font-family: 'Fira Code', monospace;
+  font-weight: 500;
+}
+
+.fourier-equation-bar .custom-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.fourier-equation-bar .custom-input-row span {
+  color: var(--series-pink);
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.fourier-equation-bar .custom-input-row input {
+  flex: 1;
+  max-width: 350px;
+  padding: 0.3rem 0.5rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  background: var(--bg-darker);
+  border: 1px solid rgba(255, 107, 157, 0.5);
+  border-radius: 4px;
+  color: var(--series-pink);
+}
+
+.fourier-equation-bar .custom-input-row button {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.fourier-view.fourier-compact .controls-panel {
+  flex-shrink: 0;
+  margin: 0;
+  background: var(--bg-card);
+  border-radius: 8px;
+}
+
+/* ========================================
+   Controls Panel
+======================================== */
+
+.fourier-view .controls-panel {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--bg-darker);
+  border-radius: var(--radius-md);
+}
+
+.fourier-view .controls-panel h3 {
+  margin-bottom: var(--space-md);
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   Fourier Sum (harmonic build-up) controls
+======================================== */
+
+.fourier-harmonic-bar {
+  flex-shrink: 0;
+  background: rgba(157, 78, 221, 0.12);
+  border: 1px solid rgba(157, 78, 221, 0.35);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.harmonic-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.harmonic-label {
+  font-size: 0.8rem;
+  color: var(--series-purple);
+  white-space: nowrap;
+}
+
+.harmonic-btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  background: rgba(157, 78, 221, 0.25);
+  border: 1px solid rgba(157, 78, 221, 0.5);
+  border-radius: 4px;
+  color: var(--series-purple);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.harmonic-btn:hover:not(:disabled) {
+  background: rgba(157, 78, 221, 0.4);
+}
+
+.harmonic-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.harmonic-btn.harmonic-reset {
+  background: rgba(255, 107, 157, 0.15);
+  border-color: rgba(255, 107, 157, 0.4);
+  color: var(--series-pink);
+}
+
+.harmonic-btn.harmonic-reset:hover {
+  background: rgba(255, 107, 157, 0.3);
+}
+
+.harmonic-slider {
+  width: 90px;
+  accent-color: #9d4edd;
+}
+
+.fourier-caption {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(192, 132, 252, 0.85);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Full-mode harmonic panel */
+.fourier-harmonic-panel {
+  margin-bottom: var(--space-md);
+  background: rgba(157, 78, 221, 0.08);
+  border: 1px solid rgba(157, 78, 221, 0.3);
+}
+
+.harmonic-controls-full {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.harmonic-controls-full .harmonic-label {
+  font-size: 0.9rem;
+}

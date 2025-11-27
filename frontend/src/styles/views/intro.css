@@ -1,0 +1,52 @@
+/* ========================================
+   Intro View Styles
+   Uses: .view-container
+======================================== */
+
+.intro-view {
+  /* Uses .view-container from components.css */
+  padding-bottom: var(--space-lg);
+}
+
+.intro-hero {
+  text-align: center;
+  padding: var(--space-xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-md);
+}
+
+.intro-hero .subtitle {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+}
+
+.intro-buttons {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.intro-buttons .secondary {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+}
+
+.intro-buttons .secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
