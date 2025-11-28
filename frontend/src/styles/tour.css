@@ -1,0 +1,1911 @@
+/* ========================================
+   Guided Tour - NO SCROLL Presentation Mode
+   Every slide fits viewport exactly
+======================================== */
+
+/* ----------------------------------------
+   Tour-scoped design tokens (dark defaults)
+   Override the [data-projector] block below
+   for light projector mode.
+   --tour-bg             : fullscreen container gradient
+   --tour-text           : primary/heading text
+   --tour-text-dim       : body / label text (~70-90% opacity)
+   --tour-text-faint     : hints / meta text (~40-60% opacity)
+   --tour-panel          : sidebar/nav panel background
+   --tour-panel-strong   : floating panel (controls, modal)
+   --tour-card           : canvas/playground card bg (#1a1d24 dark)
+   --tour-border         : subtle border (~10-15% opacity)
+   --tour-border-mid     : mid border (~15-18% opacity)
+   --tour-border-strong  : emphasized border (~20-30% opacity)
+   --tour-surface        : ghost surface tint (~3-5% opacity)
+   --tour-surface-mid    : light surface tint (~8-10% opacity)
+---------------------------------------- */
+.tour-fullscreen {
+  --tour-bg: linear-gradient(135deg, #0f1117 0%, #1a1d24 100%);
+  --tour-text: #ffffff;
+  --tour-text-dim: rgba(255, 255, 255, 0.78);
+  --tour-text-faint: rgba(255, 255, 255, 0.5);
+  --tour-panel: rgba(0, 0, 0, 0.5);
+  --tour-panel-strong: rgba(20, 25, 35, 0.95);
+  --tour-card: #1a1d24;
+  --tour-border: rgba(255, 255, 255, 0.1);
+  --tour-border-mid: rgba(255, 255, 255, 0.15);
+  --tour-border-strong: rgba(255, 255, 255, 0.2);
+  --tour-surface: rgba(255, 255, 255, 0.05);
+  --tour-surface-mid: rgba(255, 255, 255, 0.1);
+}
+
+/* Projector mode (light high-contrast) overrides for tour tokens */
+[data-projector] .tour-fullscreen {
+  --tour-bg: linear-gradient(135deg, #ffffff 0%, #eef0f5 100%);
+  --tour-text: #15151f;
+  --tour-text-dim: rgba(15, 15, 30, 0.75);
+  --tour-text-faint: rgba(15, 15, 30, 0.55);
+  --tour-panel: rgba(255, 255, 255, 0.75);
+  --tour-panel-strong: rgba(255, 255, 255, 0.92);
+  --tour-card: #f4f4f9;
+  --tour-border: rgba(0, 0, 0, 0.12);
+  --tour-border-mid: rgba(0, 0, 0, 0.18);
+  --tour-border-strong: rgba(0, 0, 0, 0.25);
+  --tour-surface: rgba(0, 0, 0, 0.04);
+  --tour-surface-mid: rgba(0, 0, 0, 0.07);
+}
+
+/* Fullscreen container - NO SCROLL. Only job: centre the stage. */
+.tour-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--tour-bg);
+  z-index: 9999;
+  overflow: hidden !important;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* The 16:9 design surface: 1440x810 authored pixels, mapped onto the window by
+   --stage-scale (set from JS, see shared/stage.js). A 1920x1080 screen renders
+   it at 1.333x, so every font and axis label grows with the window. Nothing
+   inside may use vw/vh - those measure the window, not the surface.
+
+   Centring is done by hand rather than with flex/grid alignment: once the
+   window is smaller than the surface the layout box overflows, and grid
+   centring silently falls back to start, pushing the scaled surface off the
+   bottom-right. translate(-50%, -50%) resolves against the unscaled box and
+   keeps it exact at every size. */
+.tour-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1440px;
+  height: 810px;
+  display: flex;
+  flex-direction: row; /* left sidebar + main column */
+  overflow: hidden;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
+  transform-origin: center center;
+}
+
+.tour-fullscreen.no-scroll {
+  overflow: hidden !important;
+}
+
+.tour-fullscreen:focus {
+  outline: none;
+}
+
+/* Theme toggle + close, pinned to the foot of the left sidebar. They used to
+   float over the top-right corner, where they covered the header of every
+   embedded view. */
+.tour-tools {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: 0.75rem;
+  flex-shrink: 0;
+}
+
+.tour-close-btn,
+.tour-projector-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid var(--tour-border-mid);
+  background: var(--tour-surface);
+  color: var(--tour-text);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.tour-projector-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.tour-close-btn:hover {
+  border-color: #ff4757;
+  color: #ff4757;
+}
+
+/* ========================================
+   Progress Bar - Sections with sub-dots
+======================================== */
+
+.tour-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: var(--tour-panel);
+  border-right: 1px solid var(--tour-border);
+  flex-shrink: 0;
+  width: 56px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tour-section-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid var(--tour-border-mid);
+  background: var(--tour-surface);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tour-section-btn .sec-icon {
+  font-size: 1.25rem;
+  font-weight: 600;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.tour-section-btn:hover {
+  border-color: var(--sec-color, var(--primary));
+  transform: translateY(-2px);
+}
+
+.tour-section-btn:hover .sec-icon {
+  opacity: 1;
+}
+
+.tour-section-btn.active {
+  border-color: var(--sec-color, var(--primary));
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.1));
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.tour-section-btn.active .sec-icon {
+  opacity: 1;
+}
+
+.tour-section-btn.completed {
+  border-color: #2ecc71;
+  background: rgba(46, 213, 115, 0.15);
+}
+
+.tour-section-btn.completed .sec-icon {
+  opacity: 0.8;
+}
+
+/* Sub-dots showing slide position within section */
+.sec-dots {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sec-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--tour-border-strong);
+  transition: all 0.2s;
+}
+
+.sec-dot.active {
+  background: var(--sec-color, #00d4ff);
+  box-shadow: 0 0 4px var(--sec-color, #00d4ff);
+}
+
+/* ========================================
+   Main Content Area (slide + nav)
+======================================== */
+
+.tour-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  position: relative; /* For close button positioning */
+}
+
+/* ========================================
+   Main Slide Area - Fills remaining space
+======================================== */
+
+.tour-slide {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.75rem;
+  overflow: hidden !important;
+  min-height: 0; /* Important for flex children */
+  box-sizing: border-box;
+}
+
+/* ========================================
+   TITLE SLIDE
+======================================== */
+
+.slide-title {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.slide-title .slide-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 20px rgba(0, 212, 255, 0.4));
+}
+
+.slide-title h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--slide-color, var(--primary));
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 30px rgba(0, 212, 255, 0.4);
+}
+
+/* Projector: glow text-shadow designed for dark bg - remove it */
+[data-projector] .slide-title h1 {
+  text-shadow: none;
+}
+
+.slide-title h2 {
+  font-size: 1.75rem;
+  color: var(--tour-text-faint);
+  font-weight: 400;
+}
+
+/* ========================================
+   TABLE OF CONTENTS SLIDE
+======================================== */
+
+.slide-toc {
+  max-width: 1320px;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toc-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.toc-header .toc-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.toc-header h1 {
+  font-size: 2.5rem;
+  color: var(--slide-color, var(--primary));
+  margin: 0 0 0.25rem 0;
+}
+
+.toc-header h2 {
+  font-size: 1.25rem;
+  color: var(--tour-text-faint);
+  font-weight: 400;
+  margin: 0;
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s;
+}
+
+.toc-item.clickable {
+  cursor: pointer;
+}
+
+.toc-item:hover {
+  background: var(--tour-surface-mid);
+  border-color: var(--slide-color, var(--primary));
+  transform: translateY(-2px);
+}
+
+.toc-item.clickable:active {
+  transform: translateY(0);
+}
+
+.toc-item-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.toc-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.toc-item-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--tour-text);
+}
+
+.toc-item-desc {
+  font-size: 0.95rem;
+  color: var(--tour-text-faint);
+}
+
+/* ========================================
+   THEORY SLIDE
+======================================== */
+
+.slide-theory {
+  max-width: 1120px;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
+}
+
+.slide-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.slide-icon-sm {
+  font-size: 2.5rem;
+}
+
+.slide-header h1 {
+  font-size: 2.25rem;
+  color: var(--slide-color, var(--primary));
+  margin: 0;
+}
+
+.slide-content {
+  font-size: 1.45rem;
+  color: var(--tour-text-dim);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.slide-math {
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-radius: 12px;
+  padding: 0.85rem 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.slide-math .math-formula {
+  font-size: 1.6rem;
+  color: var(--slide-color, var(--primary));
+  margin-bottom: 0.5rem;
+}
+
+.slide-math .math-label {
+  font-size: 1rem;
+  color: var(--tour-text-faint);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.slide-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.slide-points li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--tour-surface);
+  border-radius: 8px;
+  font-size: 1.3rem;
+  color: var(--tour-text-dim);
+}
+
+/* The marker is drawn, not typed: a triangle glyph renders at a different size
+   and baseline in every font the projector machine might fall back to. */
+.slide-points li::before {
+  content: '';
+  flex: none;
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid var(--slide-color, var(--primary));
+  border-top: 0.34rem solid transparent;
+  border-bottom: 0.34rem solid transparent;
+}
+
+/* ========================================
+   THEORY-VISUAL SLIDE (2D Convolution Kernels)
+======================================== */
+
+.slide-theory-visual {
+  max-width: 1360px;
+  width: 100%;
+  height: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  /* The column is shorter than the frame on some screens; centred, the leftover
+     splits above and below instead of pooling into one empty band at the foot
+     of the slide. */
+  justify-content: center;
+  animation: fadeIn 0.5s ease;
+  /* hidden, not visible: a spill has to become a gate finding, not a silently
+     cropped bottom edge */
+  overflow: hidden;
+  min-height: 0;
+  transform-origin: top center;
+  padding: 0 1rem;
+}
+
+.slide-theory-visual .slide-header.compact {
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.slide-theory-visual .slide-header.compact h1 {
+  font-size: 1.8rem;
+}
+
+.slide-theory-visual .slide-content.compact {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+.slide-theory-visual .slide-math.compact {
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.slide-theory-visual .slide-math.compact .math-formula {
+  font-size: 1.2rem;
+}
+
+.slide-theory-visual .slide-note {
+  margin: 0 0 0.75rem 0;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--slide-color, var(--series-purple));
+  border-radius: 6px;
+  background: var(--tour-surface);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--tour-text-dim);
+  flex-shrink: 0;
+}
+
+.kernel-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.kernel-card {
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+  text-align: center;
+}
+
+.kernel-card h4 {
+  color: var(--slide-color, var(--series-purple));
+  margin: 0 0 0.25rem 0;
+  font-size: 0.85rem;
+}
+
+.kernel-matrix {
+  background: var(--tour-surface);
+  border-radius: 4px;
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.kernel-matrix .katex {
+  font-size: max(22px, 1.15rem);
+}
+
+.kernel-card p {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--tour-text-faint);
+}
+
+.wavelet-connection-box {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.wavelet-connection-box h4 {
+  margin: 0 0 0.4rem 0;
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+
+.wavelet-connection-box p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--tour-text-dim);
+}
+
+.wavelet-connection-box .math-formula.small {
+  font-size: 0.85rem;
+  background: var(--tour-surface);
+  border-radius: 6px;
+  padding: 0.4rem;
+}
+
+/* DWT 2D Section */
+.dwt2d-section {
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-left: 5px solid var(--slide-color, var(--series-purple));
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  margin-top: 0.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.dwt2d-section h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--slide-color, var(--series-purple));
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.dwt2d-section .dwt2d-desc {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+  color: var(--tour-text-dim);
+  flex-shrink: 0;
+}
+
+/* One row, not a 2x2 block: the matrix directly above already shows where each
+   subband sits, and stacking the cards costs the slide its bottom edge. */
+.dwt2d-coefficients {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  flex: 0 0 auto;
+}
+
+.dwt2d-coeff {
+  background: var(--tour-surface);
+  border-radius: 10px;
+  padding: 0.45rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.dwt2d-coeff .coeff-name {
+  font-weight: bold;
+  font-size: 1.45rem;
+  color: var(--slide-color, var(--series-purple));
+}
+
+.dwt2d-coeff .coeff-formula {
+  font-size: 1rem;
+  color: var(--tour-text-dim);
+}
+
+.dwt2d-coeff .coeff-formula .katex {
+  font-size: max(22px, 1.15rem);
+}
+
+.dwt2d-coeff .coeff-desc {
+  font-size: 0.9rem;
+  color: var(--tour-text-dim);
+}
+
+.dwt2d-subsampling {
+  background: var(--tour-surface);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 0.75rem;
+  flex-shrink: 0;
+}
+
+.dwt2d-subsampling .katex {
+  font-size: max(22px, 1.15rem);
+}
+
+/* ========================================
+   COMPARISON SLIDE
+======================================== */
+
+.slide-comparison {
+  max-width: 1280px;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
+}
+
+.comparison-grid {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.comp-col {
+  flex: 1;
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.comp-col h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--tour-border);
+  font-size: 1.3rem;
+}
+
+.comp-col.dct h3 {
+  color: #f39c12;
+}
+
+.comp-col.wavelet h3 {
+  color: var(--primary);
+}
+
+.comp-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comp-col li {
+  padding: 0.5rem 0;
+  color: var(--tour-text-dim);
+  text-align: center;
+}
+
+.comp-vs {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--tour-text-faint);
+}
+
+/* ========================================
+   DEMO SLIDE
+======================================== */
+
+.slide-demo {
+  width: 100%;
+  max-width: 1360px;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.slide-demo .slide-header {
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.demo-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ========================================
+   EMBEDDED FULL VIEW SLIDE (new)
+   Full views embedded with internal scroll
+======================================== */
+
+.slide-embed {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+  overflow: hidden;
+}
+
+.embed-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--tour-surface);
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+/* Scrollbar styling for embedded views */
+.embed-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.embed-wrapper::-webkit-scrollbar-track {
+  background: var(--tour-surface);
+  border-radius: 4px;
+}
+
+.embed-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.3);
+  border-radius: 4px;
+}
+
+.embed-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.5);
+}
+
+/* Fix view styling inside tour embed */
+.embed-wrapper .view-container,
+.embed-wrapper .view-section,
+.embed-wrapper .playground-container {
+  background: transparent !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Reduce padding on embedded views for space efficiency */
+.embed-wrapper .card,
+.embed-wrapper .section-card {
+  margin-bottom: 0.75rem;
+}
+
+/* Make sure images and canvases fit properly.
+   NOTE: height:auto applies to img only - on canvas it collapses the
+   element to 0 height (canvas has no intrinsic aspect ratio), which
+   broke every embedded demo slide. Canvas height is controlled by the
+   HiDPI hook (inline style) or the component's own layout. */
+.embed-wrapper img {
+  max-width: 100%;
+  height: auto;
+}
+
+.embed-wrapper canvas {
+  max-width: 100%;
+}
+
+/* ========================================
+   COMPACT DEMO COMPONENTS
+======================================== */
+
+.compact-demo {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.compact-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--tour-surface);
+  border-radius: 10px;
+}
+
+.compact-controls.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.compact-controls label {
+  color: var(--tour-text-dim);
+  font-size: 0.9rem;
+}
+
+.compact-controls select {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--tour-border-strong);
+  background: var(--tour-surface-mid);
+  color: var(--tour-text);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.compact-controls select:focus {
+  outline: none;
+  border-color: var(--slide-color, var(--primary));
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.slider-row span {
+  color: var(--tour-text-dim);
+  font-size: 0.9rem;
+  min-width: 100px;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--tour-surface-mid);
+  appearance: none;
+  cursor: pointer;
+}
+
+.slider-row input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--slide-color, #00d4ff);
+  cursor: pointer;
+}
+
+.compact-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 200px;
+  max-height: 300px;
+}
+
+.compact-visual img {
+  max-width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.compact-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.compact-compare.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.compare-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.compare-img span {
+  font-size: 0.85rem;
+  color: var(--tour-text-dim);
+  font-weight: 500;
+}
+
+.compare-img img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.demo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  background: var(--tour-surface);
+  border: 2px dashed var(--tour-border-strong);
+  border-radius: 8px;
+  color: var(--tour-text-faint);
+  font-size: 1.2rem;
+}
+
+/* Convolution animation */
+.conv-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.conv-signal {
+  display: flex;
+  gap: 4px;
+}
+
+.conv-cell {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 212, 255, 0.2);
+  border: 2px solid rgba(0, 212, 255, 0.4);
+  border-radius: 8px;
+  color: var(--tour-text);
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.conv-cell.highlight {
+  background: rgba(0, 212, 255, 0.5);
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+.conv-cell.kernel {
+  background: rgba(255, 159, 67, 0.3);
+  border-color: var(--series-orange);
+}
+
+.conv-kernel {
+  display: flex;
+  gap: 4px;
+  transition: transform 0.3s ease;
+}
+
+.conv-label {
+  color: var(--tour-text-faint);
+  font-size: 0.9rem;
+}
+
+/* Wavelet canvas - sizing comes from the component's HiDPI code (inline style) */
+.compact-playground canvas {
+  max-width: 500px;
+  border-radius: 10px;
+  background: var(--tour-card);
+}
+
+/* ========================================
+   FINAL SLIDE
+======================================== */
+
+.slide-final {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.slide-final .slide-icon.large {
+  font-size: 6rem;
+  margin-bottom: 1rem;
+}
+
+.slide-final h1 {
+  font-size: 3.5rem;
+  color: var(--slide-color, #2ecc71);
+  margin-bottom: 0.5rem;
+}
+
+.slide-final h2 {
+  font-size: 1.3rem;
+  color: var(--tour-text-faint);
+  margin-bottom: 1.5rem;
+}
+
+.final-message {
+  font-size: 1.1rem;
+  color: var(--tour-text-dim);
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.btn-explore {
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #00d4ff, #0097b2);
+  color: #0f1117;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-explore:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+}
+
+/* ========================================
+   Navigation Footer
+======================================== */
+
+.tour-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 1.5rem;
+  background: var(--tour-panel);
+  border-top: 1px solid var(--tour-border);
+  flex-shrink: 0;
+  height: 44px;
+}
+
+.nav-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border: 2px solid var(--tour-border-strong);
+  background: var(--tour-surface);
+  color: var(--tour-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 100px;
+}
+
+.nav-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--primary);
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.slide-counter {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(0, 212, 255, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+.nav-hint {
+  font-size: 0.75rem;
+  color: var(--tour-text-faint);
+}
+
+/* ========================================
+   Animations
+======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   FILTERS THEORY SLIDE
+   Mathematical formulas for different filters
+======================================== */
+
+.slide-filters-theory {
+  width: 100%;
+  max-width: 1360px;
+  animation: fadeIn 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.slide-filters-theory .slide-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.slide-filters-theory .slide-header h1 {
+  font-size: 2rem;
+  color: var(--series-red);
+  margin: 0;
+}
+
+.slide-filters-theory .slide-content {
+  color: var(--tour-text-dim);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.filters-formulas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.formula-card {
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.formula-card h3 {
+  color: var(--series-gold);
+  font-size: 1.1rem;
+  margin: 0;
+  text-align: center;
+}
+
+.formula-card .math-formula {
+  background: var(--tour-surface);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.formula-card .formula-desc {
+  color: var(--tour-text-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+/* ========================================
+   FOURIER INTERACTIVE SLIDE
+   Demo with plots - matching filters style
+======================================== */
+
+.slide-fourier-interactive {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+  overflow: hidden;
+}
+
+.slide-fourier-interactive .slide-header.compact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  flex-shrink: 0;
+}
+
+.slide-fourier-interactive .slide-header.compact h1 {
+  font-size: 1.1rem;
+  color: var(--series-gold);
+  margin: 0;
+}
+
+.fourier-demo-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.fourier-demo-wrapper .fourier-view.fourier-compact {
+  height: 100%;
+}
+
+.fourier-demo-wrapper .fourier-compact-layout {
+  flex: 1;
+  min-height: 0;
+}
+
+.fourier-demo-wrapper .fourier-view.fourier-compact .fourier-plots {
+  gap: 0.6rem;
+}
+
+.fourier-demo-wrapper .fourier-view.fourier-compact .plot-container-with-overlay canvas {
+  min-height: 100px;
+}
+
+/* ========================================
+   FILTERS INTERACTIVE SLIDE
+   Demo with floating controls
+======================================== */
+
+.slide-filters-interactive {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+  overflow: hidden;
+}
+
+.slide-filters-interactive .slide-header.compact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+  flex-shrink: 0;
+}
+
+.slide-filters-interactive .slide-header.compact h1 {
+  font-size: 1.1rem;
+  color: var(--series-red);
+  margin: 0;
+}
+
+.filters-demo-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0.25rem;
+}
+
+.filters-demo-wrapper .filters-view.compact-mode {
+  height: 100%;
+}
+
+/* Compact mode for FiltersView */
+.filters-view.compact-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.15rem;
+  height: 100%;
+}
+
+.filters-view.compact-mode .plot-panel.compact {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.filters-view.compact-mode .plot-container-with-overlay {
+  flex: 1;
+  height: auto !important;
+  min-height: 120px;
+}
+
+/* Sidebar controls panel (always visible on desktop) */
+.sidebar-controls-panel {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 230px;
+  background: var(--tour-panel-strong);
+  border: 1px solid var(--tour-border-mid);
+  border-radius: 12px;
+  padding: 1rem;
+  z-index: 100;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-controls-panel h4 {
+  margin: 0 0 0.75rem 0;
+  color: var(--series-red);
+  font-size: 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--tour-border);
+}
+
+.sidebar-controls-panel .control-row {
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-controls-panel .control-row:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar-controls-panel .control-row label {
+  display: block;
+  color: var(--tour-text-dim);
+  font-size: 0.8rem;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.sidebar-controls-panel .control-row label strong {
+  color: var(--series-amber);
+}
+
+.sidebar-controls-panel .button-group.mini {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.sidebar-controls-panel .button-group.mini button {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--tour-border-strong);
+  background: var(--tour-surface);
+  color: var(--tour-text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sidebar-controls-panel .button-group.mini button:hover {
+  background: var(--tour-surface-mid);
+  border-color: var(--tour-border-strong);
+}
+
+.sidebar-controls-panel .button-group.mini button.active {
+  border-color: var(--slide-color, var(--primary));
+  background: rgba(0, 212, 255, 0.2);
+  color: var(--tour-text);
+}
+
+.sidebar-controls-panel .button-group.mini button.active.success {
+  border-color: var(--series-green);
+  background: rgba(0, 255, 136, 0.2);
+}
+
+.sidebar-controls-panel .button-group.mini button.active.danger {
+  border-color: var(--series-pink);
+  background: rgba(255, 107, 157, 0.2);
+}
+
+.sidebar-controls-panel input[type="range"] {
+  width: 100%;
+  margin-top: 0.3rem;
+  height: 6px;
+  -webkit-appearance: none;
+  background: var(--tour-surface-mid);
+  border-radius: 3px;
+  outline: none;
+}
+
+.sidebar-controls-panel input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffaa00;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-controls-panel select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--tour-border-strong);
+  background: var(--tour-surface);
+  color: var(--tour-text);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.sidebar-controls-panel select:hover {
+  border-color: var(--tour-border-strong);
+}
+
+.sidebar-controls-panel select option {
+  background: var(--tour-card);
+  color: var(--tour-text);
+}
+
+/* Mobile controls - hidden by default on desktop */
+.mobile-controls-btn {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 60px;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+  transition: all 0.2s;
+}
+
+.mobile-controls-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(255, 107, 107, 0.5);
+}
+
+.mobile-controls-panel {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background: var(--tour-panel-strong);
+  border: 1px solid var(--tour-border-mid);
+  border-radius: 16px;
+  padding: 1rem;
+  z-index: 1001;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--tour-border);
+}
+
+.mobile-controls-header h4 {
+  margin: 0;
+  color: var(--series-red);
+  font-size: 1rem;
+}
+
+.mobile-controls-panel .close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--tour-border-strong);
+  background: transparent;
+  color: var(--tour-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.mobile-controls-panel .close-btn:hover {
+  background: #ff4757;
+  border-color: #ff4757;
+}
+
+.mobile-controls-panel .control-row {
+  margin-bottom: 0.75rem;
+}
+
+.mobile-controls-panel .control-row label {
+  display: block;
+  color: var(--tour-text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.mobile-controls-panel .control-row label strong {
+  color: var(--series-amber);
+}
+
+.mobile-controls-panel .button-group.mini {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.mobile-controls-panel .button-group.mini button {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--tour-border-strong);
+  background: var(--tour-surface);
+  color: var(--tour-text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mobile-controls-panel .button-group.mini button.active {
+  color: var(--tour-text);
+}
+
+.mobile-controls-panel .button-group.mini button.active.success {
+  border-color: var(--series-green);
+  background: rgba(0, 255, 136, 0.2);
+}
+
+.mobile-controls-panel .button-group.mini button.active.danger {
+  border-color: var(--series-pink);
+  background: rgba(255, 107, 157, 0.2);
+}
+
+.mobile-controls-panel input[type="range"] {
+  width: 100%;
+  margin-top: 0.3rem;
+}
+
+.mobile-controls-panel select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--tour-border-strong);
+  background: var(--tour-surface);
+  color: var(--tour-text);
+  font-size: 0.85rem;
+}
+
+.mobile-controls-panel select option {
+  background: var(--tour-card);
+  color: var(--tour-text);
+}
+
+/* Wavelet connection slide special styling */
+.slide-theory.wavelet-connection {
+  max-width: 1280px;
+}
+
+.slide-theory.wavelet-connection .slide-points li {
+  margin-bottom: 0.75rem;
+}
+
+.slide-theory.wavelet-connection .slide-points li strong {
+  color: var(--series-red);
+}
+
+.slide-math.small .math-formula {
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  background: var(--tour-surface);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* No viewport media queries below this point: the tour lives on a fixed
+   1440x810 surface that is scaled as a whole, so a narrow window must shrink
+   the slide, never reflow it. Media queries would measure the window and
+   rearrange a layout that is not window-sized. */
+
+/* ----------------------------------------
+   Projector mode: every text-shadow in the app is a glow or a dark halo drawn
+   for a dark background; on white it reads as a blur, so it goes away wholesale.
+---------------------------------------- */
+[data-projector] .tour-fullscreen *,
+[data-projector] .content-area * {
+  text-shadow: none !important;
+}
+
+/* ----------------------------------------
+   Projector mode: accent-colored text is darkened so light accents
+   (gold, cyan) stay readable on the white background.
+---------------------------------------- */
+[data-projector] .slide-title h1,
+[data-projector] .toc-header h1,
+[data-projector] .slide-header h1,
+[data-projector] .slide-math .math-formula,
+[data-projector] .kernel-card h4,
+[data-projector] .slide-final h1 {
+  /* The projector tokens in variables.css are already darkened for white.
+     Mixing a second time turned gold and orange into the same muddy brown, so
+     the accent is used as it comes. */
+  color: var(--slide-color, var(--primary));
+}
+
+/* ----------------------------------------
+   Title slide: the one concrete fact that earns the first ten seconds, plus the
+   academic line under it.
+---------------------------------------- */
+.slide-hook {
+  margin: 2rem auto 0;
+  max-width: 46rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--tour-text-dim);
+  border-top: 2px solid var(--slide-color, var(--primary));
+  padding-top: 1.25rem;
+}
+
+.slide-meta {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: var(--tour-text-faint);
+  letter-spacing: 0.02em;
+}
+
+.slide-meta:empty {
+  display: none;
+}
+
+/* ----------------------------------------
+   Embedded demos carry no heading of their own, so this row is the only title
+   the audience ever reads on those slides.
+---------------------------------------- */
+.embed-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.9rem;
+  padding: 0 0.3rem 0.15rem;
+  border-bottom: 1px solid var(--tour-border);
+  margin-bottom: 0.2rem;
+  flex: none;
+}
+
+.embed-header h1 {
+  font-size: 1.15rem;
+  font-weight: 650;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--slide-color, var(--primary));
+}
+
+.embed-subtitle {
+  font-size: 0.95rem;
+  color: var(--tour-text-faint);
+}
+
+.embed-gloss {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--tour-text-dim);
+  background: var(--tour-surface);
+  border-radius: 6px;
+  padding: 0.1rem 0.55rem;
+}
+
+[data-projector] .embed-header h1 {
+  color: color-mix(in srgb, var(--slide-color, var(--primary)) 55%, #1a1a2e);
+}
+
+/* ----------------------------------------
+   The recursion a slide is named after gets a frame of its own.
+---------------------------------------- */
+.slide-math.highlight {
+  border-left: 3px solid var(--slide-color, var(--primary));
+  background: var(--tour-surface);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+}
+
+/* ----------------------------------------
+   Application domains: a pictogram per field, so six equal rows of text stop
+   reading as one wall.
+---------------------------------------- */
+.slide-domains {
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease;
+}
+
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem 1.1rem;
+  margin-top: 1rem;
+}
+
+.domain-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-left: 3px solid var(--slide-color, var(--primary));
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+}
+
+.domain-icon {
+  color: var(--slide-color, var(--primary));
+  flex: none;
+  line-height: 0;
+  margin-top: 0.15rem;
+}
+
+[data-projector] .domain-icon {
+  color: color-mix(in srgb, var(--slide-color, var(--primary)) 60%, #1a1a2e);
+}
+
+.domain-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.domain-name {
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: var(--tour-text);
+}
+
+.domain-desc {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--tour-text-dim);
+}
+
+/* ----------------------------------------
+   Synthesis slide: the shared mechanism first, then where it lands.
+---------------------------------------- */
+.slide-synthesis {
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease;
+}
+
+.synthesis-threads {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin: 1rem 0 1.1rem;
+}
+
+.synthesis-thread {
+  background: var(--tour-surface);
+  border-top: 3px solid var(--slide-color, var(--primary));
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+}
+
+.thread-step {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--slide-color, var(--primary));
+  margin-bottom: 0.2rem;
+}
+
+[data-projector] .thread-step {
+  color: color-mix(in srgb, var(--slide-color, var(--primary)) 55%, #1a1a2e);
+}
+
+.thread-desc {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--tour-text-dim);
+}
+
+.synthesis-apps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.7rem;
+}
+
+.synthesis-app {
+  background: var(--tour-surface);
+  border: 1px solid var(--tour-border);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.app-name {
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--tour-text);
+}
+
+.app-desc {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--tour-text-dim);
+}
+
+.synthesis-closing {
+  margin-top: 1.1rem;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--tour-text);
+  border-left: 3px solid var(--slide-color, var(--primary));
+  padding-left: 0.9rem;
+}
+
+/* ----------------------------------------
+   Navigation buttons hold an icon next to their label.
+---------------------------------------- */
+.nav-btn,
+.btn-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ----------------------------------------
+   Slides whose content is shorter than the frame center in it, instead of
+   hanging from the top over a third of empty stage.
+---------------------------------------- */
+.slide-toc,
+.slide-filters-theory,
+.slide-domains,
+.slide-synthesis {
+  margin-block: auto;
+}
