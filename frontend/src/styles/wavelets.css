@@ -1,0 +1,259 @@
+/* ========================================
+   Wavelet Education & Selector Styles
+======================================== */
+
+/* Wavelet Education View */
+.wavelet-education-view {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.wavelet-education-view .subtitle {
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+}
+
+/* Wavelet Selector Cards */
+.wavelet-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.wavelet-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem var(--space-md);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  transition: all var(--transition-slow);
+}
+
+.wavelet-card:hover {
+  border-color: var(--card-color, var(--primary));
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.wavelet-card.active {
+  border-color: var(--card-color, var(--primary));
+  background: linear-gradient(135deg, var(--bg-elevated), rgba(var(--card-color), 0.1));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--card-color, var(--primary)) 30%, transparent);
+}
+
+.wavelet-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.wavelet-icon-large {
+  font-size: 3rem;
+  margin-right: var(--space-md);
+}
+
+.wavelet-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-body);
+}
+
+.wavelet-category {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* Wavelet Header */
+.wavelet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.wavelet-title {
+  display: flex;
+  align-items: center;
+}
+
+.wavelet-title h2 {
+  margin-bottom: 0.2rem;
+}
+
+.wavelet-origin {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.wavelet-badge {
+  padding: 0.4rem var(--space-md);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--bg-dark);
+}
+
+.wavelet-description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-light);
+  margin-bottom: var(--space-lg);
+}
+
+/* Applications Grid */
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.application-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+}
+
+.application-card:hover {
+  background: var(--bg-card);
+  transform: translateX(5px);
+}
+
+.app-number {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: var(--bg-dark);
+  border-radius: var(--radius-full);
+  font-weight: bold;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* Comparison Table */
+.comparison-panel {
+  overflow-x: auto;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-md);
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 0.8rem var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.comparison-table th {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.comparison-table tr:hover {
+  background: var(--bg-elevated);
+}
+
+.comparison-table tr.selected {
+  background: linear-gradient(90deg, var(--primary-alpha), transparent);
+  border-left: 3px solid var(--primary);
+}
+
+.comparison-table tr.selected td:first-child {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Subband Grid */
+.subband-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.8rem;
+  margin-top: var(--space-md);
+}
+
+.subband-item {
+  background: var(--bg-elevated);
+  padding: 0.6rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.subband-item h4 {
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.subband-item img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.4rem;
+}
+
+/* Frequency Explanation */
+.freq-explanation {
+  color: var(--text-muted);
+  margin-top: var(--space-md);
+  text-align: center;
+}
+
+/* Wavelet Type Selector (Playground) */
+.wavelet-type-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.wavelet-type-selector button {
+  padding: 0.6rem var(--space-md);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 0.85rem;
+}
+
+.wavelet-type-selector button:hover {
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.wavelet-type-selector button.active {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: var(--bg-dark);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+/* Responsive (standalone app only - the tour scales its fixed surface instead) */
+@media (max-width: 900px) {
+  .content-area .applications-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-area .wavelet-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+}

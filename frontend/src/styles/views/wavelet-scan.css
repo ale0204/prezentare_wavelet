@@ -1,0 +1,322 @@
+/* ========================================
+   Wavelet Scan Demo - Presentation Style
+   Shows wavelet scanning with positive/negative areas
+======================================== */
+
+.wavelet-scan-demo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Top row: plots + sidebar */
+.wavelet-scan-demo .scan-top-row {
+  flex: 1;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  min-height: 0;
+}
+
+/* Main area with stacked plots */
+.wavelet-scan-demo .scan-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.wavelet-scan-demo .scan-plot-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.wavelet-scan-demo .scan-plot-section.result {
+  flex: 0.7;
+}
+
+.wavelet-scan-demo .plot-label {
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+  background: var(--bg-elevated);
+  border-radius: 6px 6px 0 0;
+  font-size: 1rem;
+}
+
+/* Clean plot labels */
+.wavelet-scan-demo .plot-label.clean {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.wavelet-scan-demo .plot-label .label-signal {
+  color: var(--text-muted);
+  position: relative;
+  padding-left: 16px;
+}
+
+.wavelet-scan-demo .plot-label .label-signal::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 2px;
+  background: var(--text-muted);
+  border-radius: 1px;
+}
+
+.wavelet-scan-demo .plot-label .label-wavelet {
+  position: relative;
+  padding-left: 16px;
+}
+
+.wavelet-scan-demo .plot-label .label-wavelet::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 3px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.wavelet-scan-demo .plot-label .label-result {
+  color: var(--series-purple);
+  font-weight: 600;
+}
+
+.wavelet-scan-demo .scan-canvas-container {
+  flex: 1;
+  background: var(--graph-background);
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+.wavelet-scan-demo .scan-canvas-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Right sidebar */
+.wavelet-scan-demo .scan-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+
+/* Sections */
+.wavelet-scan-demo .scan-section {
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.wavelet-scan-demo .scan-section.explanation {
+  background: var(--bg-card);
+}
+
+.wavelet-scan-demo .scan-section-header {
+  padding: 0.6rem 0.8rem;
+  background: var(--bg-elevated);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-body);
+}
+
+.wavelet-scan-demo .scan-section-content {
+  padding: 0.7rem 0.8rem;
+}
+
+/* Buttons */
+.wavelet-scan-demo .scan-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.wavelet-scan-demo .scan-btn {
+  padding: 0.6rem 0.6rem;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wavelet-scan-demo .scan-btn:hover {
+  background: var(--bg-elevated);
+}
+
+.wavelet-scan-demo .scan-btn.active {
+  background: var(--bg-elevated);
+  border-color: var(--primary);
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+.wavelet-scan-demo .scan-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Coefficient display section */
+.wavelet-scan-demo .scan-section.coefficient-display {
+  background: linear-gradient(135deg, rgba(0,217,255,0.08), rgba(189,147,249,0.08));
+  border: 1px solid rgba(0,217,255,0.2);
+}
+
+.wavelet-scan-demo .scan-section.coefficient-display .scan-section-content {
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.wavelet-scan-demo .scan-section.coefficient-display .coef-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Explanation */
+.wavelet-scan-demo .scan-section.explanation p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin: 0.3rem 0;
+  line-height: 1.5;
+}
+
+.wavelet-scan-demo .scan-section.explanation strong {
+  font-size: 1.1rem;
+}
+
+/* ========================================
+   Bottom Controls Bar
+======================================== */
+.wavelet-scan-demo .scan-controls-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.wavelet-scan-demo .scan-control-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wavelet-scan-demo .scan-control-group label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.wavelet-scan-demo .scan-control-group input[type="range"] {
+  width: 90px;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-elevated);
+  border-radius: 3px;
+  outline: none;
+}
+
+.wavelet-scan-demo .scan-control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #00d9ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.wavelet-scan-demo .scan-checkbox-control {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.wavelet-scan-demo .scan-checkbox-control input[type="checkbox"] {
+  accent-color: #00d9ff;
+  width: 16px;
+  height: 16px;
+}
+
+/* Animation buttons */
+.wavelet-scan-demo .scan-anim-controls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.wavelet-scan-demo .scan-anim-btn {
+  padding: 0.4rem 0.65rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wavelet-scan-demo .scan-anim-btn.play {
+  background: #00d9ff;
+  color: #000;
+}
+
+.wavelet-scan-demo .scan-anim-btn.play:hover {
+  background: #00c4e8;
+}
+
+.wavelet-scan-demo .scan-anim-btn.stop {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.wavelet-scan-demo .scan-anim-btn.stop:hover {
+  background: #ff5252;
+}
+
+.wavelet-scan-demo .scan-anim-btn.step {
+  background: #2196F3;
+  color: #fff;
+}
+
+.wavelet-scan-demo .scan-anim-btn.reset {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+}
+
+.wavelet-scan-demo .scan-anim-btn.reset:hover {
+  background: var(--bg-card);
+  color: var(--text-body);
+}
