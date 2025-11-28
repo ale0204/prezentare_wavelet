@@ -1,0 +1,602 @@
+/* ========================================
+   Wavelet Playground V2 - Presentation Style
+   Layout: Left (graph + controls) | Right sidebar
+   Fits viewport like a PPT slide - NO SCROLLING
+======================================== */
+
+/* Main container - fills slide area, horizontal layout */
+.wavelet-playground-v2 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Left column: graph area + bottom controls */
+.wavelet-playground-v2 .playground-top-row {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Main area - graph and formula */
+.wavelet-playground-v2 .playground-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  gap: 0.25rem;
+  padding: 0.4rem;
+}
+
+/* Formula bar at top - compact */
+.wavelet-playground-v2 .formula-bar {
+  text-align: center;
+  padding: 0.3rem 0.75rem;
+  background: var(--bg-card);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Parameter badges - compact */
+.wavelet-playground-v2 .param-badges {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.wavelet-playground-v2 .param-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.wavelet-playground-v2 .param-badge.scale {
+  background: rgba(0, 217, 255, 0.15);
+  border: 1px solid rgba(0, 217, 255, 0.4);
+  color: var(--primary);
+}
+
+.wavelet-playground-v2 .param-badge.shift {
+  background: rgba(255, 170, 0, 0.15);
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  color: var(--series-amber);
+}
+
+.wavelet-playground-v2 .param-badge small {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Plot container - fills remaining space */
+.wavelet-playground-v2 .plot-container {
+  flex: 1;
+  position: relative;
+  min-height: 100px;
+  background: var(--graph-background);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.wavelet-playground-v2 .plot-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.wavelet-playground-v2 .plot-title-overlay {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Right sidebar - fits container height, internal scroll if needed */
+.wavelet-playground-v2 .playground-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow-y: auto;
+  padding: 0.3rem 0.4rem;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+}
+
+/* Sidebar sections - compact */
+.wavelet-playground-v2 .sidebar-section {
+  background: var(--bg-elevated);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.wavelet-playground-v2 .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  background: var(--bg-elevated);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-body);
+}
+
+.wavelet-playground-v2 .section-header.clickable {
+  cursor: pointer;
+}
+
+.wavelet-playground-v2 .section-header.clickable:hover {
+  background: var(--bg-card);
+}
+
+.wavelet-playground-v2 .toggle-icon {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.wavelet-playground-v2 .section-content {
+  padding: 0.2rem 0.6rem;
+  background: transparent;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wavelet type buttons - compact grid */
+.wavelet-playground-v2 .wavelet-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.22rem;
+  margin-bottom: 0.2rem;
+}
+
+.wavelet-playground-v2 .wavelet-btn {
+  padding: 0.22rem 0.4rem;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wavelet-playground-v2 .wavelet-btn:hover {
+  background: var(--bg-elevated);
+}
+
+.wavelet-playground-v2 .wavelet-btn.active {
+  background: var(--bg-card);
+  font-weight: 600;
+}
+
+/* Color coding per wavelet type */
+.wavelet-playground-v2 .wavelet-btn[data-wavelet="haar"].active {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.wavelet-playground-v2 .wavelet-btn[data-wavelet="morlet"].active {
+  border-color: var(--series-pink);
+  color: var(--series-pink);
+}
+.wavelet-playground-v2 .wavelet-btn[data-wavelet="mexican_hat"].active {
+  border-color: var(--series-green);
+  color: var(--series-green);
+}
+.wavelet-playground-v2 .wavelet-btn[data-wavelet="daubechies"].active {
+  border-color: var(--series-purple);
+  color: var(--series-purple);
+}
+
+.wavelet-playground-v2 .wavelet-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0.2rem 0;
+  line-height: 1.3;
+}
+
+/* Contra-example badge (the "Sinusoidă" entry is deliberately not admissible -
+   kept as a teaching counter-example, but must never look like a valid wavelet) */
+.wavelet-playground-v2 .not-wavelet-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  margin-bottom: 0.15rem;
+  background: color-mix(in srgb, var(--error) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 50%, transparent);
+  border-radius: 6px;
+  color: var(--error);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.wavelet-playground-v2 .wavelet-equation {
+  font-size: 0.75rem;
+  background: var(--bg-darker);
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: auto;
+  overflow-x: auto;
+}
+
+/* Control rows - compact */
+.wavelet-playground-v2 .control-row {
+  margin-bottom: 0.4rem;
+}
+
+.wavelet-playground-v2 .control-row:last-child {
+  margin-bottom: 0;
+}
+
+.wavelet-playground-v2 .control-row label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-light);
+  margin-bottom: 0.15rem;
+}
+
+.wavelet-playground-v2 .control-row input[type="range"] {
+  width: 100%;
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-elevated);
+  border-radius: 3px;
+  outline: none;
+}
+
+.wavelet-playground-v2 .control-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #00d9ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.wavelet-playground-v2 .control-row input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #00d9ff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.wavelet-playground-v2 .slider-hint {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.15rem;
+}
+
+/* Checkbox row */
+.wavelet-playground-v2 .checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0;
+}
+
+.wavelet-playground-v2 .checkbox-row input[type="checkbox"] {
+  accent-color: #00d9ff;
+  width: 12px;
+  height: 12px;
+}
+
+/* Animation row */
+.wavelet-playground-v2 .animation-row {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.wavelet-playground-v2 .animation-row select {
+  flex: 1;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.wavelet-playground-v2 .animation-row select option {
+  background: var(--bg-card);
+  color: var(--text-body);
+}
+
+.wavelet-playground-v2 .anim-btn {
+  padding: 0.35rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wavelet-playground-v2 .anim-btn.reset {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+}
+
+.wavelet-playground-v2 .anim-btn.reset:hover {
+  background: var(--bg-card);
+  color: var(--text-light);
+}
+
+.wavelet-playground-v2 .anim-btn.play {
+  background: #00d9ff;
+  color: #000;
+}
+
+.wavelet-playground-v2 .anim-btn.play:hover {
+  background: #00c4e8;
+}
+
+.wavelet-playground-v2 .anim-btn.stop {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.wavelet-playground-v2 .anim-btn.stop:hover {
+  background: #ff5252;
+}
+
+/* Theory content */
+.wavelet-playground-v2 .theory-content {
+  font-size: 0.95rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.wavelet-playground-v2 .theory-item {
+  margin-bottom: 0.15rem;
+}
+
+.wavelet-playground-v2 .theory-item h5 {
+  font-size: 1rem;
+  margin: 0 0 0.1rem 0;
+}
+
+.wavelet-playground-v2 .theory-item p {
+  margin: 0.04rem 0;
+  color: var(--text-muted);
+  line-height: 1.18;
+  font-size: 0.95rem;
+}
+
+.wavelet-playground-v2 .theory-formula {
+  background: var(--bg-darker);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: auto;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Explanation section - no header, always visible */
+.wavelet-playground-v2 .explanation-section {
+  background: var(--bg-card);
+  flex: 1;
+}
+
+.wavelet-playground-v2 .explanation-section .section-content {
+  padding: 0.25rem 0.6rem;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ========================================
+   Bottom Controls Bar - compact single row
+======================================== */
+.wavelet-playground-v2 .playground-controls-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.4rem 1rem;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .control-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .control-group label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .control-group input[type="range"] {
+  width: 100px;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-elevated);
+  border-radius: 3px;
+  outline: none;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #00d9ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .slider-hint {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  min-width: 50px;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .checkbox-control {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .checkbox-control input[type="checkbox"] {
+  accent-color: #00d9ff;
+  width: 12px;
+  height: 12px;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .animation-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .animation-controls select {
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-card);
+  color: var(--text-body);
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn.reset {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn.reset:hover {
+  background: var(--bg-card);
+  color: var(--text-body);
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn.play {
+  background: #00d9ff;
+  color: #000;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn.play:hover {
+  background: #00c4e8;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn.stop {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.wavelet-playground-v2 .playground-controls-bar .anim-btn.stop:hover {
+  background: #ff5252;
+}
+
+/* Reset button */
+.wavelet-playground-v2 .reset-btn {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-top: auto;
+}
+
+.wavelet-playground-v2 .reset-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  border-color: var(--border-light);
+}
+
+/* ========================================
+   Legacy Wavelet Playground Styles (keep for backward compat)
+======================================== */
+
+.wavelet-playground {
+  display: flex;
+  flex-direction: column;
+}
+
+.wavelet-playground .playground-header {
+  text-align: center;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.wavelet-playground .playground-header h2 {
+  color: var(--primary);
+  margin-bottom: var(--space-xs);
+  font-size: 1.5rem;
+}
+
+.wavelet-playground .playground-header .subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* These two boxes sit in a narrow sidebar and hold a single long formula that
+   KaTeX cannot wrap, so they take the inline floor rather than the display one.
+   At the display size the formula was wider than the box and got clipped. */
+.wavelet-playground-v2 .wavelet-equation .katex,
+.wavelet-playground-v2 .theory-formula .katex {
+  font-size: max(17px, 1em);
+}
+
+.wavelet-playground-v2 .wavelet-equation,
+.wavelet-playground-v2 .theory-formula {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
