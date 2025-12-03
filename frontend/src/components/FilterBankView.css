@@ -1,0 +1,335 @@
+/* FilterBankView.css - Filter bank diagram styling */
+
+.filter-bank-view {
+  display: flex;
+  gap: 1.5rem;
+  height: 100%;
+  padding: 0.5rem;
+  background: var(--bg-dark, #0a0a1a);
+}
+
+.filter-bank-view.compact {
+  padding: 0.25rem;
+  gap: 1rem;
+}
+
+/* Main content area */
+.filter-bank-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+/* Tab navigation */
+.filter-bank-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.filter-bank-tabs button {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-bank-tabs button:hover {
+  background: var(--bg-card);
+  color: var(--text-light);
+}
+
+.filter-bank-tabs button.active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 170, 0, 0.1));
+  border-color: rgba(255, 215, 0, 0.4);
+  color: var(--series-gold);
+}
+
+/* Canvas container */
+.filter-bank-canvas-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 300px;
+}
+
+.filter-bank-canvas-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+}
+
+/* Controls */
+.filter-bank-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+.filter-bank-controls .ctrl-btn {
+  padding: 0.5rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.filter-bank-controls .ctrl-btn:hover:not(:disabled) {
+  background: var(--bg-card);
+  border-color: var(--border-light);
+}
+
+.filter-bank-controls .ctrl-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.filter-bank-controls .ctrl-btn.play {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: var(--series-green);
+}
+
+.filter-bank-controls .ctrl-btn.play:hover:not(:disabled) {
+  background: rgba(0, 255, 136, 0.25);
+}
+
+.filter-bank-controls .ctrl-btn.stop {
+  background: rgba(255, 107, 157, 0.15);
+  border-color: rgba(255, 107, 157, 0.3);
+  color: var(--series-pink);
+}
+
+/* Options row */
+.filter-bank-options {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.filter-bank-options .option-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-bank-options label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.filter-bank-options select {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  color: var(--text-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.filter-bank-options select:hover {
+  border-color: var(--border-light);
+}
+
+/* Sidebar */
+.filter-bank-sidebar {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  overflow-y: auto;
+}
+
+.filter-bank-view.compact .filter-bank-sidebar {
+  width: 240px;
+}
+
+/* Sidebar sections */
+.fb-sidebar-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+
+.fb-sidebar-section h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--series-gold);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fb-sidebar-section p {
+  margin: 0.3rem 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.fb-sidebar-section strong {
+  color: var(--text-body);
+}
+
+/* Filter coefficients display */
+.filter-coefs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.filter-coef-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.filter-coef-row .filter-name {
+  font-weight: 600;
+  font-size: 0.8rem;
+  min-width: 40px;
+}
+
+.filter-coef-row .filter-name.lp {
+  color: var(--series-green);
+}
+
+.filter-coef-row .filter-name.hp {
+  color: var(--series-pink);
+}
+
+.filter-coef-row .filter-values {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* QMF relationship */
+.qmf-formula {
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 8px;
+  padding: 0.6rem;
+  text-align: center;
+}
+
+.qmf-formula .katex {
+  font-size: max(17px, 0.85rem);
+}
+
+/* Step indicator */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 170, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.step-indicator .step-num {
+  font-weight: bold;
+  color: var(--series-amber);
+  font-size: 0.9rem;
+}
+
+.step-indicator .step-desc {
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+/* Color coding */
+.color-analysis {
+  color: var(--primary);
+}
+
+.color-synthesis {
+  color: var(--series-orange);
+}
+
+.color-lowpass {
+  color: var(--series-green);
+}
+
+.color-highpass {
+  color: var(--series-pink);
+}
+
+/* Highlight boxes */
+.highlight-box {
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.highlight-box.analysis {
+  background: rgba(0, 212, 255, 0.08);
+  border-left: 3px solid var(--primary);
+}
+
+.highlight-box.synthesis {
+  background: rgba(255, 159, 67, 0.08);
+  border-left: 3px solid var(--series-orange);
+}
+
+.highlight-box.perfect {
+  background: rgba(0, 255, 136, 0.08);
+  border-left: 3px solid var(--series-green);
+}
+
+/* Responsive adjustments - standalone app only. Inside the tour these views sit
+   on a fixed 1440x810 surface that is scaled as a whole, so a narrow window must
+   never reflow them (see .tour-stage in tour.css). */
+@media (max-width: 1200px) {
+  .content-area .filter-bank-sidebar {
+    width: 220px;
+  }
+}
+
+@media (max-width: 900px) {
+  .content-area .filter-bank-view {
+    flex-direction: column;
+  }
+
+  .content-area .filter-bank-sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .content-area .fb-sidebar-section {
+    flex: 1;
+    min-width: 200px;
+  }
+}

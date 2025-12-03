@@ -1,0 +1,349 @@
+/* ========================================
+   DecomposeView - Multi-level wavelet decomposition
+======================================== */
+
+.decompose-view-v2 {
+  display: flex;
+  gap: 2rem;
+  height: 100%;
+  min-height: 550px;
+  padding: 1rem;
+}
+
+.decompose-view-v2.compact {
+  min-height: 450px;
+  padding: 0.5rem;
+  gap: 1.5rem;
+}
+
+/* Main visualization area */
+.decompose-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.decompose-header h3 {
+  color: var(--primary, var(--primary));
+  margin: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.decompose-visuals {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.visual-panel {
+  text-align: center;
+}
+
+.visual-panel h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.visual-panel canvas {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-darker);
+}
+
+.visual-panel.main canvas {
+  border-color: var(--primary, var(--primary));
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.visual-arrow {
+  font-size: 2rem;
+  color: var(--primary, var(--primary));
+  opacity: 0.7;
+}
+
+.decompose-formula {
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* Energy distribution bar */
+.energy-bars {
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+}
+
+.energy-bars h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.energy-bar-container {
+  display: flex;
+  height: 30px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-darker);
+}
+
+.energy-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  transition: width 0.3s ease;
+}
+
+.energy-segment.ll {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+}
+
+.energy-segment.lh {
+  background: linear-gradient(135deg, #ff9f43, #cc7a30);
+}
+
+.energy-segment.hl {
+  background: linear-gradient(135deg, #c9b1ff, #9a7acc);
+}
+
+.energy-segment.hh {
+  background: linear-gradient(135deg, #ff6b9d, #cc5580);
+}
+
+.energy-note {
+  margin: 0.5rem 0 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Sidebar */
+.decompose-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--bg-card);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.decompose-sidebar .sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.decompose-sidebar .sidebar-section label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.decompose-sidebar .sidebar-section select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  font-size: 0.9rem;
+}
+
+.decompose-sidebar .sidebar-section input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary, #00d4ff);
+}
+
+.band-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.band-btn {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--text-body);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.band-btn:hover {
+  background: var(--bg-elevated);
+}
+
+.band-btn.active {
+  background: var(--bg-elevated);
+  transform: scale(1.05);
+}
+
+.band-btn[data-band="ll"] {
+  border-color: var(--primary);
+}
+
+.band-btn[data-band="ll"].active {
+  background: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.band-btn[data-band="lh"] {
+  border-color: var(--series-orange);
+}
+
+.band-btn[data-band="lh"].active {
+  background: rgba(255, 159, 67, 0.3);
+  box-shadow: 0 0 10px rgba(255, 159, 67, 0.5);
+}
+
+.band-btn[data-band="hl"] {
+  border-color: var(--series-purple);
+}
+
+.band-btn[data-band="hl"].active {
+  background: rgba(201, 177, 255, 0.3);
+  box-shadow: 0 0 10px rgba(201, 177, 255, 0.5);
+}
+
+.band-btn[data-band="hh"] {
+  border-color: var(--series-pink);
+}
+
+.band-btn[data-band="hh"].active {
+  background: rgba(255, 107, 157, 0.3);
+  box-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+}
+
+/* Legend */
+.sidebar-legend {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-legend h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.color-dot.ll {
+  background: #00d4ff;
+}
+
+.color-dot.lh {
+  background: #ff9f43;
+}
+
+.color-dot.hl {
+  background: #c9b1ff;
+}
+
+.color-dot.hh {
+  background: #ff6b9d;
+}
+
+/* Info section */
+.sidebar-info {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary, var(--primary));
+  font-size: 0.85rem;
+}
+
+.sidebar-info p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Compact mode adjustments */
+.decompose-view-v2.compact .decompose-sidebar {
+  width: 220px;
+}
+
+.decompose-view-v2.compact .visual-panel canvas {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.decompose-view-v2.compact .visual-panel.main canvas {
+  max-width: 250px;
+  max-height: 250px;
+}
+
+/* Responsive (standalone app only - the tour scales its fixed surface instead) */
+@media (max-width: 900px) {
+  .content-area .decompose-view-v2 {
+    flex-direction: column;
+  }
+
+  .content-area .decompose-sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* Legacy styles for old decompose-view */
+.decompose-view .level-selector {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.decompose-view .level-selector button {
+  padding: 0.5rem var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.decompose-view .level-selector button.active,
+.decompose-view .level-selector button:hover {
+  background: var(--primary);
+  color: var(--bg-dark);
+  border-color: var(--primary);
+}
+
