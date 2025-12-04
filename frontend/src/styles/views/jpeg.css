@@ -1,0 +1,436 @@
+/* ========================================
+   JPEG Pipeline & DCT/Wavelet Comparison Styles
+======================================== */
+
+.jpeg-pipeline-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+}
+
+.jpeg-pipeline-view .panel {
+  margin-bottom: 1rem;
+}
+
+.jpeg-pipeline-view .panel h2 {
+  color: var(--series-gold);
+  margin-bottom: 0.5rem;
+}
+
+.jpeg-pipeline-view .description {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Stage Selector */
+.stage-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.stage-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 90px;
+}
+
+.stage-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--border-light);
+}
+
+.stage-btn.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.4);
+  color: var(--series-gold);
+}
+
+.stage-btn .stage-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.stage-btn .stage-num {
+  font-size: 0.82rem;
+  opacity: 0.5;
+  margin-top: 0.2rem;
+}
+
+/* Compact Mode - HORIZONTAL LAYOUT with tabs on right */
+.jpeg-pipeline-view.compact-mode {
+  padding: 0.5rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+.stage-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  order: 2;
+  flex-shrink: 0;
+  padding: 0.5rem;
+  background: var(--bg-darker);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stage-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.85rem;
+}
+
+.stage-tab:hover {
+  background: var(--bg-card);
+}
+
+.stage-tab.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.4);
+  color: var(--series-gold);
+}
+
+.stage-tab .tab-name {
+  font-weight: 500;
+}
+
+.stage-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+  overflow: auto;
+  /* Reserve space for the tallest stage (RGB->YCbCr, formula-box included) so
+     switching tabs does not visibly resize the container; shorter stages just
+     leave the extra room unused, taller ones still scroll instead of clipping. */
+  min-height: 560px;
+  order: 1;
+}
+
+/* Stage Header */
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stage-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--series-gold);
+}
+
+/* View Toggle Buttons */
+.view-toggle {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.view-toggle button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.view-toggle button:hover {
+  background: var(--bg-card);
+}
+
+.view-toggle button.active {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: rgba(0, 212, 255, 0.5);
+  color: var(--primary);
+}
+
+/* Quality Slider */
+.quality-slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.quality-slider input[type="range"] {
+  width: 120px;
+  accent-color: #ffd700;
+}
+
+/* Animation Controls */
+.anim-controls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.anim-controls button {
+  width: 36px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.anim-controls button:hover {
+  background: var(--bg-card);
+}
+
+.anim-controls .zigzag-scrub {
+  width: 140px;
+  align-self: center;
+  accent-color: #ffd700;
+}
+
+/* Formula Box */
+.formula-box {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: center;
+  /* Comfortably above the 13px-design / 14px-CSS-px legibility floor
+     (frontend/src/styles/math.css) even before KaTeX's own 1.1em scaling. */
+  font-size: 1.3rem;
+}
+
+.formula-box.compact {
+  font-size: 1.15rem;
+}
+
+/* Stage 1 (RGB->YCbCr) shows a 3-line \begin{aligned} block by default - the
+   tallest of the four formula variants this view cycles through - so it gets
+   its own smaller floor instead of the shared 1.3rem every other stage uses. */
+.color-space-view .formula-box {
+  font-size: 1.05rem;
+}
+
+.formula-box .note {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Info Row */
+.info-row {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+.info-row .highlight {
+  color: var(--series-gold);
+  font-weight: 600;
+}
+
+/* Canvas Styling - LARGER */
+.stage-content canvas,
+.dct-wavelet-view canvas {
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+/* Individual view containers - FULL SIZE */
+.color-space-view,
+.chroma-subsampling-view,
+.dct-basis-view,
+.block-dct-view,
+.quantization-view,
+.zigzag-view,
+.dct-wavelet-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+/* Image Selector in Stage Header */
+.image-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.image-selector label {
+  font-weight: 500;
+}
+
+/* Specificity note: frontend/src/styles/sidebar.css defines an unrelated
+   .image-selector select rule (width: 100%) that loads after this file and
+   would otherwise win at equal specificity - .stage-header scopes this one
+   to actually apply here. */
+.stage-header .image-selector select {
+  padding: 0.35rem 0.6rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 130px;
+  /* Flex items default to an automatic min-width of their content's
+     min-content size, which for a <select> is its widest <option> text -
+     without this, that floor silently wins over the width above (some
+     sample-image names run past 30 characters). */
+  min-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.image-selector select:hover {
+  background: var(--bg-card);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.image-selector select:focus {
+  outline: none;
+  border-color: rgba(255, 215, 0, 0.6);
+}
+
+.image-selector select option {
+  background: var(--bg-card);
+  color: var(--text-body);
+}
+
+/* ========================================
+   Progressive wavelet panel (dct-vs-wavelet, "Progresiv" tab)
+======================================== */
+
+.progressive-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  width: 100%;
+}
+
+.progressive-title {
+  margin: 0;
+  color: var(--series-gold);
+  font-size: 1.3rem;
+}
+
+.progressive-subtitle {
+  margin: 0;
+  max-width: 780px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.progressive-status {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  padding: 1rem;
+}
+
+.progressive-status.error {
+  color: var(--series-red);
+}
+
+.progressive-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.progressive-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.progressive-item img {
+  width: 220px;
+  height: auto;
+  border-radius: 6px;
+  border: 2px solid var(--primary);
+}
+
+.progressive-item span {
+  font-weight: 700;
+  color: var(--series-green);
+  font-size: 1rem;
+}
+
+/* ========================================
+   Responsive Adjustments
+======================================== */
+
+/* Standalone app only - the tour scales its fixed surface instead of reflowing */
+@media (max-width: 800px) {
+  .content-area .stage-tabs {
+    justify-content: center;
+  }
+
+  .content-area .stage-tab .tab-name {
+    display: none;
+  }
+
+  .content-area .summary-box {
+    flex-direction: column;
+  }
+
+  .content-area .controls-row {
+    justify-content: center;
+  }
+}
