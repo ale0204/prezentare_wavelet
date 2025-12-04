@@ -1,0 +1,226 @@
+/**
+ * AnimationControls styles
+ */
+
+/* Main container */
+.animation-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.animation-controls.layout-horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.animation-controls.layout-compact {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Button row */
+.animation-controls-buttons {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+/* Base button styles */
+.anim-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  min-width: 2rem;
+}
+
+.anim-btn:hover:not(:disabled) {
+  background: var(--bg-card);
+}
+
+.anim-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Play/Pause button special styling.
+   The icon inherits currentColor, and the gradient is dark enough on its indigo
+   end that only white keeps the glyph readable in both themes. */
+.anim-btn.play-pause {
+  background: linear-gradient(135deg, #0091ad, #4f46e5);
+  color: #ffffff;
+  min-width: 2.5rem;
+  font-size: 1.1rem;
+}
+
+.anim-btn.play-pause:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00a3c4, #635bf2);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+}
+
+.anim-btn.play-pause.playing {
+  background: linear-gradient(135deg, #d1477a, #d1600f);
+}
+
+/* Reset button */
+.anim-btn.reset {
+  background: rgba(239, 68, 68, 0.18);
+  color: var(--series-red);
+}
+
+.anim-btn.reset:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* Complete button */
+.anim-btn.complete {
+  background: rgba(34, 197, 94, 0.18);
+  color: var(--series-green);
+}
+
+.anim-btn.complete:hover:not(:disabled) {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+/* Size variants */
+.animation-controls.size-small .anim-btn {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.4rem;
+  min-width: 1.5rem;
+}
+
+.animation-controls.size-small .anim-btn.play-pause {
+  min-width: 2rem;
+  font-size: 0.9rem;
+}
+
+.animation-controls.size-large .anim-btn {
+  font-size: 1.25rem;
+  padding: 0.5rem 0.8rem;
+  min-width: 2.5rem;
+}
+
+.animation-controls.size-large .anim-btn.play-pause {
+  min-width: 3rem;
+  font-size: 1.4rem;
+}
+
+/* Slider */
+.animation-controls-slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 100px;
+}
+
+.animation-controls-slider input[type="range"] {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-elevated);
+  appearance: none;
+}
+
+.animation-controls-slider input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00d9ff;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 217, 255, 0.5);
+}
+
+.animation-controls-slider .position-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 4rem;
+  text-align: center;
+}
+
+/* Speed control */
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.speed-control label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.speed-control input[type="range"] {
+  width: 80px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  appearance: none;
+}
+
+.speed-control input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #a78bfa;
+  cursor: pointer;
+}
+
+/* Frame-by-frame toggle */
+.frame-by-frame-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.frame-by-frame-toggle input[type="checkbox"] {
+  accent-color: #00d9ff;
+}
+
+/* Compact variant */
+.animation-controls-compact {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.animation-controls-compact button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--bg-elevated);
+  color: var(--text-body);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+
+.animation-controls-compact button:hover:not(:disabled) {
+  background: var(--bg-card);
+}
+
+.animation-controls-compact button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.animation-controls-compact button.playing {
+  background: linear-gradient(135deg, #ff6b9d, #f97316);
+}
