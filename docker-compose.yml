@@ -1,0 +1,19 @@
+# prezentare_wavelet/docker-compose.yml - local Docker testing.
+# Builds and runs the full stack (API + frontend) on port 8000.
+# For VPS-A deployment overlay with docker-compose.vps.yml.
+services:
+  dsp:
+    build: .
+    image: dsp:latest
+    container_name: dsp
+    restart: unless-stopped
+    environment:
+      - DATA_DIR=/app/data
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/wavelets')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
