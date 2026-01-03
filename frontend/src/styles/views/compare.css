@@ -1,0 +1,479 @@
+/* ========================================
+   Compare View Compact Styles
+======================================== */
+
+.compare-view-compact {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  padding: 10px 20px;
+  overflow: hidden;
+}
+
+/* Header */
+.compare-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+/* "Compared at equal bitrate" badge - without this label the PSNR/SSIM
+   numbers below have no interpretable context. */
+.rate-match-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 999px;
+  padding: 3px 12px;
+  white-space: nowrap;
+  cursor: help;
+}
+
+/* Info and Tips Row - always visible */
+.info-tips-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+
+.info-section {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.info-section .info-col {
+  font-size: 1.05rem;
+  color: var(--text-light);
+}
+
+.tips-section {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tips-section span {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Main Comparison Area */
+.comparison-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+}
+
+.loading-overlay-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  color: var(--series-gold);
+}
+
+.loading-overlay-inline .spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255,215,0,0.3);
+  border-top-color: #ffd700;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Image Grid */
+.comparison-images {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s;
+}
+
+.comparison-images.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.comparison-images .comparison-card {
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+.comparison-images .comparison-card.dct {
+  border-color: rgba(255,159,67,0.5);
+}
+
+.comparison-images .comparison-card.wavelet {
+  border-color: rgba(0,212,255,0.5);
+}
+
+.comparison-images .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.05);
+  font-weight: 600;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.comparison-images .comparison-card.dct .card-header {
+  color: var(--series-orange);
+}
+
+.comparison-images .comparison-card.wavelet .card-header {
+  color: var(--primary);
+}
+
+.comparison-images .metric-inline {
+  font-size: 0.85rem;
+  background: rgba(0,0,0,0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.comparison-images img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  flex: 1;
+  min-height: 0;
+}
+
+/* SSIM / bpp / MSE line under a codec's image - PSNR alone (the header
+   badge) never says whether it costed a matching bitrate. */
+.comparison-images .metrics-row {
+  padding: 3px 10px 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Zoom-on-artefact crop panels reuse .comparison-card's frame */
+.comparison-card.zoom-crop canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.zoom-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.zoom-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+[data-projector] .zoom-toggle-btn {
+  background: rgba(255, 255, 255, 0.85);
+  color: #111;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-projector] .zoom-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+/* Verdict Bar - PSNR and SSIM each get their own line instead of one number
+   declaring a winner; a mixed verdict (the two metrics disagree) gets a
+   neutral style plus a short explanation instead of being forced either way. */
+.verdict-bar {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 300px;
+}
+
+.verdict-bar .verdict-context {
+  font-weight: 400;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.verdict-bar .verdict-mixed-note {
+  font-weight: 400;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  margin-top: 4px;
+  opacity: 0.9;
+  white-space: normal;
+}
+
+.verdict-bar.wavelet-wins {
+  background: rgba(0,212,255,0.2);
+  color: var(--primary);
+  border: 1px solid rgba(0,212,255,0.4);
+}
+
+.verdict-bar.dct-wins {
+  background: rgba(255,159,67,0.2);
+  color: var(--series-orange);
+  border: 1px solid rgba(255,159,67,0.4);
+}
+
+.verdict-bar.mixed {
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--series-gold);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+}
+
+/* Bottom Controls Bar */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.controls-bar .control-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls-bar label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.controls-bar select {
+  padding: 6px 10px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-body);
+  font-size: 0.85rem;
+}
+
+[data-projector] .controls-bar select {
+  background: var(--bg-elevated);
+}
+
+.controls-bar input[type="range"] {
+  width: 100px;
+  accent-color: #ffd700;
+}
+
+.controls-bar .run-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #ffd700, #ff9f43);
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.controls-bar .run-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+}
+
+.controls-bar .run-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controls-bar .run-btn.loading {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.error-message.compact {
+  padding: 8px 12px;
+  background: rgba(255,0,0,0.1);
+  border: 1px solid rgba(255,0,0,0.3);
+  border-radius: 6px;
+  color: var(--series-red);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+/* ========================================
+   PSNR vs Quality collapsible section
+======================================== */
+
+.psnr-curve-section {
+  background: var(--bg-card);
+  border-radius: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.psnr-curve-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--series-gold);
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.psnr-curve-header:hover {
+  background: rgba(255, 215, 0, 0.07);
+}
+
+.psnr-curve-toggle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  width: 14px;
+  display: inline-block;
+}
+
+.psnr-curve-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.psnr-curve-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--series-red);
+  font-size: 0.85rem;
+  padding: 6px 0;
+}
+
+.psnr-curve-body {
+  padding: 10px 14px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.psnr-curve-calc-btn {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #ffd700, #ff9f43);
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.psnr-curve-calc-btn:hover:not(:disabled) {
+  transform: scale(1.04);
+  box-shadow: 0 3px 12px rgba(255,215,0,0.3);
+}
+
+.psnr-curve-calc-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.psnr-curve-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--series-gold);
+  font-size: 0.85rem;
+  padding: 6px 0;
+}
+
+.psnr-curve-legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+}
+
+.psnr-curve-caption {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(0, 212, 255, 0.85);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* Second line in the formula column: what SSIM measures, with its source. */
+.compare-view-compact .metric-note {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
+/* Verdict as one row under the images it summarises: as a column in the control
+   bar it wrapped onto a second line and left a quarter of the slide empty. */
+.verdict-bar.row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  max-width: none;
+  margin-top: 8px;
+}
+
+.verdict-bar.row .verdict-mixed-note {
+  flex-basis: 100%;
+  margin-top: 0;
+}

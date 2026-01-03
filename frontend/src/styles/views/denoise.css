@@ -1,0 +1,439 @@
+/* ========================================
+   Denoise View Styles
+   Uses: .view-container--lg, .control-section
+======================================== */
+
+.denoise-view .noise-controls {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-lg);
+}
+
+/* Real-life anchor shown above the demo controls */
+.denoise-analogy {
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 1rem;
+  margin-bottom: var(--space-md);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--text-light);
+}
+
+/* Plain-language interpretation of SNR + Donoho formula */
+.denoise-interpretation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  background: rgba(0, 255, 136, 0.06);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 1rem;
+  margin-top: var(--space-md);
+}
+
+.denoise-interpretation p {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--text-light);
+}
+
+.denoise-formula {
+  flex: 0 1 auto;
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   Denoise Theory View Styles
+======================================== */
+
+.denoise-theory-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.denoise-theory-view.compact {
+  padding: 0.3rem 1.25rem;
+}
+
+.denoise-theory-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  height: 100%;
+  justify-content: center;
+}
+
+.denoise-theory-view .theory-section {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 0.4rem 1.1rem;
+  flex-shrink: 0;
+}
+
+.denoise-theory-view .theory-section h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+.denoise-theory-view .theory-section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: var(--text-light);
+}
+
+.denoise-theory-view .info-box {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.3rem 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.denoise-theory-view .info-box p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--text-light);
+}
+
+/* Math formulas */
+.denoise-theory-view .math-formulas {
+  display: flex;
+  gap: 1rem;
+}
+
+.denoise-theory-view .formula-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.22rem 0.9rem;
+  background: var(--bg-darker);
+  border-radius: 8px;
+  flex: 1;
+}
+
+.denoise-theory-view .formula-label {
+  font-size: 1rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.denoise-theory-view .formula-math {
+  flex: 1;
+}
+
+/* Three formula rows side by side in a compact strip: the inline floor is
+   the one that fits, the display floor pushed the strip past the stage. */
+.denoise-theory-view .formula-math .katex {
+  font-size: max(17px, 1.15rem);
+}
+
+.denoise-theory-view .formula-note {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+/* Threshold comparison: three cards on ONE row - a second row pushes the
+   process steps off the fixed 810px stage */
+.denoise-theory-view .threshold-comparison {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.denoise-theory-view .threshold-card {
+  background: var(--bg-darker);
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+  border: 2px solid transparent;
+}
+
+.denoise-theory-view .threshold-card.soft {
+  border-color: rgba(0, 255, 136, 0.4);
+}
+
+.denoise-theory-view .threshold-card.hard {
+  border-color: rgba(255, 170, 0, 0.4);
+}
+
+.denoise-theory-view .threshold-card .card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.denoise-theory-view .threshold-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.denoise-theory-view .threshold-card.soft h3 {
+  color: var(--series-green);
+}
+
+.denoise-theory-view .threshold-card.hard h3 {
+  color: var(--series-amber);
+}
+
+.denoise-theory-view .threshold-card p {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.denoise-theory-view .threshold-visual {
+  flex-shrink: 0;
+}
+
+/* Height follows the 120x96 viewBox so the plot keeps its old size after the
+   -prag/+prag labels moved out from under the curve into their own band. */
+.denoise-theory-view .threshold-graph {
+  width: 190px;
+  height: 126px;
+}
+
+/* Process steps */
+.denoise-theory-view .process-section {
+  padding: 0.3rem 1.25rem;
+}
+
+.denoise-theory-view .process-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.denoise-theory-view .step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+}
+
+.denoise-theory-view .step-num {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00d4ff;
+  color: #000;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.denoise-theory-view .step-text {
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+.denoise-theory-view .step-arrow {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+/* Practical view adjustments */
+.denoise-practical-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  gap: 0.75rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Controls row - all on one line */
+.denoise-controls-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border-radius: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.denoise-controls-row .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 100px;
+}
+
+.denoise-controls-row .control-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.denoise-controls-row .control-group select,
+.denoise-controls-row .control-group input[type="range"] {
+  padding: 0.4rem 0.5rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-body);
+  font-size: 0.9rem;
+}
+
+.denoise-controls-row .control-group input[type="range"] {
+  width: 80px;
+  padding: 0;
+}
+
+.denoise-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(0, 212, 255, 0.2);
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  color: var(--primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.denoise-btn:hover {
+  background: rgba(0, 212, 255, 0.3);
+}
+
+.denoise-btn.loading {
+  opacity: 0.7;
+  animation: pulse-btn 1s ease-in-out infinite;
+}
+
+@keyframes pulse-btn {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.4; }
+}
+
+/* Results section */
+.denoise-results {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  transition: opacity 0.2s ease;
+}
+
+.denoise-results.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Images row */
+.denoise-images {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  min-height: 300px;
+}
+
+.denoise-image-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.denoise-image-card h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.denoise-image-card .img-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.denoise-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.denoise-image-card .img-metric {
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.5rem;
+  background: var(--bg-darker);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.denoise-image-card .img-metric.success {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--series-green);
+}
+
+/* Stats row */
+.denoise-stats {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.denoise-stats .stat-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+}
+
+.denoise-stats .stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.denoise-stats .stat-value {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.denoise-stats .stat-item.success .stat-value {
+  color: var(--series-green);
+}
