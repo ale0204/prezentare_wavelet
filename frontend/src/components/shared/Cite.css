@@ -1,0 +1,89 @@
+/* Citations: inline [n] markers (Cite.jsx) + the Bibliografie slide.
+   Data comes from sources.js; numbering = array order. Loaded once via
+   Cite.jsx, so the markers stay styled in the standalone app views too. */
+
+.cite-marker {
+  font-size: 0.95rem;
+  line-height: 1;
+  vertical-align: super;
+  margin-left: 0.2rem;
+  padding: 0 0.15rem;
+  border-radius: 4px;
+  color: var(--slide-color, var(--primary));
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 600;
+}
+a.cite-marker:hover,
+a.cite-marker:focus-visible {
+  background: var(--tour-surface-mid);
+  text-decoration: underline;
+}
+a.cite-marker:focus-visible {
+  outline: 2px solid var(--primary);
+}
+.cite-marker-static {
+  color: var(--tour-text-dim);
+  font-weight: 400;
+}
+[data-projector] .cite-marker:not(.cite-marker-static) {
+  color: color-mix(in srgb, var(--slide-color, var(--primary)) 55%, #1a1a2e);
+}
+
+/* Bibliografie slide (type 'references' in the tour) */
+.slide-references {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 2.5rem;
+  overflow: hidden;
+}
+/* Three columns, not two: a fixed-height multicol container spills extra
+   columns sideways once the entries no longer fit, which reads as a bibliography
+   cut off at the right edge. */
+.references-list {
+  columns: 3;
+  column-gap: 1.75rem;
+  column-fill: balance;
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  overflow: hidden;
+}
+.reference-entry {
+  break-inside: avoid;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 0.7rem;
+  color: var(--tour-text-dim);
+}
+.reference-entry > a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  border-radius: 6px;
+  padding: 0.15rem 0;
+  margin: -0.15rem 0;
+}
+.reference-entry > a:hover,
+.reference-entry > a:focus-visible {
+  background: var(--tour-surface-mid);
+}
+.reference-entry > a:hover .ref-title {
+  text-decoration: underline;
+}
+.ref-num {
+  color: var(--slide-color, var(--primary));
+  font-weight: 700;
+  margin-right: 0.45rem;
+}
+[data-projector] .ref-num {
+  color: color-mix(in srgb, var(--slide-color, var(--primary)) 55%, #1a1a2e);
+}
+.ref-title {
+  font-style: italic;
+  color: var(--tour-text);
+}
+.ref-venue {
+  color: var(--tour-text-dim);
+}

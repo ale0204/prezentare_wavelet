@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Morlet-like wavelet glyph on the app's dark background -->
+  <rect width="64" height="64" rx="14" fill="#0a0a1a"/>
+  <path d="M4 32 Q8 32 11 31 Q14 30 16 26 Q18 20 21 14 Q24 8 27 14 Q30 22 32 32 Q34 42 37 50 Q40 56 43 50 Q46 44 48 38 Q50 33 53 32 Q56 31.5 60 32"
+        fill="none" stroke="#00d9ff" stroke-width="4.5" stroke-linecap="round"/>
+</svg>
