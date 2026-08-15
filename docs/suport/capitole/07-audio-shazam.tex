@@ -1,0 +1,60 @@
+\chapter{Aplicație: recunoașterea muzicii}
+\label{ch:shazam}
+
+Recunoașterea unei piese din câteva secunde de audio, înregistrate cu un
+microfon de telefon, peste zgomot de fundal și voci, pare să ceară o
+comparație directă cu milioane de piese dintr-o bază de date. Algoritmul
+din spatele Shazam~\cite{wang2003} evită exact asta, comparând amprente
+scurte și discrete în loc de audio brut.
+
+\section{Cum funcționează amprenta}
+
+Primul pas e o spectrogramă a piesei, exact tipul de reprezentare
+timp-frecvență din Capitolul~\ref{ch:wavelets}. Din ea se păstrează doar
+vârfurile locale de energie, cele mai puternice puncte din fiecare regiune
+de timp-frecvență, alese cu un criteriu de densitate care le distribuie
+uniform pe toată durata piesei, cele mai tari câteva din fiecare fereastră,
+nu doar cele mai tari câteva sute din tot semnalul.
+Rezultatul e o „constelație” de puncte $(t, f)$, suficient de rară ca să
+încapă compact, suficient de densă ca să supraviețuiască zgomotului.
+
+Un singur punct din constelație nu spune mare lucru, miile de piese din
+bază conțin, fiecare, vârfuri la frecvențe apropiate. Amprenta reală vine
+din \emph{perechi}: fiecare punct devine un „punct-ancoră”, legat de câteva
+puncte dintr-o „zonă țintă” apropiată în timp și frecvență. Fiecare pereche
+(ancoră, țintă) generează un hash format din trei numere, frecvența
+ancorei, frecvența țintei și diferența de timp dintre ele,
+$(f_1, f_2, \Delta t)$, stocat împreună cu timpul absolut la care apare în
+piesă. O piesă de câteva minute produce astfel zeci de mii de hash-uri, nu
+un singur „cod” global.
+
+Căutarea unui fragment înregistrat repetă exact procesul, spectrogramă,
+constelație, hash-uri, și caută fiecare hash în baza de date. Zgomotul de
+fundal adaugă vârfuri false și poate ascunde unele reale, dar tot lasă
+destule perechi curate ca zeci de hash-uri să se potrivească exact cu o
+singură piesă din bază, iar dacă hash-urile potrivite cad la o diferență de
+timp \emph{constantă} față de timpul lor din piesa originală (fragmentul
+înregistrat e, de exemplu, exact piesa originală începând din secunda 47),
+potrivirea e confirmată statistic, nu doar prin numărul de hash-uri comune.
+Pentru că amprenta e locală, fiecare hash descrie doar o mică vecinătate
+timp-frecvență, metoda tolerează inclusiv piese suprapuse: hash-urile unei
+piese ascultate peste alta rămân, în bună parte, neschimbate, deci ambele
+pot fi recunoscute din același fragment.
+
+\section{Demo}
+
+Demo-ul din tur (Figura~\ref{fig:shazam-demo}) arată, mai simplu, punctul de
+plecare al ideii: trei acorduri redate pe rând interferează în domeniul
+timp, iar semnalul mixt arată vizual de ce identificarea nu se poate face
+direct pe formă de undă, notele individuale nu mai sunt separabile cu
+ochiul. Textul de pe ecran leagă figura de mecanismul real: vârfurile dintr-o
+spectrogramă devin perechi $(f_1, f_2, \Delta t)$ căutate într-o bază de
+date, exact procesul descris mai sus.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{39-applications-shazam.png}
+\caption{Trei acorduri interferând în domeniul timp. Textul explică
+  amprentele $(f_1, f_2, \Delta t)$ pe care le caută algoritmul real.}
+\label{fig:shazam-demo}
+\end{figure}

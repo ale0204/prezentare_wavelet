@@ -1,0 +1,244 @@
+\chapter{Fourier, filtre și convoluție: instrumentele de bază}
+\label{ch:fundamente}
+
+Restul documentului se sprijină pe trei idei simple, în ordine: orice semnal
+e o sumă de frecvențe, un filtru alege care dintre ele rămân, iar convoluția
+e mecanismul care face asta. Wavelets, câteva capitole mai încolo, e ce se
+întâmplă când combini toate trei cu o singură idee nouă.
+
+\section{Transformata Fourier}
+
+Shazam recunoaște o piesă din zece secunde de audio pentru că amprenta ei de
+frecvențe e unică~\cite{wang2003}, adică exact amprenta pe care o calculează
+transformata Fourier (revenim pe larg la Shazam în
+Capitolul~\ref{ch:shazam}). Rezultatul central al transformatei e că orice
+semnal se scrie ca o sumă, sau pentru semnale continue o integrală, de
+sinusoide~\cite{lyons2011}:
+\[
+F(\omega) = \int_{-\infty}^{\infty} f(t)\,e^{-i\omega t}\,dt, \qquad
+f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} F(\omega)\,e^{i\omega t}\,d\omega,
+\]
+unde pulsația $\omega = 2\pi f$ e aceeași mărime ca frecvența $f$, doar în alte
+unități (rad/s față de Hz). Formula lui Euler, $e^{i\theta} = \cos\theta +
+i\sin\theta$, e ce leagă exponențiala complexă de sinusoide. Teorema lui
+Parseval,
+\[
+\int_{-\infty}^{\infty} |f(t)|^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty} |F(\omega)|^2\,d\omega,
+\]
+spune că energia semnalului e aceeași, calculată în timp sau în frecvență. E o
+proprietate la care revenim când arătăm că nici transformata wavelet
+discretă nu pierde energie.
+
+Limita transformatei contează la fel de mult ca rezultatul: Fourier spune CE
+frecvențe conține un semnal, dar nu CÂND apar ele. Un mashup din două piese
+are, pe porțiuni lungi, un spectru foarte asemănător cu suprapunerea lor,
+tocmai de-aceea Shazam rulează transformata pe ferestre scurte și succesive,
+nu pe piesa întreagă (transformata Fourier pe termen scurt, STFT).
+Fereastra scurtă fixează unde se pierde: cu cât fereastra e mai scurtă, cu
+atât localizarea în timp e mai bună și rezoluția în frecvență mai slabă,
+exact compromisul pe care wavelets îl rezolvă altfel, cu ferestre de
+dimensiune variabilă (Capitolul~\ref{ch:wavelets}).
+
+Demo-ul din tur (Figura~\ref{fig:fourier-demo}) calculează efectiv o
+transformată Fourier rapidă (\txt{np.fft.fft}) pentru opt funcții
+predefinite: sinusoidă simplă, două și trei frecvențe, chirp, puls
+Gaussian, undă pătrată, suma Fourier a undei pătrate și o expresie
+personalizată, evaluată printr-o listă restrânsă de funcții permise
+(\txt{sin}, \txt{cos}, \txt{exp}, \txt{pi}, \txt{abs}, \txt{sqrt}). Afișează
+simultan domeniul timp și spectrul de magnitudine.
+
+Presetul cu suma Fourier a undei pătrate arată o limită care revine mai
+târziu. Cu fiecare armonică adăugată suma se apropie de unda pătrată, dar
+lângă discontinuitate rămâne o supraoscilație de aproape nouă la sută din
+saltul semnalului. Ea se îngustează pe măsură ce adaugi termeni și nu scade
+niciodată în înălțime. Fenomenul poartă numele lui Gibbs și e ce se întâmplă
+ori de câte ori tai brusc un spectru. Pentru presetul
+din figură, $f(t) = \sin(2\pi \cdot 5 t) + \sin(2\pi \cdot 12 t)$, cele două
+vârfuri spectrale cad exact la 5 și 12~Hz.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{05-fourier-demo.png}
+\caption{Domeniul timp și spectrul de magnitudine calculate live pentru
+  presetul „Două frecvențe”: vârfurile spectrale cad exact la 5 și 12~Hz,
+  frecvențele din formula afișată dedesubt.}
+\label{fig:fourier-demo}
+\end{figure}
+
+\section{Filtre digitale}
+\label{sec:filtre}
+
+Un filtru păstrează o parte din spectru și atenuează restul, teoria
+standard de proiectare a filtrelor digitale~\cite{oppenheimschafer2010}.
+Trei forme apar în tur, toate normalizate să treacă prin $-3$~dB (adică
+$|H|=1/\sqrt2$, jumătate din putere) exact la frecvența de tăiere $f_c$, ca
+să fie comparabile la aceeași tăietură:
+\begin{gather*}
+H^{\text{ideal}}_{LP}(f) = \begin{cases} 1 & |f|\le f_c \\ 0 & |f| > f_c \end{cases} \\[4pt]
+\left|H^{\text{Butterworth}}_{LP}(f)\right|^2 = \frac{1}{1+\left(f/f_c\right)^{2n}} \\[4pt]
+H^{\text{Gaussian}}_{LP}(f) = e^{-\frac{\ln 2}{2}\left(f/f_c\right)^2}
+\end{gather*}
+Filtrul ideal are un prag dur chiar la $f_c$, imposibil de realizat în
+practică: răspunsul lui în timp e un \emph{sinc} infinit, deci necauzal, iar
+trunchierea lui readuce oscilația Gibbs întâlnită deja la Fourier. Butterworth
+și Gaussian sunt calibrate să dea exact $|H|^2=\tfrac12$ la $f=f_c$, oricare
+ar fi ordinul $n$ sau lățimea Gaussianei. Ordinul controlează doar cât de
+abrupt coboară restul curbei, de la $n=1$ (lent) la $n=8$ (aproape ideal).
+Varianta trece-sus e complementul în putere al variantei trece-jos,
+\[
+H_{HP}(f) = \sqrt{1-\left|H_{LP}(f)\right|^2}, \qquad
+\text{deci} \quad |H_{LP}|^2+|H_{HP}|^2=1
+\]
+la orice frecvență: cele două filtre împart mereu toată puterea, indiferent
+de formă sau ordin. Varianta trece-bandă înlănțuie un trece-sus la tăietura
+joasă cu un trece-jos la tăietura înaltă, $H_{BP}(f) =
+\sqrt{1-|H_{LP}(f;f_{lo})|^2}\cdot H_{LP}(f;f_{hi})$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{07-filters-theory.png}
+\caption{Cele trei forme ale filtrului trece-jos, toate normalizate la
+  $-3$~dB pe frecvența de tăiere $f_c$.}
+\label{fig:filters-theory}
+\end{figure}
+
+În back-end, o singură funcție, \txt{filter_magnitude}, produce atât curba
+de răspuns desenată pe ecran (Figura~\ref{fig:filters-demo}), cât și
+multiplicatorul aplicat efectiv semnalului: cererea
+\txt{/api/filters/apply-signal} transformă semnalul cu FFT, îl înmulțește cu
+acel multiplicator și aplică FFT inversă. Multiplicatorul e real și par în
+frecvență, așa că semnalul filtrat rămâne real și filtrul e zero-fază. Iar
+faptul că e o singură funcție înseamnă că demo-ul nu poate afișa un filtru
+și calcula altul, o clasă întreagă de bug posibil eliminată prin construcție.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{08-filters-demo.png}
+\caption{Filtru trece-jos Butterworth de ordinul 4: răspunsul în frecvență
+  (stânga sus), spectrul semnalului înainte și după filtrare (dreapta sus) și
+  semnalul filtrat în timp (jos), toate recalculate la orice schimbare de
+  parametru.}
+\label{fig:filters-demo}
+\end{figure}
+
+Băncile de filtre, cu un trece-jos $h$ pentru coeficienți de aproximare și un
+trece-sus $g$ pentru coeficienți de detaliu, aplicate recursiv, dau analiza
+multi-rezoluție~\cite{strangnguyen1996}, punctul de plecare al
+Capitolului~\ref{ch:wavelets}. Condiția care garantează reconstrucție
+perfectă e relația de filtre-oglindă-conjugate,
+$g[k] = (-1)^k h[N-1-k]$~\cite{estebangaland1977,smithbarnwell1984}, iar
+motivul pentru care decimarea cu doi după fiecare filtrare nu pierde
+informație vine direct din teorema eșantionării: o bandă de $B$~Hz cere
+doar $2B$ eșantioane pe secundă~\cite{shannon1949}, exact atât cât rămâne
+după ce fiecare filtru înjumătățește banda.
+
+\section{Convoluția}
+
+Definiția 1D, $(f*g)[n] = \sum_k f[k]\,g[n-k]$, stă la baza filtrelor de mai
+sus și a rețelelor convoluționale deopotrivă. Teorema convoluției,
+$f*g \leftrightarrow F\cdot G$~\cite{lyons2011}, leagă cele două: o
+convoluție în timp e o simplă înmulțire în frecvență, motivul pentru care
+FFT reduce complexitatea unei convoluții lungi de la $O(n^2)$ la
+$O(n\log n)$: transformi, înmulțești punct cu punct, transformi înapoi.
+
+Extensia la imagini,
+\[
+(I*K)[x,y] = \sum_{i,j} I[x-i,\,y-j]\cdot K[i,j],
+\]
+rotește kernelul cu $180^\circ$ (semnele minus). Bibliotecile de procesare
+de imagini, și demo-urile din tur, calculează de fapt \emph{corelație}, cu
+$I[x+i,y+j]$, fără rotația kernelului: pentru kernele simetrice (blur,
+Gaussian, Laplacian) rezultatul e identic, iar diferența apare doar la
+kernele asimetrice, la Sobel de exemplu, unde rotația ar inversa semnul
+gradientului (Figura~\ref{fig:conv-2d}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{12-conv-2d.png}
+\caption{Convoluția 2D cu semnul corect și nota despre corelație versus
+  convoluție, alături de trei kernele reprezentative: blur Gaussian, sharpen
+  și Sobel X (asimetric).}
+\label{fig:conv-2d}
+\end{figure}
+
+\section{Fourier în două dimensiuni}
+\label{sec:fourier-2d}
+
+Înainte de a trece la kernele, turul face un pas lateral care merită explicat,
+pentru că e locul unde tot ce s-a spus despre semnale 1D se mută pe imagini.
+Transformata Fourier discretă se aplică la fel de bine unei matrice de pixeli,
+pe rânduri și apoi pe coloane, iar rezultatul e tot o matrice, de aceeași
+dimensiune, pe care o vedem ca imagine: spectrul de magnitudine
+(Figura~\ref{fig:sound-to-image}). Backend-ul o calculează la cerere, prin
+\txt{/api/fourier/image}, pe imaginea aleasă din listă.
+
+Se citește altfel decât un spectru 1D. Frecvențele joase stau în centru, cele
+înalte spre margini, iar distanța față de centru înseamnă cât de repede se
+schimbă intensitatea, nu unde se întâmplă schimbarea. O zonă întinsă și
+uniformă, cerul sau un perete, produce energie concentrată în centru. Muchiile și
+textura fină împing energie spre margini, iar orientarea se păstrează: o
+textură cu dungi verticale lasă o urmă orizontală în spectru, perpendiculară
+pe dungi. Scara e logaritmică, altfel componenta continuă din centru ar fi
+singurul lucru vizibil.
+
+Consecința practică leagă capitolul: un blur de telefon e un filtru trece-jos
+în două dimensiuni, iar o accentuare de contur e un trece-sus, exact aceleași
+două operații din Secțiunea~\ref{sec:filtre}, doar că acum tăietura se face pe
+un disc în jurul centrului, nu pe un interval de pe o axă. Kernelele din
+secțiunea următoare sunt fix aceste filtre, scrise în domeniul spațial.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{13-sound-to-image.png}
+\caption{Aceeași imagine în cele două domenii: originalul în nivele de gri
+  (stânga) și spectrul lui de magnitudine 2D pe scară logaritmică (dreapta),
+  cu frecvențele joase în centru. Blana deasă a babuinului umple spectrul spre
+  margini, semnătura unei texturi fine.}
+\label{fig:sound-to-image}
+\end{figure}
+
+\section{Kernele 2D, pe familii}
+\label{sec:kernele}
+
+Un demo educațional descompune aplicarea unui kernel pas cu pas, cu fereastra
+care alunecă, produsul element-cu-element și suma, înainte de a trece la
+kernele aplicate pe imagini reale (Figura~\ref{fig:kernels-demo}): blur
+(cutie sau Gaussian), ascuțire (normală sau puternică), detectare de muchii
+(Laplacian, Laplacian diagonal, Sobel, Prewitt, contur) și emboss, fiecare
+cu raza (3, 4 sau 5) și puterea efectului reglabile independent.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{16-kernels-demo.png}
+\caption{Blur Gaussian $3\times 3$ aplicat pe imaginea Peppers, cu matricea
+  de kernel afișată exact așa cum e trimisă către back-end.}
+\label{fig:kernels-demo}
+\end{figure}
+
+Redimensionarea unui kernel la o rază mai mare trebuie să păstreze \emph{ce
+face} kernelul, nu doar dimensiunea lui, iar o singură regulă nu ajunge
+pentru toate familiile. Identitatea rămâne o deltă discretă la orice
+dimensiune. Kernele de blur adevărat (toate valorile nenegative, suma 1)
+devin cutie sau Gaussian, după cum sursa era uniformă sau nu. Kernele de
+muchie (suma 0) păstrează tiparul $3\times 3$ pe inelul exterior și
+rebalansează centrul ca suma să rămână 0 la orice dimensiune. Kernele
+direcționale (emboss) sunt interpolate biliniar și rescalate ca să
+păstreze suma originală, care le fixează luminozitatea rezultatului. Kernele
+de ascuțire simetrică, cu suma 1 dar și valori negative, deci nu blur, se
+reconstruiesc ca \emph{unsharp masking} la noua rază,
+\[
+K_{\text{sharpen}}(r) = (1+\alpha)\,\delta_r - \alpha\, G_r,
+\]
+unde $\delta_r$ e delta discretă, $G_r$ Gaussiana normalizată la raza $r$,
+iar $\alpha$ vine din valoarea centrală a kernelului original minus 1, ca un
+sharpen la $3\times 3$ și unul la $5\times 5$ să păstreze aceeași putere a
+efectului.
+
+Distincția pe familii a intrat în cod după ce o regulă mai simplă,
+„orice kernel cu suma 1 e un blur”, s-a dovedit greșită: și ascuțirea, și
+emboss-ul, și identitatea au suma 1, așa că un „Sharpen” cerut la
+$5\times 5$ întorcea de fapt o gaussiană, cu un câștig măsurat de zero la
+frecvența Nyquist. Cu funcția rescrisă pe familii, pe o fotografie reală,
+varianța laplacianului imaginii, o măsură standard de claritate, urcă de
+la 2307 pe original la 40150, 33893 și respectiv 32114 pentru ascuțire la
+$3\times 3$, $5\times 5$ și $7\times 7$.

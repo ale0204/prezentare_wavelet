@@ -1,0 +1,59 @@
+\chapter{Denoising prin prag}
+\label{ch:denoising}
+
+Zgomotul produce coeficienți wavelet mici. Semnalul util produce coeficienți
+mari. Un prag care taie sau atenuează coeficienții mici, apoi reconstruiește,
+elimină zgomotul fără să tocească muchiile, spre deosebire de un filtru
+trece-jos clasic, care ar netezi și detaliile utile odată cu zgomotul.
+
+Estimarea zgomotului folosește abaterea mediană absolută a subbenzii celei
+mai fine de detaliu,
+\[
+\hat\sigma = \frac{\mathrm{median}(|d_{\text{fin}}|)}{0.6745},
+\]
+o alegere robustă: spre deosebire de o deviație standard calculată direct,
+nu e trasă în sus de coeficienții mari care poartă semnal.
+Pragul universal al lui Donoho și Johnstone,
+$\lambda_{\text{universal}} = \hat\sigma\sqrt{2\ln N}$~\cite{donohojohnstone1994},
+iar cele două reguli de trunchiere sunt
+\[
+\eta_{\text{soft}}(x,\lambda) = \mathrm{sign}(x)\max(|x|-\lambda,\,0), \qquad
+\eta_{\text{hard}}(x,\lambda) = x\cdot \mathbb{1}(|x|>\lambda).
+\]
+Soft micșorează continuu coeficienții spre zero, fără discontinuități. Hard
+elimină complet ce e sub prag și păstrează exact restul, cu riscul unor
+mici artefacte la graniță (Figura~\ref{fig:denoise-theory}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{41-denoise-theory.png}
+\caption{Thresholding moale versus dur și distribuția tipică a coeficienților,
+  cu pragul universal Donoho-Johnstone alături de pragul $2\hat\sigma$ folosit
+  efectiv de demo.}
+\label{fig:denoise-theory}
+\end{figure}
+
+Pragul folosit efectiv pe imagini e $2\hat\sigma$, mai mic decât pragul
+universal din formulă. Abaterea e deliberată și documentată direct în cod. La
+$\hat\sigma=15$ și $N=512^2$ (o imagine $512\times 512$), pragul universal
+iese în jur de 68, atât de agresiv încât câștigul de raport semnal-zgomot
+scade spre $0$~dB: teoria din spatele lui presupune un semnal neted plus
+zgomot alb, o ipoteză prea optimistă pentru texturile unei fotografii.
+Pragul $2\hat\sigma$ păstrează detaliul și obține în jur de $3$~dB câștig.
+Demo-ul de ECG (Capitolul~\ref{ch:ecg}) folosește în schimb chiar pragul
+universal, pe un semnal 1D sintetic, unde ipoteza semnal neted plus zgomot
+alb se potrivește mult mai bine decât pe o imagine.
+
+Pe o imagine reală (Figura~\ref{fig:denoise-demo}), același proces rulează
+cu cifrele la vedere: dincolo de imaginea curățată apare și ce anume s-a
+eliminat, amplificat de zece ori, zgomot granular pur, fără nicio structură
+a imaginii originale, semn că a rămas doar semnalul.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{42-denoise-demo.png}
+\caption{Denoising pe o imagine reală: reziduul amplificat $\times 10$ e
+  zgomot granular pur, fără nicio structură a imaginii, semn că a rămas
+  doar zgomotul.}
+\label{fig:denoise-demo}
+\end{figure}

@@ -1,0 +1,44 @@
+\chapter{Sinteză: un singur mecanism, multe aplicații}
+\label{ch:sinteza}
+
+Dincolo de ECG (Capitolul~\ref{ch:ecg}), EEG (Capitolul~\ref{ch:eeg}) și
+recunoașterea muzicii (Capitolul~\ref{ch:shazam}), aceeași transformată apare în
+audio (compresie, anularea zgomotului în căști), în securitate cibernetică
+(steganografie și \emph{watermarking}, mesaje ascunse în coeficienții HH,
+invizibili ochiului), în finanțe (analiza volatilității pe scări de timp),
+în seismologie (separarea undelor P și S) și în astronomie (analiza
+semnalelor cosmice slabe, îngropate în zgomot).
+
+Privit dintr-o parte, mecanismul e o alegere de dicționar. O bază wavelet e
+un dicționar fix, construit dinainte din condiții matematice, în care
+semnalele netede pe porțiuni au reprezentări rare, adică puțini coeficienți
+mari și restul aproape de zero. Toate capitolele de mai sus exploatează
+exact această raritate, fie tăind coeficienții mici ca zgomot, fie
+cheltuind biți doar pe cei mari. Întrebarea firească de aici încolo e dacă
+dicționarul trebuie ales dinainte sau poate fi învățat din datele înseși,
+ceea ce duce la reprezentări rare cu dicționare antrenate, unde baza se
+învață din exemplele pe care urmează să le comprime, în locul unei
+construcții pornite din condiții teoretice.
+
+Ce leagă toate aplicațiile din acest document e un singur gest, repetat:
+descompune semnalul pe scări (aceeași bancă de filtre din
+Secțiunea~\ref{sec:mallat}, aplicată recursiv), taie ce nu contează
+(zgomot la denoising, biți la compresie, benzi la analiză) și
+reconstruiește cu filtrele de sinteză, exact sau controlat de aproape.
+Se schimbă doar ce înseamnă „nu contează”: zgomotul muscular la ECG
+(Capitolul~\ref{ch:denoising}), biții pe care ochiul nu-i vede la JPEG2000
+(Capitolul~\ref{ch:compresie}), tot ce nu e vârf spectral la recunoașterea
+muzicii.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{48-synthesis.png}
+\caption{Ecranul de sinteză al turului: descompune / taie / reconstruiește,
+  aceleași trei verbe explicând ECG, EEG, recunoașterea muzicii, denoising
+  și JPEG2000.}
+\label{fig:synthesis}
+\end{figure}
+
+Localizarea simultană în timp și frecvență, motivul întregului
+Capitolul~\ref{ch:wavelets}, e motivul concret pentru care toate aplicațiile
+de mai sus funcționează.

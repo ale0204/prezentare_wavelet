@@ -1,0 +1,30 @@
+\chapter{Aplicație: EEG}
+\label{ch:eeg}
+
+Activitatea electrică a creierului, culeasă cu electrozi pe scalp, se
+citește pe benzi de frecvență cu semnificație clinică proprie: delta
+(0.5-4~Hz, somn profund), theta (4-8~Hz, relaxare adâncă), alfa (8-13~Hz,
+ochii închiși, relaxare trează), beta (13-30~Hz, concentrare activă) și
+gamma (30-80~Hz, procesare cognitivă complexă). Polisomnografia (studiul
+somnului), diagnosticul de epilepsie și interfețele creier-calculator se
+bazează, în forme diferite, pe separarea acestor benzi, un ceas care
+„estimează” somnul din mișcare și puls nu are acces la niciuna dintre ele.
+EEG-ul adevărat rămâne un instrument de laborator sau de clinică.
+
+Demo-ul din tur (Figura~\ref{fig:eeg-demo}) extrage o singură bandă
+dintr-un semnal EEG sintetic cu un filtru trece-bandă obișnuit
+(Secțiunea~\ref{sec:filtre}), nu cu transformata wavelet discretă folosită
+în restul documentului. Motivul e scris direct pe ecran: DWT dublează
+frecvența la fiecare nivel, o octavă, dar granițele benzilor clinice nu sunt
+spațiate octavă-cu-octavă, delta-theta e aproape un factor de doi,
+delta-alfa e deja un factor de $3.25$, așa că niciun set fix de niveluri
+DWT nu s-ar alinia cu toate granițele deodată. Un filtru trece-bandă clasic,
+cu tăieturi alese liber, nu are această constrângere.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{37-applications-eeg-demo.png}
+\caption{Banda alfa (8-13~Hz) extrasă cu un filtru trece-bandă dintr-un EEG
+  sintetic. Nota din josul figurii explică de ce nu DWT.}
+\label{fig:eeg-demo}
+\end{figure}

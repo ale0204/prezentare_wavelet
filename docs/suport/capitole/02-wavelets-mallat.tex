@@ -1,0 +1,229 @@
+\chapter{Transformata wavelet și algoritmul lui Mallat}
+\label{ch:wavelets}
+
+\section{De ce wavelets}
+
+La un cutremur, unda P sosește la $t=12$s și unda S la $t=38$s. Un spectru
+Fourier calculat pe tot semnalul nu poate spune când s-a schimbat regimul,
+ceea ce lipsește e localizarea. Wavelets rezolvă exact asta: în loc de o
+sinusoidă infinită, folosesc un „wavelet mamă” $\psi$, o undă scurtă, cu
+energie concentrată local, scalată și translatată,
+\[
+\psi_{a,b}(t) = \frac{1}{\sqrt{|a|}}\,\psi\!\left(\frac{t-b}{a}\right),
+\]
+unde $b$ e momentul de timp și $a$ scala, invers proporțională cu
+frecvența, deci $a$ mic prinde detalii de frecvență înaltă, $a$ mare prinde
+structuri de frecvență joasă. Rezultatul e o analiză multi-rezoluție:
+semnale nestaționare (muzică, ECG, cutremure) capătă o descriere în care
+timpul și frecvența apar simultan.
+
+Compromisul e formalizat de principiul de incertitudine al lui Heisenberg,
+$\Delta t \cdot \Delta f \ge 1/(4\pi)$~\cite{mallat2008}: fiecare metodă
+împarte planul timp-frecvență în dreptunghiuri de arie constantă, dar forma
+lor diferă. Fourier pur dă rezoluție infinită în frecvență și nulă în timp.
+STFT, cu fereastră fixă, dă un compromis identic la orice frecvență.
+Wavelets adaptează fereastra: îngustă în timp la frecvențe înalte, îngustă
+în frecvență la frecvențe joase (Figura~\ref{fig:heisenberg-scalogram},
+stânga), forma care se potrivește cel mai bine cu semnale reale, unde
+tranzițiile scurte (un atac de tobă, un complex QRS) coexistă cu structuri
+lungi (un bas continuu, linia de bază a unui ECG).
+
+Scalograma (Figura~\ref{fig:heisenberg-scalogram}, dreapta) arată aceeași
+idee pe un semnal concret: transformata wavelet continuă a unui chirp
+modulat în amplitudine produce o bandă diagonală, frecvența crește cu
+timpul, a cărei intensitate urmărește chiar amplitudinea semnalului de
+intrare.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[t]{0.485\textwidth}
+\includegraphics[width=\textwidth]{22-heisenberg-boxes.png}
+\caption{Cutii de arie constantă: înguste în timp la frecvențe înalte, înguste
+  în frecvență la frecvențe joase.}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.485\textwidth}
+\includegraphics[width=\textwidth]{23-scalogram.png}
+\caption{Scalograma unui chirp modulat: banda diagonală urcă în frecvență și
+  respiră odată cu amplitudinea.}
+\end{subfigure}
+\caption{Compromisul timp-frecvență, teoretic (stânga) și pe un semnal
+  concret (dreapta).}
+\label{fig:heisenberg-scalogram}
+\end{figure}
+
+\section{Familii de wavelets}
+
+Nu orice undă scurtă e un wavelet valid. Condiția de admisibilitate cere ca
+$\int_0^\infty |\hat\psi(\omega)|^2/\omega\,d\omega$ să fie finită, ceea ce
+pentru un $\psi$ integrabil forțează media lui nulă,
+$\int \psi(t)\,dt = 0$~\cite{daubechies1992}, de-aici numele de familie: un
+wavelet oscilează în jurul lui zero, nu se așază pe o valoare. Funcția de
+scalare $\phi$ și wavelet-ul $\psi$ se leagă recursiv prin coeficienții
+filtrului,
+\[
+\phi(t) = \sqrt2\sum_k h_k\,\phi(2t-k), \qquad
+\psi(t) = \sqrt2\sum_k g_k\,\phi(2t-k),
+\]
+cu $g$ obținut din $h$ prin aceeași relație de filtre-oglindă-conjugate din
+Secțiunea~\ref{sec:filtre}~\cite{estebangaland1977,smithbarnwell1984}.
+Familia Daubechies~\cite{daubechies1988}, Symlet, Coiflet, Morlet și altele
+diferă prin numărul de coeficienți și prin cât de simetrice sunt, toate
+schimbă doar $\phi$ și $\psi$, algoritmul de mai jos rămâne același.
+
+Transformata continuă, $W(a,b) = \int f(t)\cdot\frac{1}{\sqrt a}\psi^*
+\left(\frac{t-b}{a}\right)dt$, evaluează $(a,b)$ pe un continuu, deci
+informația se repetă. Transformata discretă eșantionează diadic, $a=2^j$,
+$b=k\cdot 2^j$, și produce exact atâția coeficienți câți sunt necesari
+pentru o bază ortonormală, fără redundanță~\cite{mallat2008}, baza pe care
+lucrează algoritmul lui Mallat, mai jos. Un demo din tur desenează live
+forma mamă pentru orice familie disponibilă în PyWavelets, citind direct
+rezultatul funcției \txt{wavefun()} a bibliotecii. O sinusoidă simplă e
+inclusă explicit ca ne-exemplu, fiindcă n-are nicio localizare în timp, deci
+nu e wavelet.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{19-wavelet-families.png}
+\caption{Cele patru rezultate din spatele familiilor wavelet: media nulă,
+  ecuațiile de scalare/wavelet, perechea CQF și non-redundanța DWT, fiecare cu
+  citarea lui.}
+\label{fig:wavelet-families}
+\end{figure}
+
+\section{Wavelet-ul complex și faza}
+\label{sec:complex}
+
+Familiile de până acum sunt reale: un coeficient mare poate să însemne
+rezonanță puternică, dar semnul lui depinde de unde anume a căzut wavelet-ul
+peste oscilație. Mută semnalul cu o fracțiune de perioadă și coeficientul se
+schimbă, deși conținutul nu s-a schimbat deloc. Wavelet-ul Morlet complex
+rezolvă exact asta, pentru că e o gaussiană înmulțită cu o exponențială
+complexă,
+\[
+  \psi(t) = e^{-t^2/2} \cdot e^{i\omega t}
+          = e^{-t^2/2}\left(\cos(\omega t) + i \sin(\omega t)\right),
+\]
+adică două wavelet-uri reale defazate cu un sfert de perioadă, folosite
+împreună. Coeficientul devine un număr complex, din care se citesc separat
+magnitudinea, care spune \emph{cât} de puternică e rezonanța și nu se mai
+schimbă la deplasarea semnalului, și faza, care spune \emph{unde} a căzut
+oscilația în interiorul ferestrei.
+
+Ecranul din tur (Figura~\ref{fig:complex-wavelet}) arată wavelet-ul ca o
+spirală în trei dimensiuni: timpul pe o axă, partea reală pe a doua, partea
+imaginară pe a treia, cu culoarea codificând faza de la $-\pi$ la $\pi$.
+Proiecția pe fiecare perete dă cele două componente reale, iar spirala e
+motivul pentru care scalograma din secțiunea anterioară arată benzi netede și
+nu o alternanță de dungi luminoase și întunecate: acolo se desenează
+magnitudinea coeficientului complex, care nu depinde de fază.
+
+Aceeași proprietate e motivul pentru care wavelet-urile complexe se folosesc
+la detectarea trăsăturilor invariante la translație și la analiza mișcării,
+unde contează ce s-a întâmplat, nu la ce microsecundă a căzut fereastra.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{24-complex-wavelet.png}
+\caption{Wavelet-ul Morlet complex ca spirală: partea reală proiectată pe un
+  perete, partea imaginară pe celălalt, iar culoarea curbei centrale codifică
+  faza. Frecvența și unghiul de rotație sunt reglabile din dreapta.}
+\label{fig:complex-wavelet}
+\end{figure}
+
+\section{Algoritmul lui Mallat}
+\label{sec:mallat}
+
+Formal, un semnal se descompune prin proiecție pe funcția de scalare și pe
+wavelet la nivelul $j$,
+\[
+c_{j,k} = \int x(t)\,\phi_{j,k}(t)\,dt, \qquad d_{j,k} = \int x(t)\,\psi_{j,k}(t)\,dt.
+\]
+Contribuția lui Mallat e observația care face aceste integrale inutile de
+calculat direct: coeficienții unui nivel se obțin din nivelul anterior doar
+prin filtrare și decimare cu doi,
+\[
+c_{j+1,k} = \sum_n h_0[n-2k]\,c_{j,n}, \qquad
+d_{j+1,k} = \sum_n h_1[n-2k]\,c_{j,n},
+\]
+unde $h_0$ e filtrul de aproximare $h$ și $h_1$ filtrul de detaliu $g$ din
+ecuațiile de mai sus, scrise acum cu indici fiindcă apar împreună,
+fără nicio integrală calculată efectiv~\cite{mallat1989,mallat2008}. E o
+recursie exactă: fiecare nivel iese din cel anterior printr-o singură
+trecere de filtrare, deci descompunerea pe $L$ niveluri costă $L$ perechi de
+filtrări, nu $L$ integrale separate. În cod, aceeași recursie e
+\txt{pywt.wavedec2(imagine, wavelet, level=niveluri)}, care întoarce
+aproximarea cea mai grosieră plus câte un triplet de subbenzi de detaliu pe
+nivel. Reconstrucția, \txt{pywt.waverec2}, trece coeficienții prin filtrele
+de sinteză și îi însumează, operația inversă a celei de mai sus.
+
+Pentru wavelet-ul Haar, singurul cu filtre de doi coeficienți, suma se scrie
+pe un singur eșantion și devine o pereche de medie și diferență,
+\[
+x[2k] = \frac{cA[k]+cD[k]}{\sqrt2}, \qquad x[2k+1] = \frac{cA[k]-cD[k]}{\sqrt2},
+\]
+forma folosită de demo-ul de reconstrucție din tur. Pentru orice filtru mai
+lung, un Daubechies sau biortogonalul 9/7 din capitolul de compresie, un
+eșantion reconstruit primește contribuții de la mai multe perechi
+$(cA,cD)$ vecine, iar formula de mai sus nu se mai aplică punct cu punct.
+
+La imagini, aceeași pereche de filtre se aplică o dată pe rânduri și o dată
+pe coloane, dând patru subbenzi, $LL$ (aproximare), $LH$/$HL$ (detalii
+orizontale/verticale) și $HH$ (detalii diagonale). Analogia cu hărțile ajută:
+la zoom mic vezi doar $LL$, structura globală. La zoom mare apar
+$LH$/$HL$/$HH$, detaliile fine. Pasul se aplică recursiv doar pe $LL$.
+High-pass pe coloane dă detalii \emph{orizontale} pentru că răspunde la
+variația pe verticală, exact ce înseamnă o muchie orizontală.
+
+Demo-ul educațional 1D (Figura~\ref{fig:mallat-1d-edu}) face vizibil un
+nivel al algoritmului, pas cu pas, pe un semnal de 16 eșantioane, treaptă,
+rampă, sinusoidă, puls sau o „melodie” de note discrete. Fereastra
+filtrului, produsul și suma sunt animate explicit, apoi decimarea cu doi.
+Interpretarea diferă cu forma semnalului, o treaptă produce un vârf de
+detaliu exact la muchie, o melodie păstrează notele în aproximare și
+marchează atacul fiecărei note în detaliu. Un glosar de notație, repetat pe
+toate ecranele acestei secțiuni, ține evidența faptului că aceeași împărțire
+circulă sub nume diferite în literatură și în cod: $c = cA = L = A$ pentru
+aproximare, $d = cD = H = D$ pentru detaliu.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{28-mallat-1d-edu.png}
+\caption{Un nivel al algoritmului lui Mallat pas cu pas: fereastra filtrului,
+  produsul, suma și decimarea cu doi, pe un semnal treaptă de 16 eșantioane.}
+\label{fig:mallat-1d-edu}
+\end{figure}
+
+Aplicat recursiv doar pe aproximare, pe patru niveluri
+(Figura~\ref{fig:pyramid-recon}, stânga), pasul arată unde se duce energia
+unui semnal real: peste 94\% rămâne concentrată în aproximarea cea mai
+grosieră, A4. E numărul concret din spatele afirmației că „majoritatea
+energiei unei imagini încape într-un număr mic de coeficienți”, premisa pe
+care se sprijină toată povestea compresiei din Capitolul~\ref{ch:compresie}.
+Un ultim ecran (Figura~\ref{fig:pyramid-recon}, dreapta) arată ce înseamnă
+„reconstrucție perfectă” în aritmetică reală: dacă filtrele satisfac
+condiția CQF, eroarea rămâne la precizia mașinii de calcul, iar PSNR-ul
+raportat reflectă exact acea precizie finită, de aici pornește atât
+compresia \emph{lossless}, cât și orice pierdere ulterioară, controlată prin
+cuantizare.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[t]{0.485\textwidth}
+\includegraphics[width=\textwidth]{31-pyramid-decomp.png}
+\caption{Patru niveluri recursive: peste 94\% din energie rămâne în A4.}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.485\textwidth}
+\includegraphics[width=\textwidth]{32-reconstruction.png}
+\caption{Reconstrucție perfectă: eroarea rămâne la precizia mașinii, nu la
+  zero exact.}
+\end{subfigure}
+\caption{Multi-nivel (stânga) și reconstrucția care închide bucla (dreapta).}
+\label{fig:pyramid-recon}
+\end{figure}
+
+Pentru compunerea vizuală a subbenzilor într-un singur mozaic, cum apare pe
+mai multe ecrane din tur, fiecare pereche de subbenzi e decupată la
+dimensiunea minimă comună înainte de alăturare. PyWavelets poate produce
+subbenzi care diferă cu un pixel pe dimensiuni impare de intrare.

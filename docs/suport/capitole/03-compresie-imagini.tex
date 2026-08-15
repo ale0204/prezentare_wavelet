@@ -1,0 +1,167 @@
+\chapter{Compresia imaginilor: JPEG versus JPEG2000}
+\label{ch:compresie}
+
+Comprimarea unei imagini se reduce, în ambele standarde, la aceeași idee de
+la finalul capitolului trecut: transformă, păstrează coeficienții mari, taie
+sau cuantizează grosier restul. JPEG transformă cu DCT pe blocuri mici.
+JPEG2000 transformă cu DWT, pe toată imaginea, folosind exact algoritmul lui
+Mallat.
+Acest capitol arată pipeline-ul JPEG pas cu pas, apoi pune cele două
+transformate față în față, la bitrate egal, cu cifre măsurate.
+
+\section{Pipeline-ul JPEG}
+
+Baseline JPEG parcurge șase etape: conversie RGB în YCbCr (separă luminanța
+de crominanță), subeșantionare de crominanță (ochiul distinge culoarea mai
+slab decât luminozitatea), DCT pe blocuri de $8\times 8$, cuantizare cu
+tabelul Annex K scalat după regula IJG, apoi zigzag și codare pe lungimi de
+serie. Demo-ul din tur (Figura~\ref{fig:jpeg-pipeline}) rulează toate șase
+pe o fotografie reală, nu pe un gradient sintetic, un gradient neted n-are
+ce pierde la subeșantionare, deci ar ascunde exact etapa pe care vrea s-o
+arate.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{44-jpeg-pipeline.png}
+\caption{Prima etapă a pipeline-ului JPEG pe o fotografie reală: separarea
+  Y/Cb/Cr, cu formulele de conversie folosite efectiv de back-end.}
+\label{fig:jpeg-pipeline}
+\end{figure}
+
+Cele două standarde lasă în urmă tipuri diferite de artefact la compresie
+mare. JPEG, cu blocuri independente, lasă blocare: grila de $8\times 8$
+devine vizibilă. JPEG2000, cu o transformată globală, lasă
+\emph{ringing}~\cite{taubmanmarcellin2002}: oscilații fine în jurul
+muchiilor, nu o grilă. JPEG e progresiv doar dacă fișierul e codat explicit
+în acel mod din T.81, baseline-ul, cel mai comun pe web, se decodează
+secvențial~\cite{itut81}. JPEG2000 capătă scalabilitate progresivă direct
+din construcția multi-rezoluție: aceeași descompunere care dă comprimarea dă
+și un flux din care poți citi mai întâi o versiune la rezoluție mică, apoi
+detaliile~\cite{taubmanmarcellin2002}.
+
+\section{O comparație la bitrate egal}
+\label{sec:comparatie}
+
+O primă versiune a acestei comparații compara cele două codecuri la un
+parametru de „calitate” egal, calibrat diferit pe fiecare parte, partea DCT
+folosea tabelul real Annex K, partea wavelet un prag liniar ad-hoc, fără
+nicio legătură cu costul în biți, și scotea un rezultat înșelător, cu JPEG
+câștigând la orice calitate testată. Comparația de mai jos egalează
+bitrate-ul, nu eticheta de calitate, și măsoară amândouă codecurile cu
+același estimator de cost.
+
+\paragraph{Costul în biți.} Fiecare codec e măsurat cu entropia de ordin 0 a
+simbolurilor lui cuantizate, înmulțită cu numărul lor,
+\[
+R = N \cdot H(\mathbf{p}), \qquad H(\mathbf{p}) = -\sum_i p_i \log_2 p_i,
+\]
+unde $p_i$ e frecvența empirică a simbolului $i$ în histograma
+coeficienților cuantizați. Un JPEG sau un JPEG2000 adevărat iese mai mic
+decât atât, pentru că folosește o codare entropică reală. Huffman,
+aritmetică sau, la JPEG2000, EBCOT cu context, dar cum ambele părți sunt
+măsurate cu același estimator, raportul dintre cele două costuri rămâne
+comparabil, chiar dacă niciuna dintre cifrele absolute nu e dimensiunea unui
+fișier real.
+
+\paragraph{Partea DCT.} Imaginea se taie în blocuri de $8\times 8$ pixeli, iar
+fiecare bloc trece prin transformata de cosinus discretă ortonormală,
+\[
+X_{u,v} = \tfrac14 C_u C_v \sum_{i=0}^{7}\sum_{j=0}^{7} x_{i,j}
+  \cos\!\left[\frac{(2i+1)u\pi}{16}\right]
+  \cos\!\left[\frac{(2j+1)v\pi}{16}\right], \qquad
+C_0 = \tfrac{1}{\sqrt2},\ C_{k>0} = 1,
+\]
+care scrie blocul ca sumă de $64$ tipare de cosinus, de la cel constant la
+cel mai alternant. Urmează cuantizarea cu tabelul de luminanță Annex~K
+scalat după regula IJG,
+\[
+\text{scală} = \begin{cases} 5000/\text{calitate} & \text{calitate} < 50 \\ 200 - 2\cdot\text{calitate} & \text{calitate}\ge 50 \end{cases}, \qquad
+Q = \mathrm{clip}\!\left(\left\lfloor \frac{Q_{50}\cdot\text{scală}+50}{100}\right\rfloor,\, 1,\, 255\right).
+\]
+
+\paragraph{Partea wavelet primește bugetul de biți al părții DCT.} În loc de
+propriul parametru de calitate, partea wavelet caută prin bisecție
+geometrică pasul de cuantizare $\Delta$ cel mai fin care încă încape în
+bugetul de biți al părții DCT (treizeci de iterații, interval de căutare
+$[0.02,\,8192]$, oprire la o precizie relativă de $0.2\%$). Cuantizarea e cu
+\emph{zonă moartă}, cu un pas propriu pe fiecare subbandă $b$,
+\[
+q_b = \mathrm{sign}(c_b)\left\lfloor \frac{|c_b|}{\Delta / g_b}\right\rfloor, \qquad
+\hat c_b = \mathrm{sign}(q_b)\left(|q_b|+\tfrac12\right)\frac{\Delta}{g_b},
+\]
+cu reconstrucția la \emph{mijlocul} intervalului de cuantizare, convenția
+standard JPEG2000. Factorul $g_b$ e câștigul de sinteză al subbenzii:
+transformata folosită implicit, \txt{bior4.4}, e chiar filtrul 9/7 al
+JPEG2000, construit istoric prin schema de \emph{lifting}~\cite{sweldens1998},
+iar fiind biortogonală, nu ortonormală, o eroare de un coeficient nu produce
+aceeași eroare de reconstrucție în toate subbenzile. Câștigul $g_b$ se
+măsoară direct, nu prin formulă: un impuls unitar plasat în centrul
+subbenzii, trecut prin transformata inversă singur, iar norma $L_2$ a
+rezultatului e $g_b$, exact tehnica JPEG2000 de pași de cuantizare diferiți
+pe subbandă~\cite{taubmanmarcellin2002}, aplicată empiric.
+
+\paragraph{Metrici.} PSNR e definiția uzuală,
+$\mathrm{PSNR} = 10\log_{10}(255^2/\mathrm{MSE})$. SSIM e implementarea
+proprie a formulei lui Wang și colaboratorii,
+\[
+\mathrm{SSIM}(x,y) = \frac{(2\mu_x\mu_y+C_1)(2\sigma_{xy}+C_2)}{(\mu_x^2+\mu_y^2+C_1)(\sigma_x^2+\sigma_y^2+C_2)}, \qquad
+C_1=(0.01L)^2,\ C_2=(0.03L)^2,\ L=255,
+\]
+pe ferestre $7\times 7$~\cite{wangbovik2004}, verificată numeric față de
+\txt{skimage.metrics.structural_similarity}: $0.861644$ (implementare
+proprie) față de $0.861132$ (referință) pe imaginea \txt{kodim01} la
+calitate 30, diferența venind din tratarea marginilor ferestrei.
+
+\paragraph{Măsurători.} Tabelul~\ref{tab:compare} arată diferența wavelet
+minus DCT, la bitrate egal, pentru \txt{bior4.4} pe patru niveluri, pe trei
+imagini standard de test.
+
+\begin{table}[htbp]
+\centering
+\caption{Diferența wavelet minus DCT la bitrate egal (\txt{bior4.4}, 4 niveluri).}
+\label{tab:compare}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Imagine & Calitate & bpp & $\Delta$PSNR & $\Delta$SSIM \\
+\midrule
+kodim01 ($768\times 512$) & 10 & 0.512 & $+0.23$~dB & $-0.026$ \\
+kodim01 & 20 & 0.865 & $+0.74$~dB & $-0.007$ \\
+kodim01 & 30 & 1.132 & $+1.12$~dB & $+0.003$ \\
+kodim01 & 50 & 1.522 & $+1.71$~dB & $+0.010$ \\
+kodim01 & 75 & 2.159 & $+2.55$~dB & $+0.012$ \\
+\txt{peppers_512} & 10 & 0.537 & $-0.33$~dB & $-0.017$ \\
+\txt{peppers_512} & 30 & 1.016 & $+0.42$~dB & $-0.011$ \\
+\txt{peppers_512} & 50 & 1.319 & $+0.90$~dB & $-0.005$ \\
+\txt{baboon_512} & 10 & 0.484 & $+0.12$~dB & $-0.036$ \\
+\txt{baboon_512} & 30 & 1.135 & $+0.96$~dB & $+0.006$ \\
+\txt{baboon_512} & 50 & 1.567 & $+1.59$~dB & $+0.015$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Notă}: în ciuda numelui de fișier, \txt{peppers_512}, \txt{baboon_512},
+\txt{house_512} și \txt{lake_512} au de fapt $200\times 200$ pixeli.
+
+Demo-ul din tur (Figura~\ref{fig:compare-demo}) rulează exact această
+comparație, live, pe imaginea și calitatea alese: la aproximativ 1.01 biți
+pe pixel, wavelet câștigă pe PSNR ($+0.93$~dB) și pierde la limită pe SSIM
+($-0.001$), cu ambele metrici afișate pe ecran.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{47-compare-demo.png}
+\caption{Comparație la bitrate egal ($\approx 1.01$~bpp): wavelet câștigă pe
+  PSNR și pierde la limită pe SSIM, cu ambele metrici afișate pe ecran.}
+\label{fig:compare-demo}
+\end{figure}
+
+Tabelul spune ceva simplu: wavelet câștigă pe PSNR aproape peste tot, cu
+marja crescând odată cu bitrate-ul. SSIM îl favorizează ușor pe JPEG la
+bitrate foarte mic, și e un rezultat real, nu o eroare de măsurare, tabelul
+Annex K e ponderat perceptual, construit din studii asupra sensibilității la
+contrast a ochiului uman, în timp ce cuantizatorul wavelet folosit aici e
+optim pe eroare medie pătratică, nu pe percepție. Restul avantajului pe care
+JPEG2000 îl are în literatură la bitrate mic vine din codarea entropică cu
+context, EBCOT~\cite{taubmanmarcellin2002}, pe care estimatorul de entropie
+de ordin 0 folosit aici nu îl modelează: comparația izolează transformata și
+cuantizarea, nu codecul complet.

@@ -1,0 +1,134 @@
+\chapter{Cum e construit, verificat și publicat}
+\label{ch:tehnic}
+
+Un ultim capitol, mai scurt, pentru cine vrea să știe și partea de
+inginerie din spatele aplicației, nu e conținut de curs, dar explică de ce
+demo-urile din capitolele anterioare pot fi luate ca atare.
+
+\section{Pe scurt, arhitectura}
+
+Front-end-ul e React peste Vite. Back-end-ul e FastAPI cu NumPy, SciPy și
+PyWavelets. Fiecare ecran e o intrare într-un singur tablou de date, nu un
+component separat, iar douăzeci și trei din cele cincizeci montează integral
+o componentă de demo interactiv, aceleași componente pe care bara laterală
+le poate deschide și individual, în afara turului. Toate desenează pe o
+suprafață fixă de $1440\times 810$ pixeli virtuali, scalată proporțional la
+fereastra reală, ca un ecran gândit pentru un videoproiector să nu piardă
+nimic pe un monitor mai mic.
+
+Calculul e împărțit în două, și distincția merită spusă limpede. Ecranele
+care raportează cifre măsurate trimit parametrii către back-end și primesc
+înapoi rezultatul unei biblioteci consacrate: filtrele, kernelele pe imagini
+reale, denoisingul, comparația la bitrate egal, electrocardiograma și
+extragerea benzilor EEG trec toate prin NumPy, SciPy și PyWavelets. Ecranele
+care ilustrează un mecanism calculează în browser, cu filtre Haar scrise
+direct în JavaScript: descompunerea pas cu pas, banca de filtre, piramida,
+reconstrucția, scalograma, cutiile Heisenberg și etapele intermediare ale
+pipeline-ului JPEG. Ele arată forma unei idei pe un semnal ales anume, nu o
+măsurătoare pe date reale, și de aceea nu poartă cifre pe care textul să se
+sprijine.
+
+\section{Verificare automată}
+\label{sec:gate}
+
+Corectitudinea vizuală a celor cincizeci de ecrane se verifică prin trei
+unelte separate, fiecare acoperind o clasă diferită de defect, în loc de o
+singură trecere manuală.
+
+Prima parcurge tot turul într-un browser real și verifică opt clase de
+problemă pe fiecare ecran (Tabelul~\ref{tab:gate}), plus erorile de consolă
+JavaScript. Conform ultimei rulări complete, verificarea e curată pe toate
+cele cincizeci de ecrane, la două rezoluții diferite.
+
+\begin{table}[htbp]
+\centering
+\caption{Cele opt clase de defect verificate automat pe fiecare ecran.}
+\label{tab:gate}
+\small
+\begin{tabular}{@{}lp{10.3cm}@{}}
+\toprule
+Clasă & Ce detectează \\
+\midrule
+\txt{pageScroll} & Suprafața de design scrolează, conținutul depășește $1440\times 810$. \\
+\txt{outOfFrame} & Un element vizibil (buton, input, imagine, canvas, text) iese din
+  viewport, cu toleranță de 2 pixeli. \\
+\txt{innerScroll} & Un element are conținut tăiat sau scrolabil intern
+  (\txt{scrollHeight} peste \txt{clientHeight}). \\
+\txt{overlaps} & Două elemente vizibile fără relație de descendență se
+  suprapun cu cel puțin 6 pixeli pe ambele axe. \\
+\txt{occludedControls} & Un control al cărui centru, testat la trei
+  înălțimi, indică sub cursor un element diferit, prinde acoperirea de
+  către un element exclus din \txt{overlaps}, de exemplu un \txt{canvas}. \\
+\txt{smallMath} & O formulă KaTeX randată sub pragul de lizibilitate (14px
+  inline, 18px afișată, în pixeli de design). \\
+\txt{rawTokens} & Un token \texttt{\$...\$} sau \txt{[cite:...]} ajuns pe ecran ca
+  text brut. \\
+\txt{duplicateTitles} & Un ecran de tip \txt{embed} își afișează propriul
+  titlu, deasupra titlului din metadata turului. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A doua unealtă merge mai departe decât o simplă citire: apasă efectiv
+fiecare buton, mișcă fiecare cursor, comută fiecare selector și bifează
+fiecare căsuță de pe fiecare ecran, cu o captură înainte și una după fiecare
+acțiune (Figura~\ref{fig:kernels-edu-interaction}). Măsoară dacă vreun
+element s-a deplasat neașteptat pe ecran, verifică geometric dacă imaginile
+și canvas-urile rămân în interiorul cutiei lor și colectează orice eroare
+nouă de consolă. Ultima rulare completă a apăsat sau tras 911 controale, pe
+toate cele cincizeci de ecrane, fără niciunul lipsit de un nume accesibil și
+fără nicio eroare.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{15-kernels-edu.png}
+\caption{Un ecran tipic pentru trecerea de interacțiune: selector de sprite,
+  selector de kernel, cursor de dimensiune, selector de margine, cursor de
+  viteză și cinci butoane de transport, fiecare apăsat sau tras automat, cu
+  o captură înainte și una după.}
+\label{fig:kernels-edu-interaction}
+\end{figure}
+
+A treia unealtă scanează codul sursă, nu ecranul: caută orice caracter
+Unicode folosit în locul unei formule LaTeX sau al unei iconițe proprii de
+interfață, pe principiul că matematica se randează mereu prin LaTeX, iar
+orice iconiță e un desen propriu, nu un caracter de font care arată diferit
+de la un sistem la altul. E curată pe tot front-end-ul.
+
+Niciuna dintre cele trei unelte nu vede ce se desenează în interiorul unui
+element de tip canvas, și acolo trăiesc majoritatea graficelor din tur:
+spectre, răspunsuri de filtru, forme de wavelet, scalograme. O suprapunere
+între o etichetă și o linie de grilă, acolo, nu apare în niciun raport
+automat. Compensarea e directă: citirea capturilor de ecran salvate de
+aceste unelte, ecran cu ecran, exact așa au fost alese și cele douăzeci și
+două de figuri din acest document.
+
+\section{Rulare locală}
+
+Back-end-ul pornește din \txt{backend/}, după instalarea dependențelor
+(FastAPI, Uvicorn, NumPy, SciPy, Pillow, PyWavelets, Pydantic). Front-end-ul
+pornește din \txt{frontend/}, după \texttt{npm install}. Serverul de dezvoltare
+Vite redirecționează automat orice cerere către \txt{/api} spre back-end,
+așa că front-end-ul n-are niciun URL scris în cod, nici măcar în dezvoltare.
+Fiecare ecran al turului se deschide direct, cu propriul \emph{deep link}.
+
+\section{Publicarea pe server}
+
+Aplicația rulează dintr-o singură imagine Docker, construită în doi pași:
+front-end-ul se compilează întâi, apoi rezultatul e copiat peste back-end,
+care ajunge astfel să servească, pe același port, și pagina, și API-ul.
+Local, imaginea se construiește și pornește cu o singură comandă
+\texttt{docker compose}.
+
+Publicarea la \url{https://ale0204.student-dev.ro/dsp/} nu construiește nimic
+pe mașina de acasă: sursa proiectului se împachetează și se trimite pe
+server, imaginea se construiește direct acolo, deci mașina de acasă n-are
+nevoie de Docker instalat sau pornit, doar trimite codul, iar la final
+containerul pornește în spatele reverse proxy-ului serverului, care termină
+conexiunea securizată și trimite mai departe cererile către aplicație.
+Containerul nu publică niciun port propriu.
+
+Fișierele care descriu un server anume, rețeaua în care intră containerul,
+contul și directorul de pe gazdă, stau în afara depozitului public, pentru
+că depind de gazdă, nu de aplicație. Depozitul rămâne astfel rulabil de
+oricine, oriunde, fără nicio adresă scrisă în cod.

@@ -1,0 +1,82 @@
+\chapter{Despre acest suport}
+\label{ch:intro}
+
+Fiecare ecran al prezentării calculează pe loc ce arată. Un front-end React
+randează cincizeci de ecrane, iar un back-end FastAPI rulează transformata
+cerută, la fiecare interacțiune, pe semnalul sau imaginea aleasă de cel care
+o urmărește, ori de câte ori pe ecran apare o cifră măsurată: un demo de filtrare aplică un filtru real pe un semnal real, un
+demo de compresie rulează o transformată de cosinus discretă și o
+transformată wavelet discretă adevărate, pe imagini standard de test.
+Rezultatul seamănă mai mult cu un instrument de laborator decât cu un set de
+diapozitive: un cursor care schimbă ordinul unui filtru Butterworth și
+redesenează răspunsul în frecvență pe loc transmite mai mult decât un
+paragraf despre ce înseamnă „ordinul controlează abruptitatea”.
+
+Acest document e gândit pentru cine urmărește prezentarea, live sau din
+înregistrare, și vrea ceva scris alături, la care să revină. Aceleași formule,
+dar derivate. Aceleași cifre, dar cu metoda din spatele lor. Iar la
+electrocardiogramă și la recunoașterea muzicii, mai mult decât arată cele
+câteva minute de pe scenă. Capitolele nu urmează neapărat ordinea ecranelor. Sunt grupate pe teme, ca fiecare aplicație practică (compresia imaginilor,
+eliminarea zgomotului, ECG, EEG, recunoașterea audio) să se poată citi de
+sine stătător, cu teoria strict necesară adusă înainte, nu presărată pe
+parcurs.
+
+Prezentarea în sine e un tur ghidat de cincizeci de ecrane, parcurse cu
+săgețile tastaturii, grupate în nouă secțiuni vizibile într-o bară laterală
+(Figura~\ref{fig:intro-toc}). Fiecare ecran are propriul \emph{deep link} și
+poate fi deschis direct, iar secțiunile se pot explora și individual, în
+afara turului. Live, la \url{https://ale0204.student-dev.ro/dsp/}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{01-intro-title.png}
+\caption{Ecranul de deschidere al turului: cârligul leagă subiectul de o
+  cerință de specificație reală. Cinematograful digital impune JPEG2000 în
+  locul lui JPEG, prin specificația DCI~\cite{dci2024}.}
+\label{fig:intro-title}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{02-intro-toc.png}
+\caption{Cuprinsul turului: nouă secțiuni, cu carduri clickabile care sar
+  direct la secțiunea aleasă.}
+\label{fig:intro-toc}
+\end{figure}
+
+\section{Harta: de la ecran la capitol}
+\label{sec:harta}
+
+Prezentarea are cincizeci de ecrane, numerotate în bara de jos a aplicației.
+Tabelul~\ref{tab:harta} spune, pentru fiecare grup de ecrane, unde se citește
+aceeași materie în textul de față. Citit invers, spune ce ecran să deschizi
+pentru un capitol anume.
+
+\begin{table}[htbp]
+\centering
+\caption{Corespondența dintre ecranele turului și capitolele acestui text.}
+\label{tab:harta}
+\small
+\begin{tabular}{@{}llp{5.3cm}@{}}
+\toprule
+Ecrane & Secțiunea din tur & Unde se citește \\
+\midrule
+1--2 & Deschidere, cuprins & Capitolul~\ref{ch:intro} \\
+3--5 & Transformata Fourier & Capitolul~\ref{ch:fundamente} \\
+6--9 & Filtre digitale & Secțiunea~\ref{sec:filtre} \\
+10--13 & Convoluția & Capitolul~\ref{ch:fundamente} \\
+14--16 & Kernel-uri 2D & Secțiunea~\ref{sec:kernele} \\
+17--24 & Transformata wavelet & Capitolul~\ref{ch:wavelets} \\
+25--32 & Algoritmul lui Mallat & Secțiunea~\ref{sec:mallat} \\
+33--35 & Aplicații, ECG & Capitolul~\ref{ch:ecg} \\
+36--37 & EEG & Capitolul~\ref{ch:eeg} \\
+38--39 & Amprenta audio & Capitolul~\ref{ch:shazam} \\
+40--42 & Denoising & Capitolul~\ref{ch:denoising} \\
+43--47 & DCT față de wavelet & Capitolul~\ref{ch:compresie} \\
+48--50 & Sinteză, bibliografie & Capitolul~\ref{ch:sinteza} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Capitolul~\ref{ch:tehnic} nu are ecrane proprii: descrie cum este construită
+și verificată aplicația.

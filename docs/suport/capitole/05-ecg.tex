@@ -1,0 +1,66 @@
+\chapter{Aplicație: electrocardiograma}
+\label{ch:ecg}
+
+O bătaie de inimă, văzută pe un ECG, e o secvență de unde cu nume proprii: P
+marchează depolarizarea atriilor, complexul QRS depolarizarea rapidă a
+ventriculilor, vârful ascuțit pe care oricine îl recunoaște dintr-un ECG,
+iar T repolarizarea ventriculilor. Diagnosticul clinic se citește din formă,
+din durată și din regularitatea intervalelor dintre bătăi, toate trei cer,
+mai întâi, să găsești fiecare complex QRS într-un semnal care aproape
+niciodată nu e curat.
+
+\section{De ce wavelets, aici}
+
+Un complex QRS e o tranziție bruscă de amplitudine, o \emph{singularitate}
+locală, în limbajul procesării de semnal, suprapusă peste zgomot muscular,
+interferență electrică și o linie de bază care alunecă lent. Fourier nu
+ajută direct: spune ce frecvențe conține semnalul, nu unde anume apare
+tranziția. O transformată wavelet, la o scală apropiată de durata tipică a
+unui QRS ($\sim$0.08-0.12s), face exact ce trebuie: coeficienții mari
+apar acolo unde semnalul se schimbă brusc, restul rămâne mic. E aceeași
+proprietate de localizare din Capitolul~\ref{ch:wavelets}, aplicată la un
+semnal 1D real.
+
+Martinez, Almeida, Olmos, Rocha și Laguna~\cite{martinez2004} formalizează
+ideea într-un algoritm în trei etape: mai întâi detectează complexele QRS,
+apoi delimitează fiecare complex, vârfurile undelor individuale, începutul
+și sfârșitul lui, și în final localizează undele P și T. Mecanismul de
+bază e detecția de singularități prin maxime de modul ale transformatei
+wavelet pe mai multe scări: un wavelet construit ca derivata unei funcții de
+netezire produce, lângă o tranziție bruscă, o pereche de extreme de semn
+opus, iar tranziția însăși cade aproape de trecerea prin zero dintre ele,
+teoria generală de detecție a singularităților din
+\cite{mallat1989,mallat2008}, aplicată aici la ECG. Pe bazele de date
+standard adnotate manual (MIT-BIH Arrhythmia, QT, European ST-T, CSE),
+detectorul de QRS obține o sensibilitate de $99.66\%$ și o predictivitate
+pozitivă de $99.56\%$, din o mie de bătăi reale, sub patru sunt ratate sau
+inventate.
+
+Miza practică e directă: un ceas care anunță fibrilație atrială citește
+un semnal de fotopletismografie (PPG) în locul unui ECG de spital. E lumină
+reflectată de piele, modulată de pulsul sangvin, din care extrage
+neregularitatea intervalelor dintre bătăi, uneori completat cu o singură
+derivație de ECG pe electrozi din carcasă~\cite{perez2019}. Fie că sursa e
+un ECG de spital pe douăsprezece derivații sau un semnal de încheietură
+zgomotos, primul pas practic e același: găsește bătăile.
+
+\section{Demo}
+
+Demo-ul din tur (Figura~\ref{fig:ecg-demo}) construiește un ECG sintetic ca
+sumă de gaussiene pentru undele P, Q, R, S, T ale fiecărei bătăi, o
+aproximare standard pentru semnale de test, îi adaugă zgomot muscular
+reglabil, îl curăță cu o transformată wavelet 1D (Capitolul~\ref{ch:denoising},
+cu pragul universal Donoho-Johnstone, potrivit aici pentru că semnalul e
+aproape de ipoteza „neted plus zgomot alb”) și detectează vârfurile R ca
+maxim pe fereastra fiecărei bătăi. Frecvența cardiacă iese din mediana
+intervalelor R-R. În captura din figură, cu zgomotul la $\sigma=0.25$,
+toate cele șase bătăi sunt găsite corect, iar raportul semnal-zgomot urcă de
+la $-2.9$ la $2.1$~dB.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{35-applications-ecg-demo.png}
+\caption{ECG sintetic cu zgomot muscular: denoising wavelet și detecția
+  celor șase bătăi, SNR de la $-2.9$ la $2.1$~dB.}
+\label{fig:ecg-demo}
+\end{figure}
