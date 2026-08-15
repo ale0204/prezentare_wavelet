@@ -1,0 +1,16 @@
+{
+  "name": "wavelet-presentation-checks",
+  "private": true,
+  "type": "module",
+  "description": "Mechanical checks for the presentation: forbidden glyphs, clipped or overlapping content on every slide, and a pass over every interactive control.",
+  "scripts": {
+    "lint": "node lint-glyphs.mjs",
+    "register": "node lint-register.mjs",
+    "gate": "node overflow-gate.mjs",
+    "interaction": "node interaction-pass.mjs",
+    "check": "npm run lint && npm run register && npm run gate && npm run interaction"
+  },
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}
