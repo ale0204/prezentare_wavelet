@@ -13,12 +13,15 @@
 
    Run: npm run register   (in scripts/) */
 
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..')
+// docs/scenariu is kept out of the repo, so a clone will not have it. Lint whatever
+// prose is actually present rather than failing on the folder that is missing.
 const TARGETS = [join(ROOT, 'docs', 'suport'), join(ROOT, 'docs', 'scenariu')]
+    .filter(dir => existsSync(dir))
 
 // Ceilings per 1000 words, from the human reference plus a tolerance.
 const LIMIT = { semicolons: 1.5, dashes: 1.5, antithesis: 0 }

@@ -138,7 +138,6 @@ frontend/src/styles/      theme tokens, tour layout, the math legibility floor
 backend/main.py           every /api endpoint
 data/                     Kodak and USC-SIPI test images, plus 16x16 and 32x32 sprites
 docs/suport/              written support document (LaTeX source and the built PDF)
-docs/scenariu/            the spoken script, one file per section
 scripts/                  the four mechanical checks
 _build/                   anywhere it appears: generated output, never committed
 ```
@@ -166,8 +165,6 @@ depend on where it is hosted, so they live outside this repository.
 
 - `docs/suport/suport.pdf` - the written support document, ten chapters with figures and
   a table of contents, built from the LaTeX sources next to it.
-- `docs/scenariu/` - what to say out loud, one file per section, with the demo actions
-  marked inline.
 
 ## Credits
 
