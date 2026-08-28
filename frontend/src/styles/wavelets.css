@@ -62,7 +62,7 @@
 }
 
 .wavelet-category {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: 0.3rem;
 }
@@ -86,13 +86,13 @@
 
 .wavelet-origin {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .wavelet-badge {
   padding: 0.4rem var(--space-md);
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--bg-dark);
 }
@@ -136,7 +136,7 @@
   color: var(--bg-dark);
   border-radius: var(--radius-full);
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   flex-shrink: 0;
 }
 
@@ -162,7 +162,7 @@
   background: var(--bg-elevated);
   color: var(--text-muted);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
 }
 
@@ -193,13 +193,13 @@
   padding: 0.6rem;
   border-radius: var(--radius-md);
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
 }
 
 .subband-item h4 {
   color: var(--primary);
   margin-bottom: 0.4rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .subband-item img {
@@ -230,7 +230,7 @@
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--transition-normal);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .wavelet-type-selector button:hover {

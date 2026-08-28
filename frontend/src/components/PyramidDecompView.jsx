@@ -214,7 +214,7 @@ export default function PyramidDecompView({ compact = false }) {
             flexWrap: 'wrap'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <label style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Niveluri:</label>
+              <label style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Niveluri:</label>
               <input
                 type="range"
                 min="1"
@@ -254,7 +254,7 @@ export default function PyramidDecompView({ compact = false }) {
             background: 'rgba(255,255,255,0.03)',
             borderRadius: '8px'
           }}>
-            <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '0.4rem' }}>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '0.4rem' }}>
               Distribuția Energiei:
             </div>
             <div style={{
@@ -271,7 +271,7 @@ export default function PyramidDecompView({ compact = false }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#000',
-                  fontSize: '0.75rem',
+                  fontSize: '0.95rem',
                   fontWeight: 'bold',
                   cursor: 'default'
                 }}
@@ -290,7 +290,7 @@ export default function PyramidDecompView({ compact = false }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: '#fff',
-                    fontSize: '0.7rem',
+                    fontSize: '0.95rem',
                     fontWeight: 'bold'
                   }}
                   onMouseEnter={() => setHighlightLevel(e.level)}
@@ -313,18 +313,18 @@ export default function PyramidDecompView({ compact = false }) {
         }}>
           {/* Key formula */}
           <div style={{
-            padding: '0.55rem 0.7rem',
+            padding: '0.3rem 0.7rem',
             background: 'rgba(255,215,0,0.08)',
             borderRadius: '8px',
             borderLeft: '4px solid var(--series-gold)'
           }}>
-            <h4 style={{ margin: '0 0 0.5rem', color: 'var(--series-gold)', fontSize: '1rem' }}>
+            <h4 style={{ margin: '0 0 0.2rem', color: 'var(--series-gold)', fontSize: '1rem' }}>
               Schema Recursivă
             </h4>
             <div style={{ fontSize: '1rem', textAlign: 'center' }}>
               <LaTeX math={String.raw`x \xrightarrow{\text{DWT}} \{A_1, D_1\} \xrightarrow{\text{DWT pe } A_1} \{A_2, D_2, D_1\}`} />
             </div>
-            <p style={{ margin: '0.4rem 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: '0.4rem 0 0', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               La fiecare nivel descompunem doar aproximarea A (în 2D, subbanda LL).
             </p>
           </div>
@@ -339,7 +339,7 @@ export default function PyramidDecompView({ compact = false }) {
             <h4 style={{ margin: '0 0 0.4rem', color: 'var(--series-green)', fontSize: '1rem' }}>
               De ce piramidă?
             </h4>
-            <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               <li>Dimensiunea scade exponențial: N -&gt; N/2 -&gt; N/4 -&gt; ...</li>
               <li>Energia se concentrează în aproximare</li>
               <li>Detaliile fine -&gt; niveluri mici, structura -&gt; niveluri mari</li>
@@ -356,7 +356,7 @@ export default function PyramidDecompView({ compact = false }) {
             <h4 style={{ margin: '0 0 0.4rem', color: 'var(--primary)', fontSize: '1rem' }}>
               Compresie (JPEG2000)
             </h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               Majoritatea energiei este în <strong style={{color:'#00ff88'}}>A{numLevels}</strong> (<LaTeX math={String.raw`\approx`} />{(approxTotal/totalEnergy*100).toFixed(0)}%).
               Coeficienții mici din D pot fi eliminați cu pierdere minimă de calitate!
             </p>
@@ -372,7 +372,7 @@ export default function PyramidDecompView({ compact = false }) {
             <h4 style={{ margin: '0 0 0.4rem', color: 'var(--series-pink)', fontSize: '1rem' }}>
               Niveluri și Frecvențe
             </h4>
-            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               {decomposition.map((d, i) => (
                 <div 
                   key={d.level}
@@ -403,7 +403,7 @@ export default function PyramidDecompView({ compact = false }) {
             <h4 style={{ margin: '0 0 0.4rem', color: 'var(--series-purple)', fontSize: '1rem' }}>
               Reconstrucție
             </h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               Cu <strong>toți</strong> coeficienții (A<sub>{numLevels}</sub> + D<sub>1</sub>...D<sub>{numLevels}</sub>),
               semnalul original se recuperează <strong>perfect</strong>!
             </p>
@@ -443,7 +443,7 @@ function drawPyramid(ctx, W, H, signal, decomposition, showLevels, highlightLeve
     x: leftMargin + maxWidth / 2,
     y: signalY - barHeight / 2 - 15,
     color: 'var(--primary)',
-    fontSize: '13px'
+    fontSize: '16px'
   })
 
   // Draw each decomposition level
@@ -473,7 +473,7 @@ function drawPyramid(ctx, W, H, signal, decomposition, showLevels, highlightLeve
         x: approxX + approxWidth / 2,
         y: y + barHeight + 14,
         color: 'var(--series-green)',
-        fontSize: '12px'
+        fontSize: '16px'
       })
     }
 
@@ -488,7 +488,7 @@ function drawPyramid(ctx, W, H, signal, decomposition, showLevels, highlightLeve
       x: detailX + detailWidth + 8,
       y: y + barHeight / 2,
       color: detailColor,
-      fontSize: '12px',
+      fontSize: '16px',
       textAlign: 'left',
       transform: 'translate(0, -50%)'
     })
@@ -522,7 +522,7 @@ function drawPyramid(ctx, W, H, signal, decomposition, showLevels, highlightLeve
       x: leftMargin - 12,
       y: rowY,
       color: 'var(--text-muted)',
-      fontSize: '11px',
+      fontSize: '16px',
       textAlign: 'right',
       transform: 'translate(-100%, -50%)'
     })
@@ -535,7 +535,7 @@ function drawPyramid(ctx, W, H, signal, decomposition, showLevels, highlightLeve
     x: W / 2,
     y: H - 10,
     color: 'var(--text-muted)',
-    fontSize: '11px'
+    fontSize: '16px'
   })
 
   return { labels }

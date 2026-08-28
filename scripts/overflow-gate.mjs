@@ -7,7 +7,7 @@
 //   overlaps   - pairs of visible atomic elements that intersect (no ancestor relation)
 //   occludedControls - buttons/inputs whose center hit-tests to an unrelated element (z-order)
 //   smallMath  - rendered KaTeX below the legibility floor (17px inline, 22px display, design px)
-//   smallProse - body text below the 18px legibility floor (slide chrome excluded)
+//   smallProse - body text below the 20px on-screen legibility floor (slide chrome excluded)
 //   rawTokens  - $...$, [cite:...], **bold** or a leading * / > reaching the screen as markup
 //   duplicateTitles - an embedded view prints a heading on top of the shell's slide title
 //   consoleErrors - JS console errors / page errors raised while the slide was active
@@ -245,10 +245,16 @@ function inspectSlide()
         }
     }
 
-    // Legibility floor for prose, the same idea as the one below for math. Chrome that is
-    // small on purpose (the slide counter, the numbers on the navigation rail) is skipped;
-    // anything else carrying real words has to hold up from the back of the room.
-    const PROSE_FLOOR = 18;
+    // Legibility floor for prose, the same idea as the one below for math, but measured in
+    // the pixels the room actually sees. Computed font-size is in design pixels on the
+    // 1440-wide surface; the stage scales that up (1.333x on a 1080p projector), so the
+    // check multiplies by the live stage scale before comparing. Chrome that is small on
+    // purpose (the slide counter, the numbers on the navigation rail) is skipped.
+    const PROSE_FLOOR = 20;
+    const stageEl = document.querySelector('.tour-stage');
+    const uiScale = stageEl && stageEl.offsetWidth > 0
+        ? stageEl.getBoundingClientRect().width / stageEl.offsetWidth
+        : 1;
     const CHROME = '.slide-counter, .tour-nav, .tour-rail, .slide-progress, .tour-controls, sup, .cite-marker';
     const smallProse = [];
     for (const el of atomic)
@@ -260,10 +266,16 @@ function inspectSlide()
             .join(' ')
             .trim();
         if (words.length < 12) continue;
-        const size = parseFloat(getComputedStyle(el).fontSize);
-        if (size + 0.5 < PROSE_FLOOR)
+        const design = parseFloat(getComputedStyle(el).fontSize);
+        const onScreen = design * uiScale;
+        if (onScreen + 0.5 < PROSE_FLOOR)
         {
-            smallProse.push({ el: describe(el), size: Math.round(size * 10) / 10, floor: PROSE_FLOOR });
+            smallProse.push({
+                el: describe(el),
+                size: Math.round(onScreen * 10) / 10,
+                design: Math.round(design * 10) / 10,
+                floor: PROSE_FLOOR,
+            });
         }
     }
 
@@ -374,7 +386,7 @@ async function main()
         for (const o of s.occludedControls) lines.push(`- occludedControl: ${o.el} hidden by ${o.by}`);
         for (const o of s.smallMath) lines.push(`- smallMath: ${o.el} ${o.size}px design (floor ${o.floor}, ${o.display ? 'display' : 'inline'})`);
         for (const o of s.rawTokens) lines.push(`- rawToken: ${o.el} shows markup "${o.text}"`);
-        for (const o of s.smallProse) lines.push(`- smallProse: ${o.el} at ${o.size}px, floor ${o.floor}px`);
+        for (const o of s.smallProse) lines.push(`- smallProse: ${o.el} at ${o.size}px on screen (${o.design}px design), floor ${o.floor}px`);
         for (const o of s.duplicateTitles) lines.push(`- duplicateTitle: shell "${o.shell}" plus view heading "${o.own}"`);
         for (const e of s.consoleErrors) lines.push(`- consoleError: ${e}`);
         lines.push('');

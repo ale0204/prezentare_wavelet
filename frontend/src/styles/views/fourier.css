@@ -69,7 +69,7 @@
 
 .fourier-formulas-grid .formula-card .formula-desc {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.3;
 }
@@ -102,7 +102,7 @@
 }
 
 .slide-fourier-theory-enhanced .slide-points.compact li {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   position: relative;
   padding-left: 1rem;
@@ -219,7 +219,7 @@
 
 .fourier-side-controls h4 {
   margin: 0 0 0.3rem 0;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--series-gold);
   text-align: center;
   padding-bottom: 0.3rem;
@@ -236,7 +236,7 @@
 .spectrum-toggle button {
   flex: 1;
   padding: 0.4rem 0.3rem;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -270,7 +270,7 @@
 
 .preset-buttons-vertical button {
   padding: 0.4rem 0.5rem;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 500;
   text-align: left;
   background: var(--bg-elevated);
@@ -336,7 +336,7 @@
 .fourier-equation-bar .custom-input-row span {
   color: var(--series-pink);
   font-family: monospace;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .fourier-equation-bar .custom-input-row input {
@@ -344,7 +344,7 @@
   max-width: 350px;
   padding: 0.3rem 0.5rem;
   font-family: monospace;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   background: var(--bg-darker);
   border: 1px solid rgba(255, 107, 157, 0.5);
   border-radius: 4px;
@@ -353,7 +353,7 @@
 
 .fourier-equation-bar .custom-input-row button {
   padding: 0.3rem 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
 }
 
 .fourier-view.fourier-compact .controls-panel {
@@ -403,14 +403,14 @@
 }
 
 .harmonic-label {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--series-purple);
   white-space: nowrap;
 }
 
 .harmonic-btn {
   padding: 0.3rem 0.6rem;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   background: rgba(157, 78, 221, 0.25);
   border: 1px solid rgba(157, 78, 221, 0.5);
   border-radius: 4px;
@@ -445,7 +445,7 @@
 
 .fourier-caption {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   color: rgba(192, 132, 252, 0.85);
   font-style: italic;
   line-height: 1.3;
@@ -467,5 +467,5 @@
 }
 
 .harmonic-controls-full .harmonic-label {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }

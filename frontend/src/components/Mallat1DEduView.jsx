@@ -585,7 +585,7 @@ export default function Mallat1DEduView({ compact = false }) {
                 <option key={key} value={key}>{f.name}</option>
               ))}
             </select>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)', marginLeft: '0.4rem' }}>
+            <span style={{ fontSize: '16px', color: 'var(--text-muted)', marginLeft: '0.4rem' }}>
               {renderRich(filter.description)}
             </span>
           </div>

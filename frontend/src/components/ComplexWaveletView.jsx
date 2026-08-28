@@ -170,7 +170,7 @@ export default function ComplexWaveletView({ compact = false }) {
       color: 'var(--text-body)'
     }}>
       <div style={{ textAlign: 'center' }}>
-        <p style={{ margin: '0.5rem 0 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+        <p style={{ margin: '0.5rem 0 0', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
           <LaTeX math="\psi(t) = e^{-t^2/2} \cdot e^{i\omega t} = e^{-t^2/2} (\cos(\omega t) + i\sin(\omega t))" />
         </p>
       </div>
@@ -202,7 +202,7 @@ export default function ComplexWaveletView({ compact = false }) {
           <div style={{
             position: 'absolute', bottom: 10, left: 10,
             display: 'flex', flexDirection: 'column', gap: '0.35rem',
-            color: '#fff', fontSize: '0.85rem',
+            color: '#fff', fontSize: '0.95rem',
             background: 'rgba(0,0,0,0.6)', padding: '0.45rem 0.65rem', borderRadius: '6px',
             maxWidth: '320px'
           }}>
@@ -281,7 +281,7 @@ export default function ComplexWaveletView({ compact = false }) {
             padding: '1rem',
             background: 'rgba(255,255,255,0.05)',
             borderRadius: '8px',
-            fontSize: '0.9rem',
+            fontSize: '0.95rem',
             lineHeight: '1.4'
           }}>
             <h4 style={{ margin: '0 0 0.5rem', color: 'inherit' }}>De ce Complex?</h4>

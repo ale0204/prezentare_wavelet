@@ -18,7 +18,7 @@
 }
 
 .control-group label {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -72,7 +72,7 @@
 .range-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: 0.3rem;
 }
@@ -162,7 +162,7 @@ button.active {
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--transition-normal);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .button-group button:hover {
@@ -219,7 +219,7 @@ button.active {
 .slider-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: var(--space-xs);
 }

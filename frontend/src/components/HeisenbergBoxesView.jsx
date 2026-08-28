@@ -277,10 +277,10 @@ export default function HeisenbergBoxesView({ compact = false }) {
       color: 'var(--text-light)'
     }}>
       <div style={{ textAlign: 'center' }}>
-        <p style={{ margin: '0.5rem 0 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+        <p style={{ margin: '0.5rem 0 0', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
           Principiul de incertitudine Heisenberg: <LaTeX math="\Delta t \cdot \Delta f \ge 1/(4\pi)" /> <Cite id="mallat2008" />
         </p>
-        <p style={{ margin: '0.35rem auto 0', color: 'var(--text-light)', fontSize: '0.9rem', maxWidth: '720px' }}>
+        <p style={{ margin: '0.35rem auto 0', color: 'var(--text-light)', fontSize: '0.95rem', maxWidth: '720px' }}>
           {MODE_CONTEXT[mode]}
         </p>
       </div>
@@ -323,7 +323,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
                   <span style={{ color: 'var(--text-muted)' }}><LaTeX math={String.raw`\Delta f`} /> (Frecv):</span>
                   <span style={{ color: 'var(--text-body)' }}>{renderRich(hoverInfo.df)}</span>
                 </div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontStyle: 'italic' }}>
                   {hoverInfo.desc}
                 </div>
               </>
@@ -365,7 +365,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
                 }}
               >
                 <strong style={{ fontSize: '1.05rem' }}>Transformata Fourier</strong>
-                <div style={{ fontSize: '0.85rem', opacity: 0.9, lineHeight: '1.4', fontWeight: 'normal' }}>
+                <div style={{ fontSize: '0.95rem', opacity: 0.9, lineHeight: '1.4', fontWeight: 'normal' }}>
                   Știm exact CE frecvențe, dar nu CÂND.
                 </div>
               </button>
@@ -387,7 +387,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
                 }}
               >
                 <strong style={{ fontSize: '1.05rem' }}>STFT (Windowed Fourier)</strong>
-                <div style={{ fontSize: '0.85rem', opacity: 0.9, lineHeight: '1.4', fontWeight: 'normal' }}>
+                <div style={{ fontSize: '0.95rem', opacity: 0.9, lineHeight: '1.4', fontWeight: 'normal' }}>
                   Compromis fix. Ferestre egale.
                 </div>
               </button>
@@ -409,7 +409,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
                 }}
               >
                 <strong style={{ fontSize: '1.05rem' }}>Transformata Wavelet</strong>
-                <div style={{ fontSize: '0.85rem', opacity: 0.9, lineHeight: '1.4', fontWeight: 'normal' }}>
+                <div style={{ fontSize: '0.95rem', opacity: 0.9, lineHeight: '1.4', fontWeight: 'normal' }}>
                   Frecvențe înalte: timp scurt.
                   Frecvențe joase: timp lung.
                 </div>
@@ -432,7 +432,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
                     borderRadius: '6px',
                     color: overlay === id ? '#ffaa00' : 'var(--text-muted)',
                     cursor: 'pointer',
-                    fontSize: '0.85rem'
+                    fontSize: '0.95rem'
                   }}
                 >
                   {s.label}
@@ -440,7 +440,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
               ))}
             </div>
             {overlay !== 'none' && (
-              <p style={{ margin: '0.5rem 0 0', fontSize: '0.8rem', color: 'var(--text-light)' }}>
+              <p style={{ margin: '0.5rem 0 0', fontSize: '0.95rem', color: 'var(--text-light)' }}>
                 Conturul punctat arată unde se află energia semnalului. Comută între moduri:
                 doar plăcile wavelet acoperă bine ambele regiuni.
               </p>
@@ -451,7 +451,7 @@ export default function HeisenbergBoxesView({ compact = false }) {
             padding: '1rem',
             background: 'rgba(255,255,255,0.05)',
             borderRadius: '8px',
-            fontSize: '0.9rem',
+            fontSize: '0.95rem',
             lineHeight: '1.4'
           }}>
             <h4 style={{ margin: '0 0 0.5rem', color: 'var(--text-light)' }}>De ce contează?</h4>

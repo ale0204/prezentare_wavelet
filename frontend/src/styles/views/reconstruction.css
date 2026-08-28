@@ -37,7 +37,7 @@
 
 .reconstruction-header .subtitle {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 /* Canvas container */
@@ -72,7 +72,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -110,7 +110,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-light);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -161,7 +161,7 @@
 
 .lossy-controls label {
   color: var(--series-pink);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
@@ -174,7 +174,7 @@
   min-width: 30px;
   color: var(--series-pink);
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 /* Metrics display */
@@ -195,7 +195,7 @@
 }
 
 .metric .metric-label {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-bottom: 0.2rem;
 }
@@ -218,7 +218,7 @@
 }
 
 .metric .metric-unit {
-  font-size: 0.7rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -246,7 +246,7 @@
 
 .recon-section h4 {
   margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--series-green);
   display: flex;
@@ -260,7 +260,7 @@
 
 .recon-section p {
   margin: 0.3rem 0;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.4;
 }
@@ -302,7 +302,7 @@
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -347,7 +347,7 @@
 }
 
 .comparison-item .item-label {
-  font-size: 0.7rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-bottom: 0.2rem;
 }
@@ -364,7 +364,7 @@
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-body);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   cursor: pointer;
   margin-top: 0.3rem;
 }
@@ -381,12 +381,12 @@
 .insight-box .insight-title {
   font-weight: bold;
   color: var(--series-gold);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   margin-bottom: 0.3rem;
 }
 
 .insight-box .insight-text {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-light);
 }
 

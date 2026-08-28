@@ -485,7 +485,7 @@ export default function CompareView({ api, imageId, sampleImages = [], onImageCh
                     setCurveData(null)
                     fetchCurve(imageId, wavelet, levels)
                   }}
-                  style={{ marginTop: '0.25rem', fontSize: '0.85rem' }}
+                  style={{ marginTop: '0.25rem', fontSize: '0.95rem' }}
                 >
                   Recalculează
                 </button>

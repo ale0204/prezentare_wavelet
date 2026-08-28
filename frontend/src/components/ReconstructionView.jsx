@@ -325,7 +325,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                     top: `${(label.y / canvasDims.height) * 100}%`,
                     color: label.color,
                     fontWeight: 'bold',
-                    fontSize: '13px',
+                    fontSize: '16px',
                     textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
                     whiteSpace: 'nowrap'
                   }}
@@ -370,7 +370,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                   color: animStep === step ? '#000' : 'var(--text-muted)',
                   cursor: 'pointer',
                   fontWeight: animStep === step ? '600' : '400',
-                  fontSize: '0.9rem',
+                  fontSize: '0.95rem',
                   transition: 'all 0.2s'
                 }}
               >
@@ -391,7 +391,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
               alignItems: 'center'
             }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Eroare Max</div>
+                <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>Eroare Max</div>
                 <div style={{
                   fontSize: '1.2rem',
                   fontWeight: 'bold',
@@ -401,7 +401,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                 </div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>MSE</div>
+                <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>MSE</div>
                 <div style={{
                   fontSize: '1.2rem',
                   fontWeight: 'bold',
@@ -411,7 +411,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                 </div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>PSNR</div>
+                <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>PSNR</div>
                 <div style={{
                   fontSize: '1.2rem',
                   fontWeight: 'bold',
@@ -420,7 +420,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                   {psnr > 100 ? '> 100 dB' : `${psnr.toFixed(1)} dB`}
                 </div>
                 {psnr > 100 && (
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>precizia mașinii</div>
+                  <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>precizia mașinii</div>
                 )}
               </div>
               <div style={{
@@ -470,7 +470,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                     color: sourceMode === id ? '#000' : 'var(--text-body)',
                     fontWeight: sourceMode === id ? '600' : '400',
                     cursor: 'pointer',
-                    fontSize: '0.85rem'
+                    fontSize: '0.95rem'
                   }}
                 >
                   {label}
@@ -481,7 +481,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {sourceMode === 'signal' ? (
                 <div>
-                  <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Tip semnal:</label>
+                  <label style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Tip semnal:</label>
                   <select
                     value={signalType}
                     onChange={(e) => setSignalType(e.target.value)}
@@ -492,7 +492,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                       border: '1px solid var(--border)',
                       borderRadius: '4px',
                       color: 'var(--text-body)',
-                      fontSize: '0.85rem'
+                      fontSize: '0.95rem'
                     }}
                   >
                     {Object.entries(SIGNALS).map(([key, s]) => (
@@ -502,7 +502,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                 </div>
               ) : (
                 <div>
-                  <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Imagine:</label>
+                  <label style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Imagine:</label>
                   <select
                     value={selectedImage}
                     onChange={(e) => setSelectedImage(e.target.value)}
@@ -513,7 +513,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                       border: '1px solid var(--border)',
                       borderRadius: '4px',
                       color: 'var(--text-body)',
-                      fontSize: '0.85rem'
+                      fontSize: '0.95rem'
                     }}
                   >
                     {apiImages.slice(0, 10).map(img => (
@@ -523,7 +523,7 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                 </div>
               )}
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Niveluri: {numLevels}</label>
+                <label style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Niveluri: {numLevels}</label>
                 <input
                   type="range"
                   min="1"
@@ -555,13 +555,13 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
                 checked={quantize}
                 onChange={(e) => setQuantize(e.target.checked)}
               />
-              <span style={{ fontSize: '0.9rem', fontWeight: quantize ? '600' : '400' }}>
+              <span style={{ fontSize: '0.95rem', fontWeight: quantize ? '600' : '400' }}>
                 Simulează Compresie Lossy
               </span>
             </label>
             {quantize && (
               <div style={{ marginTop: '0.5rem' }}>
-                <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                <label style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
                   Biți cuantizare: {quantBits}
                 </label>
                 <input
@@ -606,12 +606,12 @@ export default function ReconstructionView({ compact = false, api = '/api' }) {
             <h4 style={{ margin: '0 0 0.4rem', color: 'var(--series-green)', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
               <CheckIcon size={16} /> Teorema Reconstrucției Perfecte
             </h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               Dacă filtrele satisfac condițiile de reconstrucție perfectă (CQF: alternating flip plus
               putere-simetrie), atunci <LaTeX math={String.raw`\hat{x}[n] = x[n]`} /> exact
               în aritmetică ideală; în virgulă mobilă, până la precizia mașinii. <Cite id="estebangaland1977,smithbarnwell1984" />
             </p>
-            <p style={{ margin: '0.4rem 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: '0.4rem 0 0', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               De aici vine compresia fără pierderi, iar orice pierdere rămâne controlată prin
               cuantizare - baza pentru JPEG2000 și pentru denoising.
             </p>

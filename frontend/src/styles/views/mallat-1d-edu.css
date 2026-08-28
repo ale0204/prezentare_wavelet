@@ -244,7 +244,7 @@
   border: 1px solid var(--border);
   border-radius: 4px;
   color: var(--text-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   cursor: pointer;
 }
 
@@ -267,7 +267,7 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   cursor: pointer;
 }
@@ -328,7 +328,7 @@
 
 .mallat-1d-sidebar small {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .mallat-1d-sidebar .checkbox-label {
@@ -393,7 +393,7 @@
 }
 
 .mallat-1d-edu.compact .mallat-formula {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   padding: 0.3rem 0.6rem;
 }
 

@@ -36,7 +36,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -85,7 +85,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-light);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -136,7 +136,7 @@
 
 .filter-bank-options label {
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
 }
 
 .filter-bank-options select {
@@ -145,7 +145,7 @@
   border-radius: 6px;
   padding: 0.4rem 0.6rem;
   color: var(--text-body);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   cursor: pointer;
 }
 
@@ -177,7 +177,7 @@
 
 .fb-sidebar-section h4 {
   margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--series-gold);
   display: flex;
@@ -187,7 +187,7 @@
 
 .fb-sidebar-section p {
   margin: 0.3rem 0;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.4;
 }
@@ -215,7 +215,7 @@
 
 .filter-coef-row .filter-name {
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   min-width: 40px;
 }
 
@@ -229,7 +229,7 @@
 
 .filter-coef-row .filter-values {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -261,12 +261,12 @@
 .step-indicator .step-num {
   font-weight: bold;
   color: var(--series-amber);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .step-indicator .step-desc {
   color: var(--text-light);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
 }
 
 /* Color coding */

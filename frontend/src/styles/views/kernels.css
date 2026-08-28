@@ -46,7 +46,7 @@
 .kernel-category h4 {
   color: var(--text-light);
   margin-bottom: var(--space-sm);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .kernel-buttons {
@@ -63,7 +63,7 @@
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .kernel-btn:hover {
@@ -94,7 +94,7 @@
 .kernel-matrix-display h4 {
   color: var(--text-light);
   margin-bottom: var(--space-sm);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 /* Kernel Matrix Grid */
@@ -119,7 +119,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   background: var(--bg-card);
   border-radius: 2px;
 }
@@ -192,7 +192,7 @@
   background: var(--bg-elevated);
   color: var(--text-light);
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   text-align: center;
   transition: border-color var(--transition-fast);
 }
@@ -217,7 +217,7 @@
 
 .quick-presets span {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   margin-right: var(--space-sm);
 }
 
@@ -228,7 +228,7 @@
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   transition: all var(--transition-fast);
 }
 
@@ -254,7 +254,7 @@
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   min-width: 60px;
 }
@@ -273,7 +273,7 @@
 
 .control-group .hint {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: var(--space-xs);
   font-style: italic;
@@ -282,7 +282,7 @@
 /* Current Image Info */
 .current-image {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin-top: var(--space-md);
 }
 
@@ -340,7 +340,7 @@
 
 .image-comparison .image-card p {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   margin-top: var(--space-sm);
 }
 
@@ -386,7 +386,7 @@
   background: var(--bg-card);
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -399,7 +399,7 @@
 .kernels-view .math-label {
   display: block;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   margin-top: var(--space-sm);
 }
 
@@ -417,7 +417,7 @@
   .content-area .kernel-cell-input {
     width: 50px;
     height: 35px;
-    font-size: 0.75rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -459,7 +459,7 @@
 
 .kernel-image-card .image-label {
   color: var(--text-light);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
   margin-bottom: var(--space-xs);
   text-align: center;
@@ -502,7 +502,7 @@
 
 .toolbar-item label {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   white-space: nowrap;
 }
 
@@ -512,7 +512,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text-light);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   min-width: 150px;
 }
 
@@ -546,7 +546,7 @@
 .toolbar-matrix .scale-text {
   color: var(--primary);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
@@ -563,7 +563,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border);
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   padding: 2px;
   box-sizing: border-box;
@@ -630,7 +630,7 @@
   color: var(--danger);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 /* ========================================
@@ -649,7 +649,7 @@
 }
 
 .kernel-caption-text {
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--primary);
   line-height: 1.3;
   font-style: italic;
@@ -666,7 +666,7 @@
   background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
   border: 1px solid rgba(0, 212, 255, 0.3);
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   line-height: 1.35;
   color: var(--text-light);
 }

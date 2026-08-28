@@ -59,7 +59,7 @@
 }
 
 .slide-header-component.compact .header-subtitle-sm {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-left: 0.5rem;
 }
@@ -156,7 +156,7 @@
 
 /* Slide number */
 .slide-number-component {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   font-weight: 500;
   padding: 0.25rem 0.5rem;

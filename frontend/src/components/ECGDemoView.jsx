@@ -49,7 +49,7 @@ export default function ECGDemoView({ api = '/api', compact = false }) {
     : []
 
   const checkbox = (checked, onChange, label, color) => (
-    <label style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer', color, fontSize: '0.85rem' }}>
+    <label style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer', color, fontSize: '0.95rem' }}>
       <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)} />
       {label}
     </label>
@@ -62,7 +62,7 @@ export default function ECGDemoView({ api = '/api', compact = false }) {
         border: '1px solid rgba(255, 107, 157, 0.35)',
         borderRadius: '8px',
         padding: '0.6rem 0.9rem',
-        fontSize: '0.92rem',
+        fontSize: '0.95rem',
         lineHeight: 1.4,
         color: 'var(--text-light)'
       }}>
@@ -101,7 +101,7 @@ export default function ECGDemoView({ api = '/api', compact = false }) {
             yAxis={{ label: 'R-R (s)' }}
             compact={compact}
           />
-          <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+          <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)', textAlign: 'center' }}>
             Tahograma R-R: fibrilația atrială s-ar vedea aici ca puncte neregulate, împrăștiate -
             nu ca vârful QRS de mai sus, care rămâne recognoscibil chiar cu ritmul dezordonat.
           </p>
@@ -109,7 +109,7 @@ export default function ECGDemoView({ api = '/api', compact = false }) {
       )}
 
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem' }}>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
           Zgomot muscular <LaTeX math={String.raw`\sigma`} />: <strong style={{ color: 'var(--series-amber)' }}>{noiseSigma.toFixed(2)}</strong>
           <input
             type="range" min="0.05" max="0.6" step="0.05"
@@ -125,7 +125,7 @@ export default function ECGDemoView({ api = '/api', compact = false }) {
       </div>
 
       {data && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', fontSize: '0.9rem', color: 'var(--text-light)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', fontSize: '0.95rem', color: 'var(--text-light)' }}>
           <span>Puls detectat: <strong style={{ color: 'var(--series-pink)' }}>{data.bpm ? data.bpm.toFixed(0) : '-'} BPM</strong></span>
           <span>Bătăi găsite: <strong>{data.r_peaks.length}</strong></span>
           <span>SNR: <strong>{data.snr_before.toFixed(1)} dB</strong> {'->'} <strong style={{ color: 'var(--series-green)' }}>{data.snr_after.toFixed(1)} dB</strong> (+{data.snr_improvement.toFixed(1)} dB)</span>

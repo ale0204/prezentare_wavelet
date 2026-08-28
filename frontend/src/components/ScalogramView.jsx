@@ -216,7 +216,7 @@ export default function ScalogramView({ compact = false }) {
       fontFamily: 'sans-serif'
     }}>
       <div style={{ textAlign: 'center' }}>
-        <p style={{ margin: '0.25rem 0 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+        <p style={{ margin: '0.25rem 0 0', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
           Analiză Timp-Frecvență: ce frecvențe apar și când apar
         </p>
       </div>
@@ -243,7 +243,7 @@ export default function ScalogramView({ compact = false }) {
                  writingMode: 'vertical-rl',
                  transform: 'rotate(180deg)',
                  textAlign: 'center',
-                 fontSize: '0.8rem',
+                 fontSize: '0.95rem',
                  color: 'var(--text-muted)',
                  marginRight: '5px'
              }}>
@@ -269,7 +269,7 @@ export default function ScalogramView({ compact = false }) {
                       color: '#fff',
                       padding: '1px 6px',
                       borderRadius: '3px',
-                      fontSize: '0.85rem',
+                      fontSize: '0.95rem',
                       pointerEvents: 'none'
                     }}
                   >
@@ -291,25 +291,25 @@ export default function ScalogramView({ compact = false }) {
                       color: '#fff',
                       padding: '1px 6px',
                       borderRadius: '3px',
-                      fontSize: '0.85rem',
+                      fontSize: '0.95rem',
                       pointerEvents: 'none'
                     }}
                   >
                     {t}s
                   </span>
                 ))}
-                <div style={{ position: 'absolute', top: 5, right: 5, background: 'rgba(0,0,0,0.62)', color: '#fff', padding: '2px 7px', borderRadius: '4px', fontSize: '0.85rem' }}>
+                <div style={{ position: 'absolute', top: 5, right: 5, background: 'rgba(0,0,0,0.62)', color: '#fff', padding: '2px 7px', borderRadius: '4px', fontSize: '0.95rem' }}>
                     Frecvențe înalte
                 </div>
                 {/* Raised above the time-tick row (bottom:4) so the two never overlap */}
-                <div style={{ position: 'absolute', bottom: 26, right: 5, background: 'rgba(0,0,0,0.62)', color: '#fff', padding: '2px 7px', borderRadius: '4px', fontSize: '0.85rem' }}>
+                <div style={{ position: 'absolute', bottom: 26, right: 5, background: 'rgba(0,0,0,0.62)', color: '#fff', padding: '2px 7px', borderRadius: '4px', fontSize: '0.95rem' }}>
                     Frecvențe joase
                 </div>
              </div>
 
              {/* Color Legend Bar */}
              <div style={{ width: '20px', marginLeft: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                 <div style={{ fontSize: '0.7rem', marginBottom: '2px' }}>Max</div>
+                 <div style={{ fontSize: '0.95rem', marginBottom: '2px' }}>Max</div>
                  <div style={{
                      flex: 1,
                      width: '100%',
@@ -317,7 +317,7 @@ export default function ScalogramView({ compact = false }) {
                      borderRadius: '2px',
                      border: '1px solid var(--border-light)'
                  }} />
-                 <div style={{ fontSize: '0.7rem', marginTop: '2px' }}>0</div>
+                 <div style={{ fontSize: '0.95rem', marginTop: '2px' }}>0</div>
              </div>
           </div>
 
@@ -330,7 +330,7 @@ export default function ScalogramView({ compact = false }) {
                     <line x1="0" y1="50" x2="100" y2="50" style={{ stroke: 'var(--border)' }} strokeWidth="0.5" />
                     <path d={signalPath} stroke="#00d4ff" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
                 </svg>
-                <div style={{ position: 'absolute', top: 5, left: 5, fontSize: '0.8rem', color: 'var(--primary)' }}>
+                <div style={{ position: 'absolute', top: 5, left: 5, fontSize: '0.95rem', color: 'var(--primary)' }}>
                     Semnal Intrare x(t)
                 </div>
                 {/* Same time axis as the scalogram above it, so t=5s (or any
@@ -347,7 +347,7 @@ export default function ScalogramView({ compact = false }) {
                       color: '#fff',
                       padding: '1px 6px',
                       borderRadius: '3px',
-                      fontSize: '0.85rem',
+                      fontSize: '0.95rem',
                       pointerEvents: 'none'
                     }}
                   >
@@ -371,7 +371,7 @@ export default function ScalogramView({ compact = false }) {
         }}>
           <div className="control-group">
             <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem', color: 'var(--text-muted)' }}>Tip Semnal</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               {Object.entries(SIGNAL_INFO).map(([id, opt]) => (
                   <button
                     key={id}
@@ -379,8 +379,8 @@ export default function ScalogramView({ compact = false }) {
                     className={signalType === id ? 'active-btn' : 'btn'}
                     style={btnStyle(signalType === id)}
                   >
-                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{opt.label}</div>
-                    <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>{opt.desc}</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{opt.label}</div>
+                    <div style={{ fontSize: '0.95rem', opacity: 0.8 }}>{opt.desc}</div>
                   </button>
               ))}
             </div>
@@ -392,7 +392,7 @@ export default function ScalogramView({ compact = false }) {
             background: 'rgba(213, 0, 249, 0.08)',
             border: '1px solid rgba(213, 0, 249, 0.35)',
             borderRadius: '8px',
-            fontSize: '0.85rem',
+            fontSize: '0.95rem',
             lineHeight: '1.35'
           }}>
             <h4 style={{ margin: '0 0 0.25rem', color: 'var(--series-purple)' }}>Ce vedem aici?</h4>
@@ -405,7 +405,7 @@ export default function ScalogramView({ compact = false }) {
             padding: '0.75rem',
             background: 'rgba(255,255,255,0.05)',
             borderRadius: '8px',
-            fontSize: '0.9rem',
+            fontSize: '0.95rem',
             lineHeight: '1.3',
             marginTop: 'auto'
           }}>
@@ -413,7 +413,7 @@ export default function ScalogramView({ compact = false }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '0.5rem' }}>
                 <div style={{ width: '100%', height: '10px', background: 'linear-gradient(to right, rgb(50,0,50), rgb(255,0,0), rgb(255,255,0))', borderRadius: '2px' }}></div>
             </div>
-            <p style={{ margin: 0, color: 'var(--text-light)', fontSize: '0.85rem' }}>
+            <p style={{ margin: 0, color: 'var(--text-light)', fontSize: '0.95rem' }}>
               Culorile calde (Galben/Roșu) indică magnitudine mare (rezonanță puternică între semnal și wavelet).
               Zonele întunecate indică lipsa acelei frecvențe.
             </p>
@@ -425,7 +425,7 @@ export default function ScalogramView({ compact = false }) {
 }
 
 const btnStyle = (active) => ({
-  padding: '0.35rem',
+  padding: '0.25rem 0.35rem',
   background: active ? 'rgba(213, 0, 249, 0.15)' : 'var(--bg-elevated)',
   border: `1px solid ${active ? '#d500f9' : 'var(--border)'}`,
   borderRadius: '6px',
@@ -435,5 +435,5 @@ const btnStyle = (active) => ({
   transition: 'all 0.2s',
   display: 'flex',
   flexDirection: 'column',
-  gap: '2px'
+  gap: '0px'
 })

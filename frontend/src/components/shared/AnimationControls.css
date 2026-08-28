@@ -93,14 +93,14 @@
 
 /* Size variants */
 .animation-controls.size-small .anim-btn {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   padding: 0.3rem 0.4rem;
   min-width: 1.5rem;
 }
 
 .animation-controls.size-small .anim-btn.play-pause {
   min-width: 2rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .animation-controls.size-large .anim-btn {
@@ -142,7 +142,7 @@
 }
 
 .animation-controls-slider .position-label {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   min-width: 4rem;
   text-align: center;
@@ -156,7 +156,7 @@
 }
 
 .speed-control label {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-light);
 }
 
@@ -183,7 +183,7 @@
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-light);
 }
 
@@ -208,7 +208,7 @@
   border-radius: 4px;
   cursor: pointer;
   padding: 0.3rem 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   transition: all 0.15s ease;
 }
 

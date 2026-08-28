@@ -722,7 +722,7 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       text: '8×8',
       x: ox + patchSize*cell/2,
       y: oy + patchSize*cell + 16,
-      style: { color: 'var(--primary)', fontWeight: 'bold', fontSize: '13px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
+      style: { color: 'var(--primary)', fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
     })
   }
   else if (phase >= 1) {
@@ -738,7 +738,7 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       style: { 
         color: phase > 1 ? 'var(--text-muted)' : '#fff', 
         fontWeight: 'bold', 
-        fontSize: '12px',
+        fontSize: '16px',
         textShadow: phase <= 1 ? '1px 1px 2px rgba(0,0,0,0.8)' : 'none'
       }
     })
@@ -755,8 +755,8 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       drawArrow(ctx, col1 + patchSize*cell + 8, origY + patchSize*cell/2 - 15, col2 - 8, lY + patchSize*cell/2, '')
       drawArrow(ctx, col1 + patchSize*cell + 8, origY + patchSize*cell/2 + 15, col2 - 8, hY + patchSize*cell/2, '')
       // Arrow labels
-      labels.push({ text: <LaTeX math={String.raw`h_0`} />, x: (col1 + patchSize*cell + col2)/2, y: (origY + patchSize*cell/2 - 15 + lY + patchSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '14px', fontWeight: 'bold' } })
-      labels.push({ text: <LaTeX math={String.raw`h_1`} />, x: (col1 + patchSize*cell + col2)/2, y: (origY + patchSize*cell/2 + 15 + hY + patchSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '14px', fontWeight: 'bold' } })
+      labels.push({ text: <LaTeX math={String.raw`h_0`} />, x: (col1 + patchSize*cell + col2)/2, y: (origY + patchSize*cell/2 - 15 + lY + patchSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '16px', fontWeight: 'bold' } })
+      labels.push({ text: <LaTeX math={String.raw`h_1`} />, x: (col1 + patchSize*cell + col2)/2, y: (origY + patchSize*cell/2 + 15 + hY + patchSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '16px', fontWeight: 'bold' } })
     }
     
     // Labels for L and H
@@ -767,7 +767,7 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       style: { 
         color: phase > 2 ? 'var(--text-muted)' : '#00d4ff', 
         fontWeight: 'bold', 
-        fontSize: '12px',
+        fontSize: '16px',
         textShadow: phase <= 2 ? '1px 1px 2px rgba(0,0,0,0.8)' : 'none'
       }
     })
@@ -778,7 +778,7 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       style: { 
         color: phase > 3 ? 'var(--text-muted)' : '#ffd700', 
         fontWeight: 'bold', 
-        fontSize: '12px',
+        fontSize: '16px',
         textShadow: phase <= 3 ? '1px 1px 2px rgba(0,0,0,0.8)' : 'none'
       }
     })
@@ -800,21 +800,21 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       drawArrow(ctx, arrowStartX, lMidY + 20, arrowEndX, lhY + halfSize*cell/2, '')
       
       // Arrow labels
-      labels.push({ text: <LaTeX math={String.raw`h_0`} />, x: (arrowStartX + arrowEndX)/2, y: (lMidY - 20 + llY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '14px', fontWeight: 'bold' } })
-      labels.push({ text: <LaTeX math={String.raw`h_1`} />, x: (arrowStartX + arrowEndX)/2, y: (lMidY + 20 + lhY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '14px', fontWeight: 'bold' } })
+      labels.push({ text: <LaTeX math={String.raw`h_0`} />, x: (arrowStartX + arrowEndX)/2, y: (lMidY - 20 + llY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '16px', fontWeight: 'bold' } })
+      labels.push({ text: <LaTeX math={String.raw`h_1`} />, x: (arrowStartX + arrowEndX)/2, y: (lMidY + 20 + lhY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '16px', fontWeight: 'bold' } })
       
       // Labels with dimensions
       labels.push({
         text: `LL (${halfSize}×${halfSize})`,
         x: col3 + halfSize*cell/2,
         y: llY - 10,
-        style: { color: BAND_COLORS.LL, fontWeight: 'bold', fontSize: '12px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
+        style: { color: BAND_COLORS.LL, fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
       })
       labels.push({
         text: `LH (${halfSize}×${halfSize})`,
         x: col3 + halfSize*cell/2,
         y: lhY + halfSize*cell + 16,
-        style: { color: BAND_COLORS.LH, fontWeight: 'bold', fontSize: '12px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
+        style: { color: BAND_COLORS.LH, fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
       })
     }
     
@@ -835,21 +835,21 @@ function drawEducationalMode(ctx, W, height, data, step, heatmap = false) {
       drawArrow(ctx, arrowStartX, hMidY + 20, arrowEndX, hhY + halfSize*cell/2, '')
       
       // Arrow labels
-      labels.push({ text: <LaTeX math={String.raw`h_0`} />, x: (arrowStartX + arrowEndX)/2, y: (hMidY - 20 + hlY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '14px', fontWeight: 'bold' } })
-      labels.push({ text: <LaTeX math={String.raw`h_1`} />, x: (arrowStartX + arrowEndX)/2, y: (hMidY + 20 + hhY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '14px', fontWeight: 'bold' } })
+      labels.push({ text: <LaTeX math={String.raw`h_0`} />, x: (arrowStartX + arrowEndX)/2, y: (hMidY - 20 + hlY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '16px', fontWeight: 'bold' } })
+      labels.push({ text: <LaTeX math={String.raw`h_1`} />, x: (arrowStartX + arrowEndX)/2, y: (hMidY + 20 + hhY + halfSize*cell/2)/2, style: { color: 'var(--series-gold)', fontSize: '16px', fontWeight: 'bold' } })
       
       // Labels with dimensions
       labels.push({
         text: `HL (${halfSize}×${halfSize})`,
         x: col3 + halfSize*cell/2,
         y: hlY - 10,
-        style: { color: BAND_COLORS.HL, fontWeight: 'bold', fontSize: '12px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
+        style: { color: BAND_COLORS.HL, fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
       })
       labels.push({
         text: `HH (${halfSize}×${halfSize})`,
         x: col3 + halfSize*cell/2,
         y: hhY + halfSize*cell + 16,
-        style: { color: BAND_COLORS.HH, fontWeight: 'bold', fontSize: '12px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
+        style: { color: BAND_COLORS.HH, fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
       })
     }
   }
@@ -873,7 +873,7 @@ function drawPyramidMode(ctx, W, height, imageData, decomposition, highlightBand
     text: 'Original',
     x: 20 + origSize / 2,
     y: offsetY + origSize + 15,
-    style: { color: 'var(--text-muted)', fontSize: '12px' }
+    style: { color: 'var(--text-muted)', fontSize: '16px' }
   })
 
   // Arrow to pyramid
@@ -890,7 +890,7 @@ function drawPyramidMode(ctx, W, height, imageData, decomposition, highlightBand
     background: `${BAND_COLORS[band]}cc`,
     padding: '1px 7px',
     borderRadius: '4px',
-    fontSize: '11px',
+    fontSize: '16px',
     fontWeight: 'bold'
   })
 

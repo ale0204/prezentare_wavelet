@@ -63,7 +63,7 @@ export default function EEGBandsView({ api = '/api', compact = false }) {
             }}
           >
             {b.name}
-            <div style={{ fontSize: '0.85rem', fontWeight: 400 }}>{b.range[0]}-{b.range[1]} Hz</div>
+            <div style={{ fontSize: '0.95rem', fontWeight: 400 }}>{b.range[0]}-{b.range[1]} Hz</div>
           </button>
         ))}
       </div>
@@ -73,7 +73,7 @@ export default function EEGBandsView({ api = '/api', compact = false }) {
         border: `1px solid ${band.color}55`,
         borderRadius: '8px',
         padding: '0.55rem 0.9rem',
-        fontSize: '0.9rem',
+        fontSize: '0.95rem',
         lineHeight: 1.4,
         color: 'var(--text-light)'
       }}>
@@ -96,7 +96,7 @@ export default function EEGBandsView({ api = '/api', compact = false }) {
         )}
       </div>
 
-      <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+      <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
         Gri = EEG-ul complet (toate benzile suprapuse). Colorat = doar banda selectată,
         extrasă cu un filtru band-pass: exact instrumentul din capitolul de filtre,
         aplicat pe creierul uman. De ce nu wavelet, ca în restul prezentării? Nivelurile

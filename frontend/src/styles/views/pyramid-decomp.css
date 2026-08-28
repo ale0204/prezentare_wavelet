@@ -37,7 +37,7 @@
 
 .pyramid-header .subtitle {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 /* Canvas container */
@@ -73,7 +73,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-light);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -114,7 +114,7 @@
 
 .level-selector label {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .level-selector input[type="range"] {
@@ -126,7 +126,7 @@
   min-width: 20px;
   color: var(--series-gold);
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 /* Energy bar */
@@ -147,7 +147,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -168,7 +168,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0.3rem 0.5rem 0;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -196,7 +196,7 @@
 
 .pyramid-section h4 {
   margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--series-gold);
   display: flex;
@@ -206,7 +206,7 @@
 
 .pyramid-section p {
   margin: 0.3rem 0;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.4;
 }
@@ -230,7 +230,7 @@
   padding: 0.35rem 0.5rem;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
 }
 
 .level-row.active {
@@ -257,7 +257,7 @@
 .level-row .band-tag {
   padding: 0.1rem 0.3rem;
   border-radius: 3px;
-  font-size: 0.65rem;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
@@ -281,7 +281,7 @@
 }
 
 .compression-note .note-text {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--series-green);
 }
 
@@ -316,7 +316,7 @@
 }
 
 .anim-indicator .anim-text {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--series-amber);
 }
 
@@ -328,7 +328,7 @@
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-body);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   cursor: pointer;
   margin-top: 0.3rem;
 }

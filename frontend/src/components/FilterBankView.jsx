@@ -145,7 +145,7 @@ export default function FilterBankView({ compact = false }) {
 
     const textStyle = (active) => ({
       fill: active ? '#000' : 'var(--text-muted)',
-      fontSize: '14px',
+      fontSize: '16px',
       fontWeight: 'bold',
       fontFamily: 'monospace',
       textAnchor: 'middle',
@@ -547,7 +547,7 @@ export default function FilterBankView({ compact = false }) {
             background: 'rgba(255,255,255,0.03)',
             borderRadius: '8px'
           }}>
-            <label style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'block', marginBottom: '0.4rem' }}>
+            <label style={{ color: 'var(--text-muted)', fontSize: '0.95rem', display: 'block', marginBottom: '0.4rem' }}>
               Wavelet:
             </label>
             <select
@@ -560,7 +560,7 @@ export default function FilterBankView({ compact = false }) {
                 border: '1px solid var(--border)',
                 borderRadius: '4px',
                 color: 'inherit',
-                fontSize: '0.9rem'
+                fontSize: '0.95rem'
               }}
             >
               {Object.entries(WAVELETS).map(([key, w]) => (
@@ -579,7 +579,7 @@ export default function FilterBankView({ compact = false }) {
             <h4 style={{ margin: '0 0 0.5rem', color: 'var(--primary)', fontSize: '0.95rem' }}>
               Coeficienți Filtru ({currentWavelet.name})
             </h4>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               <p style={{ margin: '0.3rem 0' }}>
                 <span style={{ color: 'var(--success)' }}><LaTeX math={String.raw`h_0`} /> (LP):</span>{' '}
                 [{h0.map(v => v.toFixed(3)).join(', ')}]
@@ -631,16 +631,16 @@ export default function FilterBankView({ compact = false }) {
             <h4 style={{ margin: '0 0 0.5rem', color: 'var(--secondary)', fontSize: '0.95rem' }}>
               Relația CQF (alternating flip) <Cite id="estebangaland1977,smithbarnwell1984" />
             </h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               High-pass-ul e low-pass-ul inversat în timp, cu semnul alternat:
             </p>
             <div style={{ fontSize: '0.95rem', textAlign: 'center', marginTop: '0.4rem' }}>
               <LaTeX math={String.raw`h_1[n] = (-1)^n \cdot h_0[N-1-n]`} />
             </div>
-            <p style={{ margin: '0.3rem 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ margin: '0.3rem 0 0', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               Anulează aliasul; reconstrucția perfectă cere în plus putere-simetria lui h<sub>0</sub>:
             </p>
-            <div style={{ fontSize: '0.9rem', textAlign: 'center', marginTop: '0.3rem' }}>
+            <div style={{ fontSize: '0.95rem', textAlign: 'center', marginTop: '0.3rem' }}>
               <LaTeX math={String.raw`|H_0(\omega)|^2 + |H_0(\omega + \pi)|^2 = 2`} />
             </div>
           </div>

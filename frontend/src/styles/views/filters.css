@@ -15,7 +15,7 @@
 }
 
 .radio-tuner-header {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   line-height: 1.4;
   color: var(--text-light);
 }
@@ -38,7 +38,7 @@
   flex-shrink: 0;
   border-radius: var(--radius-md);
   padding: 0.5rem 0.9rem;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   line-height: 1.4;
   color: var(--text-light);
 }
@@ -132,7 +132,7 @@
   position: absolute;
   top: 6px;
   left: 10px;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 700;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
   pointer-events: none;
@@ -157,7 +157,7 @@
   padding: 4px 8px;
   display: flex;
   gap: 10px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   pointer-events: none;
   z-index: 10;
 }
@@ -197,9 +197,9 @@
 /* Top-left, stacked under the plot title, horizontal: a rotated label at the
    left edge lands right on top of the y-axis tick numbers it sits beside. */
 .filters-view .plot-axis-label.y-label {
-  top: 24px;
+  top: 32px;
   left: 10px;
-  font-size: 13px;
+  font-size: 0.95rem;
 }
 
 .filters-view .plot-axis-label.x-label {
@@ -249,15 +249,15 @@
 
 /* Inline controls panel for compact mode */
 .filters-inline-controls {
-  width: 208px;
+  width: 275px;
   flex-shrink: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.1rem;
   overflow: hidden;
 }
 
@@ -272,7 +272,7 @@
 .filters-inline-controls .controls-header h4 {
   margin: 0;
   color: var(--series-red);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .filters-inline-controls .reset-btn {
@@ -308,7 +308,7 @@
 
 .filters-inline-controls .control-row label {
   color: var(--text-light);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
@@ -324,7 +324,7 @@
 .filters-inline-controls .button-group.mini button {
   flex: 1;
   padding: 0.4rem 0.5rem;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 500;
   border-radius: 4px;
   border: 1px solid var(--border);
@@ -369,7 +369,7 @@
 .filters-inline-controls .order-buttons button {
   flex: 1;
   padding: 0.3rem 0.4rem;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 600;
   border-radius: 4px;
   border: 1px solid var(--border);
@@ -393,7 +393,7 @@
 .filters-inline-controls select {
   width: 100%;
   padding: 0.4rem;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   border-radius: 4px;
   border: 1px solid var(--border);
   background: var(--bg-elevated);

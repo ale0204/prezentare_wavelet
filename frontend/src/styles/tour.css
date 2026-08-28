@@ -552,7 +552,7 @@
 .kernel-card h4 {
   color: var(--slide-color, var(--series-purple));
   margin: 0 0 0.25rem 0;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .kernel-matrix {
@@ -560,7 +560,7 @@
   border-radius: 4px;
   padding: 0.25rem;
   margin-bottom: 0.25rem;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
 }
 
 .kernel-matrix .katex {
@@ -569,7 +569,7 @@
 
 .kernel-card p {
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.95rem;
   color: var(--tour-text-faint);
 }
 
@@ -588,12 +588,12 @@
 
 .wavelet-connection-box p {
   margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--tour-text-dim);
 }
 
 .wavelet-connection-box .math-formula.small {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   background: var(--tour-surface);
   border-radius: 6px;
   padding: 0.4rem;
@@ -663,7 +663,7 @@
 }
 
 .dwt2d-coeff .coeff-desc {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--tour-text-dim);
 }
 
@@ -874,7 +874,7 @@
 
 .compact-controls label {
   color: var(--tour-text-dim);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .compact-controls select {
@@ -901,7 +901,7 @@
 
 .slider-row span {
   color: var(--tour-text-dim);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   min-width: 100px;
 }
 
@@ -959,7 +959,7 @@
 }
 
 .compare-img span {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--tour-text-dim);
   font-weight: 500;
 }
@@ -1032,7 +1032,7 @@
 
 .conv-label {
   color: var(--tour-text-faint);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 /* Wavelet canvas - sizing comes from the component's HiDPI code (inline style) */
@@ -1113,7 +1113,7 @@
   border: 2px solid var(--tour-border-strong);
   background: var(--tour-surface);
   color: var(--tour-text);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s;
   min-width: 100px;
@@ -1147,7 +1147,7 @@
 }
 
 .nav-hint {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--tour-text-faint);
 }
 
@@ -1234,7 +1234,7 @@
 
 .formula-card .formula-desc {
   color: var(--tour-text-dim);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.5;
   margin: 0;
   text-align: center;
@@ -1379,7 +1379,7 @@
 .sidebar-controls-panel h4 {
   margin: 0 0 0.75rem 0;
   color: var(--series-red);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--tour-border);
 }
@@ -1395,7 +1395,7 @@
 .sidebar-controls-panel .control-row label {
   display: block;
   color: var(--tour-text-dim);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   margin-bottom: 0.4rem;
   font-weight: 500;
 }
@@ -1412,7 +1412,7 @@
 .sidebar-controls-panel .button-group.mini button {
   flex: 1;
   padding: 0.4rem 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 500;
   border-radius: 6px;
   border: 1px solid var(--tour-border-strong);
@@ -1470,7 +1470,7 @@
   border: 1px solid var(--tour-border-strong);
   background: var(--tour-surface);
   color: var(--tour-text);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   cursor: pointer;
 }
 
@@ -1495,7 +1495,7 @@
   border-radius: 20px;
   color: white;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   cursor: pointer;
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
@@ -1564,7 +1564,7 @@
 .mobile-controls-panel .control-row label {
   display: block;
   color: var(--tour-text-dim);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   margin-bottom: 0.4rem;
 }
 
@@ -1580,7 +1580,7 @@
 .mobile-controls-panel .button-group.mini button {
   flex: 1;
   padding: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   border-radius: 6px;
   border: 1px solid var(--tour-border-strong);
   background: var(--tour-surface);
@@ -1615,7 +1615,7 @@
   border: 1px solid var(--tour-border-strong);
   background: var(--tour-surface);
   color: var(--tour-text);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .mobile-controls-panel select option {
@@ -1637,7 +1637,7 @@
 }
 
 .slide-math.small .math-formula {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   padding: 0.75rem;
   background: var(--tour-surface);
   border-radius: 8px;
@@ -1729,7 +1729,7 @@
 
 .embed-gloss {
   margin-left: auto;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--tour-text-dim);
   background: var(--tour-surface);
   border-radius: 6px;

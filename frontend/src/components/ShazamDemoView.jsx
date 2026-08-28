@@ -202,7 +202,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
     border: '2px solid transparent',
     fontWeight: 600,
     cursor: 'pointer',
-    fontSize: '0.88rem'
+    fontSize: '0.95rem'
   }
 
   return (
@@ -224,7 +224,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
             }}
           >
             {p.label}
-            <div style={{ fontSize: '0.85rem', fontWeight: 400, marginTop: '0.15rem' }}>
+            <div style={{ fontSize: '0.95rem', fontWeight: 400, marginTop: '0.15rem' }}>
               {p.notes.map(n => n.label).join(', ')}
             </div>
           </button>
@@ -240,7 +240,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
       {/* Time-domain graph - the messy mix */}
       {timeSeries && (
         <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.2rem', flexShrink: 0 }}>
+          <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '0.2rem', flexShrink: 0 }}>
             Semnalul mixt în timp, primele {Math.round(TIME_WINDOW * 1000)} ms (cele 3 note + interferențe)
           </div>
           <div style={{ flex: 1, minHeight: 0 }}>
@@ -282,7 +282,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
       {identified && freqSeries && (
         <>
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.2rem', flexShrink: 0 }}>
+            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '0.2rem', flexShrink: 0 }}>
               Spectrul de frecvență (magnitudine FFT) - vârf = notă muzicală
             </div>
             <div style={{ flex: 1, minHeight: 0 }}>
@@ -307,7 +307,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
               border: `1px solid ${preset.color}55`,
               borderRadius: '8px',
               padding: '0.6rem 0.9rem',
-              fontSize: '0.88rem',
+              fontSize: '0.95rem',
               color: 'var(--text-light)'
             }}>
               <strong style={{ color: preset.color }}>Note detectate:</strong>{' '}
@@ -316,7 +316,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
               <strong style={{ color: preset.color }}>{detected.chordName}</strong>
             </div>
           ) : (
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', padding: '0.4rem' }}>
+            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', padding: '0.4rem' }}>
               Nu s-au putut detecta note clare în spectru.
             </div>
           )}
@@ -326,7 +326,7 @@ export default function ShazamDemoView({ api = '/api', compact = false }) {
       {/* Caption */}
       <p style={{
         margin: 0,
-        fontSize: compact ? '0.85rem' : '0.87rem',
+        fontSize: '0.95rem',
         lineHeight: 1.5,
         color: 'var(--text-muted)',
         borderTop: '1px solid rgba(255,255,255,0.08)',

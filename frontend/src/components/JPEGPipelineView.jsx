@@ -360,7 +360,7 @@ function ColorSpaceView({ compact, api = '/api' }) {
       
       <div className="formula-box" style={{ padding: '5px 20px', background: 'rgba(255,215,0,0.08)', borderRadius: '8px', border: '1px solid rgba(255,215,0,0.2)' }}>
         <LaTeX math={formulaInfo.formula} />
-        <p className="note" style={{ marginTop: '3px', color: 'var(--text-muted)', fontSize: '13px' }}>{formulaInfo.note}</p>
+        <p className="note" style={{ marginTop: '3px', color: 'var(--text-muted)', fontSize: '16px' }}>{formulaInfo.note}</p>
       </div>
     </div>
   )

@@ -30,7 +30,7 @@
 }
 
 .sidebar-header p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
@@ -72,7 +72,7 @@
 }
 
 .nav-number {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   opacity: 0.5;
   background: var(--bg-darker);
   padding: 0.2rem var(--space-sm);
@@ -98,7 +98,7 @@
 
 .image-selector label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   margin-bottom: 0.4rem;
 }
@@ -110,7 +110,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .guided-toggle {
@@ -122,7 +122,7 @@
   color: var(--primary);
   cursor: pointer;
   transition: all var(--transition-normal);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .guided-toggle:hover {
@@ -161,7 +161,7 @@
   }
   
   .nav-label {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
   }
   
   .nav-number {
