@@ -72,13 +72,13 @@
 .canvas-labels .signal-label {
   position: absolute;
   left: 20px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: bold;
 }
 
 .canvas-labels .signal-label span {
   font-weight: normal;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 /* This 13px context sits under the inline-math floor from math.css (17px
@@ -93,7 +93,7 @@
   position: absolute;
   left: 20px;
   right: 20px;
-  font-size: 13px;
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -103,7 +103,7 @@
   position: absolute;
   left: 20px;
   right: 20px;
-  font-size: 13px;
+  font-size: 16px;
   white-space: nowrap;
 }
 
@@ -114,7 +114,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .canvas-labels .formula-line {
@@ -129,7 +129,7 @@
   position: absolute;
   left: 35px;
   right: 35px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: var(--text-body);
   text-align: center;
@@ -287,7 +287,10 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* Four panels are taller than the column, and centering them cut the first heading
+     off the top as well as the last line off the bottom. Start at the top so the
+     column reads from its beginning, and give it room to widen instead. */
+  justify-content: flex-start;
   gap: 1rem;
   background: var(--bg-card);
   border-radius: 8px;
@@ -339,41 +342,54 @@
   width: auto;
 }
 
-.sidebar-info {
+/* Scoped to this screen on purpose: decompose.css defines .sidebar-info too, and while
+   both were unscoped whichever bundled last silently set the other screen's type size. */
+.mallat-1d-edu .sidebar-info {
   padding: 1.25rem;
   background: rgba(255, 215, 0, 0.05);
   border-radius: 8px;
   border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
-.sidebar-info + .sidebar-info {
+.mallat-1d-edu .sidebar-info + .sidebar-info {
   margin-top: 0;
 }
 
-.sidebar-info h4 {
-  margin: 0 0 0.75rem 0;
+/* Four dense panels share this column, so the type sits just above the gate's 20px
+   on-screen floor rather than at the 1.45rem the rule used to ask for: that size only
+   ever appeared to fit because the unscoped decompose rule was overriding it. */
+.mallat-1d-edu .sidebar-info h4 {
+  margin: 0 0 0.6rem 0;
   color: var(--series-gold);
-  font-size: 1.7rem;
+  font-size: 1.05rem;
 }
 
-.sidebar-info p {
-  margin: 0.4rem 0;
-  font-size: 1.45rem;
+.mallat-1d-edu .sidebar-info p {
+  margin: 0.15rem 0;
+  font-size: 0.95rem;
   color: var(--text-light);
-  line-height: 1.5;
+  line-height: 1.35;
 }
 
 /* Compact mode */
+/* Four panels at a legible size only fit if the spacing gives way, so the padding and
+   gaps carry the reduction instead of the type. */
 .mallat-1d-edu.compact .mallat-1d-sidebar {
-  width: fit-content;
-  max-width: 540px;
-  gap: 0.6rem;
-  padding: 0.85rem;
+  /* A fixed wider column instead of fit-content: the same words wrap into fewer
+     lines, which is what actually buys back the height the four panels need. */
+  width: 600px;
+  max-width: 600px;
+  gap: 0.2rem;
+  padding: 0.5rem;
   overflow: hidden;
 }
 
 .mallat-1d-edu.compact .sidebar-info {
-  padding: 0.75rem 0.9rem;
+  padding: 0.3rem 0.7rem;
+}
+
+.mallat-1d-edu.compact .sidebar-info h4 {
+  margin-bottom: 0.2rem;
 }
 
 .mallat-1d-edu.compact .mallat-formula {

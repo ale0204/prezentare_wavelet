@@ -276,23 +276,25 @@
   background: #ff6b9d;
 }
 
-/* Info section */
-.sidebar-info {
+/* Info section. Scoped to this screen on purpose: mallat-1d-edu.css defines .sidebar-info
+   too, and while both were unscoped whichever bundled last silently set the other screen's
+   type size. Sizes here are on the legibility floor the gate enforces. */
+.decompose-view-v2 .sidebar-info {
   padding-top: 0.5rem;
   border-top: 1px solid var(--border);
 }
 
-.sidebar-info h4 {
+.decompose-view-v2 .sidebar-info h4 {
   margin: 0 0 0.5rem 0;
   color: var(--primary, var(--primary));
-  font-size: 0.85rem;
+  font-size: 1.05rem;
 }
 
-.sidebar-info p {
+.decompose-view-v2 .sidebar-info p {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.8rem;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 /* Compact mode adjustments */

@@ -499,7 +499,7 @@ export default function Mallat1DEduView({ compact = false }) {
               </div>
               
               {/* Formulas info below all graphs - compact 2-column layout */}
-              <div className="formulas-container" style={{top: '82%'}}>
+              <div className="formulas-container" style={{top: '71%'}}>
                 <div className="formula-line" style={{display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center'}}>
                   <div>
                     <span style={{color: 'var(--series-green)', fontWeight: 'bold'}}><LaTeX math={String.raw`h_0`} />:</span>
