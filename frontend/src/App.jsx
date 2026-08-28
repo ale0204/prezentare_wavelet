@@ -60,8 +60,9 @@ export default function App() {
   // Auto-start guided mode if URL has a hash (slide ID)
   const [guidedMode, setGuidedMode] = useState(() => window.location.hash.length > 1)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-  // Light (projector) theme is the default; persisted so a refresh keeps the choice
-  const [projectorMode, setProjectorMode] = useState(() => localStorage.getItem('projectorMode') !== 'false')
+  // Dark theme is the default; the light projector theme is one click away and the
+  // choice is persisted, so a refresh keeps whatever the room needed
+  const [projectorMode, setProjectorMode] = useState(() => localStorage.getItem('projectorMode') === 'true')
 
   // High-contrast light theme for projection / screen-share
   useEffect(() => {

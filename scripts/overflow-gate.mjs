@@ -7,15 +7,18 @@
 //   overlaps   - pairs of visible atomic elements that intersect (no ancestor relation)
 //   occludedControls - buttons/inputs whose center hit-tests to an unrelated element (z-order)
 //   smallMath  - rendered KaTeX below the legibility floor (17px inline, 22px display, design px)
-//   rawTokens  - $...$ or [cite:...] markup visible on screen (string skipped shared/richText)
+//   smallProse - body text below the 18px legibility floor (slide chrome excluded)
+//   rawTokens  - $...$, [cite:...], **bold** or a leading * / > reaching the screen as markup
 //   duplicateTitles - an embedded view prints a heading on top of the shell's slide title
 //   consoleErrors - JS console errors / page errors raised while the slide was active
 //
-// Usage: npm run gate -- [--base <url>] [--out <dir>] [--viewport WxH] [--headed] [--shots]
+// Usage: npm run gate -- [--base <url>] [--out <dir>] [--viewport WxH] [--theme dark|light]
+//                        [--headed] [--shots]
 // Defaults: --base http://localhost:3000/  --out ./_build/overflow-gate  --viewport 1920x1080
+//           --theme dark (the app default; --theme light is the projector theme)
 // Exit codes: 0 = clean, 1 = findings, 2 = runner error.
 //
-// --shots writes <out>/shots/NN-<id>.png, one per slide. The DOM checks below cannot see
+// --shots writes <out>/shots-<theme>/NN-<id>.png, one per slide. The DOM checks below cannot see
 // anything drawn inside a canvas, so those frames still have to be read by a human.
 //
 // Scope: DOM only. Overlaps drawn INSIDE a canvas or an SVG (axis labels etc.) are invisible
@@ -40,6 +43,12 @@ const OUT_DIR = resolve(argValue('--out', new URL('./_build/overflow-gate', impo
 const [VW, VH] = argValue('--viewport', '1920x1080').split('x').map(Number);
 const HEADED = args.includes('--headed');
 const SHOTS = args.includes('--shots');
+const THEME = argValue('--theme', 'dark');
+if (!['dark', 'light'].includes(THEME))
+{
+    console.error(`overflow-gate: --theme takes dark or light, got "${THEME}"`);
+    process.exit(2);
+}
 const MAX_SLIDES = 80;
 const FIRST_SLIDE = '#intro-title';
 
@@ -218,7 +227,11 @@ function inspectSlide()
     // A $...$ or [cite:...] token that reaches the screen means the string was
     // rendered raw instead of through shared/richText, so the reader sees the
     // markup instead of the formula.
-    const RAW_TOKEN = /\$[^$\n]{1,80}\$|\[cite:[a-z0-9, ]+\]/;
+    // Markdown that leaked through the same way: a **bold** pair, a bullet or a blockquote
+    // marker at the start of a line. The reader is meant to see emphasis and indentation,
+    // never the asterisks and angle brackets that were supposed to produce them.
+    // The marker has to be followed by a letter, so "> 100 dB" and "2 * 3" stay content.
+    const RAW_TOKEN = /\$[^$\n]{1,80}\$|\[cite:[a-z0-9, ]+\]|\*\*[^*\n]{1,80}\*\*|(^|\n)\s*[*>]\s+[A-Za-zÀ-ɏ]/;
     const rawTokens = [];
     for (const el of all)
     {
@@ -229,6 +242,28 @@ function inspectSlide()
                 rawTokens.push({ el: describe(el), text: node.textContent.trim().slice(0, 70) });
                 break;
             }
+        }
+    }
+
+    // Legibility floor for prose, the same idea as the one below for math. Chrome that is
+    // small on purpose (the slide counter, the numbers on the navigation rail) is skipped;
+    // anything else carrying real words has to hold up from the back of the room.
+    const PROSE_FLOOR = 18;
+    const CHROME = '.slide-counter, .tour-nav, .tour-rail, .slide-progress, .tour-controls, sup, .cite-marker';
+    const smallProse = [];
+    for (const el of atomic)
+    {
+        if (el.closest(CHROME)) continue;
+        const words = [...el.childNodes]
+            .filter((n) => n.nodeType === 3)
+            .map((n) => n.textContent.trim())
+            .join(' ')
+            .trim();
+        if (words.length < 12) continue;
+        const size = parseFloat(getComputedStyle(el).fontSize);
+        if (size + 0.5 < PROSE_FLOOR)
+        {
+            smallProse.push({ el: describe(el), size: Math.round(size * 10) / 10, floor: PROSE_FLOOR });
         }
     }
 
@@ -261,7 +296,7 @@ function inspectSlide()
     const pageScroll = scroller.scrollHeight > scroller.clientHeight + SCROLL_TOL
         || scroller.scrollWidth > scroller.clientWidth + SCROLL_TOL;
 
-    return { pageScroll, outOfFrame, innerScroll, overlaps, occludedControls, smallMath, rawTokens, duplicateTitles };
+    return { pageScroll, outOfFrame, innerScroll, overlaps, occludedControls, smallMath, smallProse, rawTokens, duplicateTitles };
 }
 
 async function settle(page)
@@ -274,10 +309,17 @@ async function settle(page)
 async function main()
 {
     mkdirSync(OUT_DIR, { recursive: true });
-    const shotsDir = resolve(OUT_DIR, 'shots');
+    const shotsDir = resolve(OUT_DIR, `shots-${THEME}`);
     if (SHOTS) mkdirSync(shotsDir, { recursive: true });
     const browser = await launch();
     const page = await browser.newPage({ viewport: { width: VW, height: VH } });
+
+    // The app reads the theme from localStorage on first render, so it has to be set
+    // before the bundle runs; flipping it afterwards would repaint mid-walk.
+    await page.addInitScript((wantLight) =>
+    {
+        localStorage.setItem('projectorMode', String(wantLight));
+    }, THEME === 'light');
 
     let consoleErrors = [];
     page.on('console', (msg) => { if (msg.type() === 'error') consoleErrors.push(msg.text().slice(0, 300)); });
@@ -303,7 +345,7 @@ async function main()
             await page.screenshot({ path: resolve(shotsDir, `${String(i + 1).padStart(2, '0')}-${id}.png`) });
         }
 
-        const counts = ['outOfFrame', 'innerScroll', 'overlaps', 'occludedControls', 'smallMath', 'rawTokens', 'duplicateTitles', 'consoleErrors']
+        const counts = ['outOfFrame', 'innerScroll', 'overlaps', 'occludedControls', 'smallMath', 'smallProse', 'rawTokens', 'duplicateTitles', 'consoleErrors']
             .map((k) => `${k}:${findings[k].length}`).join(' ');
         console.log(`${String(i + 1).padStart(2)} ${hash.padEnd(24)} pageScroll:${findings.pageScroll ? 'YES' : 'no'} ${counts}`);
 
@@ -317,7 +359,7 @@ async function main()
 
     const dirty = slides.filter((s) =>
         s.pageScroll || s.outOfFrame.length || s.innerScroll.length || s.overlaps.length
-        || s.occludedControls.length || s.smallMath.length || s.rawTokens.length || s.duplicateTitles.length || s.consoleErrors.length);
+        || s.occludedControls.length || s.smallMath.length || s.smallProse.length || s.rawTokens.length || s.duplicateTitles.length || s.consoleErrors.length);
 
     writeFileSync(resolve(OUT_DIR, 'gate-results.json'), JSON.stringify({ base: BASE, viewport: `${VW}x${VH}`, slides }, null, 2));
 
@@ -332,6 +374,7 @@ async function main()
         for (const o of s.occludedControls) lines.push(`- occludedControl: ${o.el} hidden by ${o.by}`);
         for (const o of s.smallMath) lines.push(`- smallMath: ${o.el} ${o.size}px design (floor ${o.floor}, ${o.display ? 'display' : 'inline'})`);
         for (const o of s.rawTokens) lines.push(`- rawToken: ${o.el} shows markup "${o.text}"`);
+        for (const o of s.smallProse) lines.push(`- smallProse: ${o.el} at ${o.size}px, floor ${o.floor}px`);
         for (const o of s.duplicateTitles) lines.push(`- duplicateTitle: shell "${o.shell}" plus view heading "${o.own}"`);
         for (const e of s.consoleErrors) lines.push(`- consoleError: ${e}`);
         lines.push('');
