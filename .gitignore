@@ -23,6 +23,8 @@ scripts/out/
 *.out
 *.synctex.gz
 *.toc
+*.lof
+*.lot
 
 # OS / editor
 .vscode/

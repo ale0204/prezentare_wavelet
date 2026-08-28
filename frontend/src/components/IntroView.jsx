@@ -1,7 +1,6 @@
 import { LaTeXBlock } from './LaTeX'
-import { NextIcon } from './shared/TransportIcons'
 
-export default function IntroView({ onNext, onStartGuide }) {
+export default function IntroView({ onStartGuide }) {
   return (
     <div className="intro-view">
       <div className="intro-hero">
@@ -10,14 +9,14 @@ export default function IntroView({ onNext, onStartGuide }) {
           Analiza timp-frecvență, de la Fourier la wavelets,
           și aplicații în compresia imaginilor
         </p>
-        <div className="intro-buttons">
-          <button className="primary" onClick={onStartGuide} style={{ fontSize: '1.1rem', padding: '0.8rem 2rem' }}>
-            Începe Prezentarea Ghidată
-          </button>
-          <button className="secondary" onClick={onNext} style={{ fontSize: '1rem', padding: '0.6rem 1.5rem' }}>
-            Explorează Liber <NextIcon size={16} />
-          </button>
-        </div>
+        <button className="primary intro-start" onClick={onStartGuide}>
+          Începe prezentarea
+        </button>
+        <p className="intro-credits">
+          Neamțu Alexandra &middot; CTI, anul III, semestrul 2<br />
+          Prelucrarea Semnalelor &middot; titular de curs prof. Paul Irofti<br />
+          Facultatea de Matematică și Informatică, Universitatea din București
+        </p>
       </div>
 
       <div className="feature-grid">
@@ -98,15 +97,9 @@ export default function IntroView({ onNext, onStartGuide }) {
         </div>
         
         <div className="info-box success">
-          <strong>Avantaj:</strong> Parametrul <em>a</em> (scalare) și <em>b</em> (translație) 
+          <strong>Avantaj:</strong> Parametrul <em>a</em> (scalare) și <em>b</em> (translație)
           permit localizarea în timp și frecvență simultan!
         </div>
-      </div>
-
-      <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-        <button className="primary" onClick={onNext} style={{ fontSize: '1.1rem', padding: '0.8rem 2rem' }}>
-          Continuă cu Transformata Fourier <NextIcon size={18} />
-        </button>
       </div>
     </div>
   )

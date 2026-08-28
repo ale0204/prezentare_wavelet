@@ -33,20 +33,15 @@
   margin: 0 auto var(--space-xl);
 }
 
-.intro-buttons {
-  display: flex;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-  justify-content: center;
+/* One action on the landing screen; the sidebar carries free navigation. */
+.intro-start {
+  font-size: 1.15rem;
+  padding: 0.85rem 2.2rem;
 }
 
-.intro-buttons .secondary {
-  background: transparent;
-  border: 2px solid var(--border);
-  color: var(--text-muted);
-}
-
-.intro-buttons .secondary:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+.intro-credits {
+  margin-top: var(--space-xl);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
 }

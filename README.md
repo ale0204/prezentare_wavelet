@@ -15,9 +15,9 @@ The presentation itself is in Romanian; this file and the code are in English.
 
 ## The course
 
-Written for **Prelucrarea Semnalelor** (Signal Processing), CTI year 3, semester 2, at
-the Faculty of Mathematics and Computer Science, University of Bucharest. The course is
-held by **prof. Paul Irofti**, and his materials are at
+By **Neamțu Alexandra**, written for **Prelucrarea Semnalelor** (Signal Processing),
+CTI year 3, semester 2, at the Faculty of Mathematics and Computer Science, University
+of Bucharest. The course is held by **prof. Paul Irofti**, and his materials are at
 <https://cs.unibuc.ro/~pirofti/ps.html>.
 
 The theory here is his. Lecture 10 is the wavelet transform and lecture 7 the DCT and

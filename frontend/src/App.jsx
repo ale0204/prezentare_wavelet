@@ -170,7 +170,7 @@ export default function App() {
 
         {/* Content Area */}
         <div className="content-area">
-          {activeSection === 'intro' && <IntroView onNext={handleNext} onStartGuide={() => setGuidedMode(true)} />}
+          {activeSection === 'intro' && <IntroView onStartGuide={() => setGuidedMode(true)} />}
           {activeSection === 'fourier' && <FourierView api={API_BASE} />}
           {activeSection === 'filters' && <FiltersView api={API_BASE} />}
           {activeSection === 'convolution' && <ConvolutionView />}
