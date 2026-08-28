@@ -6,7 +6,7 @@
    (img/canvas/svg fully inside their parent box and the slide frame);
    hover elements with a title attr and canvas hotspots; collect console
    errors. One continuous .webm video of the whole pass + timeline.json to
-   seek by slide. Outputs under scripts/out/interaction-pass/.
+   seek by slide. Outputs under scripts/_build/interaction-pass/.
 
    Run:  npm run interaction -- [--base URL] [--slides a,b]
          [--no-video] [--headed]
@@ -29,7 +29,7 @@ const ONLY = argVal('--slides', '').split(',').map(s => s.trim()).filter(Boolean
 const VIDEO = !args.includes('--no-video')
 const HEADED = args.includes('--headed')
 
-const OUT = join(HERE, 'out', 'interaction-pass')
+const OUT = join(HERE, '_build', 'interaction-pass')
 const SHOTS = join(OUT, 'shots')
 const VIDEOS = join(OUT, 'videos')
 rmSync(OUT, { recursive: true, force: true })

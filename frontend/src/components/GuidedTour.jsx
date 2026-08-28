@@ -39,8 +39,9 @@ const API_BASE = '/api'
 /* Academic context printed under the title slide. Fill these in for a graded
    delivery; an empty field renders nothing. */
 const PRESENTATION_META = {
-  presenter: '',
-  course: 'Prelucrarea Semnalelor - CTI, anul III',
+  professor: 'prof. univ. dr. habil. Paul Irofti',
+  presenter: 'Neamțu Alexandra',
+  course: 'Prelucrarea Semnalelor - CTI, anul III, semestrul 1',
   date: ''
 }
 
@@ -901,8 +902,13 @@ export default function GuidedTour({ onClose, onNavigate, selectedImage = 'peppe
             {slide.hook && <p className="slide-hook">{renderRich(slide.hook)}</p>}
             {slide.id === 'intro-title' && (
               <p className="slide-meta">
-                {[PRESENTATION_META.presenter, PRESENTATION_META.course, PRESENTATION_META.date]
-                  .filter(Boolean).join(' - ')}
+                {PRESENTATION_META.professor && (
+                  <>Titular de curs: {PRESENTATION_META.professor}<br /></>
+                )}
+                {PRESENTATION_META.presenter && (
+                  <>Prezintă: {PRESENTATION_META.presenter}<br /></>
+                )}
+                {[PRESENTATION_META.course, PRESENTATION_META.date].filter(Boolean).join(' - ')}
               </p>
             )}
           </div>

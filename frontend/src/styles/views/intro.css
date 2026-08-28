@@ -8,9 +8,11 @@
   padding-bottom: var(--space-lg);
 }
 
+/* Padding is trimmed on short screens so the whole landing, cards included, still
+   fits a 1366x768 projector without scrolling. */
 .intro-hero {
   text-align: center;
-  padding: var(--space-xl) var(--space-xl);
+  padding: var(--space-lg) var(--space-xl);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,8 +42,17 @@
 }
 
 .intro-credits {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
   font-size: 1.05rem;
-  line-height: 1.7;
+  line-height: 1.6;
   color: var(--text);
+}
+
+/* Only spacing shrinks on a short screen, never the type: the credits and the card
+   text stay at their full size so they hold up on a projector. */
+@media (max-height: 800px) {
+  .intro-hero h1 { font-size: 2.5rem; }
+  .intro-hero .subtitle { margin-bottom: var(--space-lg); }
+  .intro-hero { padding: var(--space-md) var(--space-xl); }
+  .intro-view .feature-card { padding: var(--space-md); }
 }

@@ -12,7 +12,7 @@
 //   consoleErrors - JS console errors / page errors raised while the slide was active
 //
 // Usage: npm run gate -- [--base <url>] [--out <dir>] [--viewport WxH] [--headed] [--shots]
-// Defaults: --base http://localhost:3000/  --out ./out/overflow-gate  --viewport 1920x1080
+// Defaults: --base http://localhost:3000/  --out ./_build/overflow-gate  --viewport 1920x1080
 // Exit codes: 0 = clean, 1 = findings, 2 = runner error.
 //
 // --shots writes <out>/shots/NN-<id>.png, one per slide. The DOM checks below cannot see
@@ -36,7 +36,7 @@ function argValue(flag, fallback)
 }
 
 const BASE = argValue('--base', 'http://localhost:3000/');
-const OUT_DIR = resolve(argValue('--out', new URL('./out/overflow-gate', import.meta.url).pathname.replace(/^\/(\w:)/, '$1')));
+const OUT_DIR = resolve(argValue('--out', new URL('./_build/overflow-gate', import.meta.url).pathname.replace(/^\/(\w:)/, '$1')));
 const [VW, VH] = argValue('--viewport', '1920x1080').split('x').map(Number);
 const HEADED = args.includes('--headed');
 const SHOTS = args.includes('--shots');
