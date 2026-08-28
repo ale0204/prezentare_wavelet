@@ -3,7 +3,7 @@ import LaTeX from './LaTeX'
 import AnimationControls from './shared/AnimationControls'
 import { CheckIcon } from './shared/TransportIcons'
 import Cite from './shared/Cite'
-import './ReconstructionView.css'
+import '../styles/views/reconstruction.css'
 import useHiDPICanvas from './shared/useHiDPICanvas'
 import { canvasTheme, resolveColor } from './shared/canvasTheme'
 

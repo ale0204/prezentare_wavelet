@@ -131,13 +131,16 @@ inside a canvas, so the screenshots they leave behind still have to be read by a
 frontend/src/components/
     GuidedTour.jsx        the SLIDES array: order, titles and text of all 50 screens
     <Name>View.jsx        one demo per file (FourierView, CompareView, ...)
-    shared/               design surface, SVG icons, citation registry, rich text
+    shared/               design surface, SVG icons, citation registry, rich text,
+                          each reusable piece next to its own stylesheet
 frontend/src/styles/      theme tokens, tour layout, the math legibility floor
+    views/                one stylesheet per screen, the only home for them
 backend/main.py           every /api endpoint
 data/                     Kodak and USC-SIPI test images, plus 16x16 and 32x32 sprites
-docs/suport/              written support document (LaTeX and PDF)
+docs/suport/              written support document (LaTeX source and the built PDF)
 docs/scenariu/            the spoken script, one file per section
-scripts/                  the three mechanical checks
+scripts/                  the four mechanical checks
+_build/                   anywhere it appears: generated output, never committed
 ```
 
 `SLIDES` in `GuidedTour.jsx` is the single source of truth for the content. A screen is

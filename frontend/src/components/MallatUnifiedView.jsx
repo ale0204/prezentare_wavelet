@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import LaTeX from './LaTeX'
 import AnimationControls from './shared/AnimationControls'
 import { renderRich } from './shared/richText'
-import './MallatUnifiedView.css'
+import '../styles/views/mallat-unified.css'
 import { canvasMetrics, pointerPos } from './shared/stage'
 import { canvasTheme, resolveColor } from './shared/canvasTheme'
 

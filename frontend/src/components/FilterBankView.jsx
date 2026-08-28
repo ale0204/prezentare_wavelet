@@ -4,7 +4,7 @@ import AnimationControls from './shared/AnimationControls'
 import { CheckIcon } from './shared/TransportIcons'
 import Cite from './shared/Cite'
 import { renderRich } from './shared/richText'
-import './FilterBankView.css'
+import '../styles/views/filter-bank.css'
 
 /**
  * FilterBankView - Analysis and Synthesis Filter Bank Diagram

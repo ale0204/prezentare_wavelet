@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import LaTeX from './LaTeX'
 import AnimationControls from './shared/AnimationControls'
-import './PyramidDecompView.css'
+import '../styles/views/pyramid-decomp.css'
 import useHiDPICanvas from './shared/useHiDPICanvas'
 import { canvasTheme, resolveColor, isLight } from './shared/canvasTheme'
 

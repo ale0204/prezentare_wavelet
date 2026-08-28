@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import axios from 'axios'
-import './KernelsEducational.css'
+import '../styles/views/kernels-educational.css'
 import { PlayIcon, PauseIcon, StepBackIcon, StepForwardIcon, NextIcon, ResetIcon, ClockIcon } from './shared/TransportIcons'
 
 // Base 3x3 kernel definitions - will be resized dynamically
