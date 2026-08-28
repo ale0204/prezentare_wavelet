@@ -320,7 +320,7 @@
   color: var(--text-body);
   font-size: 0.95rem;
   cursor: pointer;
-  width: 130px;
+  width: 200px;
   /* Flex items default to an automatic min-width of their content's
      min-content size, which for a <select> is its widest <option> text -
      without this, that floor silently wins over the width above (some

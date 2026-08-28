@@ -183,7 +183,7 @@ export default function WaveletPlayground({ compact = false }) {
     // Labels (Romanian words, not Greek glyphs - math renders as LaTeX;
     // canvas text stays plain per the hard rule)
     ctx.fillStyle = canvasTheme().textFaint
-    ctx.font = '13px sans-serif'
+    ctx.font = '16px sans-serif'
     ctx.fillText('Frecvență', W/2, H - 5)
 
     ctx.save()
@@ -275,7 +275,7 @@ export default function WaveletPlayground({ compact = false }) {
       
       // Label for symmetry axis
       ctx.fillStyle = canvasTheme().green
-      ctx.font = '13px sans-serif'
+      ctx.font = '16px sans-serif'
       ctx.fillText('t=0', zeroX + 3, margin + 20)
     }
     
@@ -295,7 +295,7 @@ export default function WaveletPlayground({ compact = false }) {
     // one steps down when they coincide; near the right edge it flips to the
     // left of the line rather than running off the plot.
     ctx.fillStyle = canvasTheme().amber
-    ctx.font = 'bold 13px sans-serif'
+    ctx.font = 'bold 16px sans-serif'
     const bLabel = `b = ${shift.toFixed(1)}`
     const collides = showOriginal && Math.abs(shiftX - zeroX) < 44
     const flip = shiftX > width - margin - ctx.measureText(bLabel).width - 10
@@ -341,7 +341,7 @@ export default function WaveletPlayground({ compact = false }) {
     
     // Axis labels
     ctx.fillStyle = canvasTheme().textFaint
-    ctx.font = '13px sans-serif'
+    ctx.font = '16px sans-serif'
     ctx.fillText('t', width - margin + 10, zeroY + 5)
     ctx.fillText('Amplitudine', margin - 35, margin - 5)
     

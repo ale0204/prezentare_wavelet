@@ -194,10 +194,12 @@
   z-index: 10;
 }
 
-/* Top-left, stacked under the plot title, horizontal: a rotated label at the
-   left edge lands right on top of the y-axis tick numbers it sits beside. */
+/* Bottom-left, mirroring the x-label at bottom-right. It used to sit under the plot
+   title, which put it straight on top of the first y tick once the type grew; a rotated
+   label at the left edge lands on the tick numbers too. Below the axis is the only
+   corner of the plot that stays empty on all three charts. */
 .filters-view .plot-axis-label.y-label {
-  top: 32px;
+  bottom: 6px;
   left: 10px;
   font-size: 0.95rem;
 }
